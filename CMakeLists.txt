@@ -13,6 +13,18 @@ include_directories(
 	.
 )
 
+if(UNIX)
+	install(
+		DIRECTORY pixelbuffer
+		DESTINATION /usr/local/lib
+	)
+	install(
+		FILES tools/img2pbf tools/pbf2img tools/pbf2imgbulk
+		DESTINATION /usr/local/bin
+		PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE
+	)
+endif(UNIX)
+
 ########################################
 add_executable(testpattern
 	demo/testpattern.cpp
@@ -21,3 +33,4 @@ add_executable(testpattern
 add_executable(vec2test
 	demo/vec2test.cpp
 )
+
