@@ -17,3 +17,7 @@ include_directories(
 add_executable(testpattern
 	demo/testpattern.cpp
 )
+
+add_executable(vec2test
+	demo/vec2test.cpp
+)
