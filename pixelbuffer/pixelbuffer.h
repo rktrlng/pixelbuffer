@@ -255,7 +255,7 @@ public:
 				// handle alpha
 				if (bitdepth == 32 || bitdepth == 16) {
 					RGBAColor bottom_color = getPixel(x+pos_x, y+pos_y);
-					RGBAColor blend_color = alphaBlend(color, bottom_color);
+					RGBAColor blend_color = pb::Color::alphaBlend(color, bottom_color);
 					setPixel(x+pos_x, y+pos_y, blend_color);
 				}
 				else {
@@ -280,7 +280,7 @@ public:
 		}
 
 		if (color.a < 255) {
-			color = alphaBlend(color, getPixel(x, y));
+			color = pb::Color::alphaBlend(color, getPixel(x, y));
 		}
 		_pixels[index] = color;
 
