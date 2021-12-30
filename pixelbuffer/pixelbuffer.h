@@ -1,3 +1,13 @@
+/**
+ * @file pixelbuffer.h
+ *
+ * @brief PixelBuffer of RGBA Colors: pb::PixelBuffer
+ *
+ * Copyright 2015-2022 @rktrlng
+ * https://github.com/rktrlng/pixelbuffer
+ * 
+ */
+
 #ifndef PIXELBUFFER_H
 #define PIXELBUFFER_H
 

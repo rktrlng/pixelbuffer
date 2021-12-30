@@ -1,3 +1,13 @@
+/**
+ * @file vec2.h
+ *
+ * @brief Vector2 Template: pb::vec2_t<T>
+ *
+ * Copyright 2015-2022 @rktrlng
+ * https://github.com/rktrlng/pixelbuffer
+ * 
+ */
+
 #ifndef VEC2_H
 #define VEC2_H
 

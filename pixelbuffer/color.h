@@ -1,10 +1,11 @@
 /**
  * @file color.h
  *
- * @brief The Color header file.
+ * @brief RGBA / HSVA Color: pb::RGBAColor
  *
- * - Copyright 2015 Rik Teerling <rik@onandoffables.com>
- *   - Initial commit
+ * Copyright 2015-2022 @rktrlng
+ * https://github.com/rktrlng/pixelbuffer
+ * 
  */
 
 #ifndef COLOR_H_

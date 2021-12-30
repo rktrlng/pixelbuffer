@@ -1,6 +1,10 @@
 # PixelBuffer
 
-Pixelbuffer datastructure with helper functions.
+PixelBuffer datastructure with helper functions.
+
+	pixelbuffer/color.h
+	pixelbuffer/pixelbuffer.h
+	pixelbuffer/vec2.h
 
 ## install
 
