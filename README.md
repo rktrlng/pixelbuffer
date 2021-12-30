@@ -2,4 +2,22 @@
 
 Pixelbuffer datastructure with helper functions.
 
-install.sh installs the pixelbuffer headerfiles in /usr/local/lib, and the tools in /usr/local/bin.
+## install
+
+	$ sudo ./install.sh
+
+output:
+
+	cp tools/* /usr/local/bin/
+	cp -r pixelbuffer /usr/local/lib/
+
+## uninstall
+
+	$ sudo ./install.sh -u
+
+output:
+
+	rm -f /usr/local/bin/img2pbf
+	rm -f /usr/local/bin/pbf2img
+	rm -f /usr/local/bin/pbf2imgbulk
+	rm -rf /usr/local/lib/pixelbuffer
