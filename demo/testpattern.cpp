@@ -33,6 +33,7 @@ int main(void)
 
 	// write pixelbuffer to file
 	std::cout << "Writing testpattern.pbf" << std::endl;
+	std::cout << "convert with: pbf2img testpattern.pbf png" << std::endl;
 	pb.write("testpattern.pbf");
 
 	return 0;

@@ -5,7 +5,6 @@
  *
  * Copyright 2015-2022 @rktrlng
  * https://github.com/rktrlng/pixelbuffer
- * 
  */
 
 #ifndef VEC2_H
