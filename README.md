@@ -6,6 +6,15 @@ PixelBuffer datastructure with helper functions.
 	pixelbuffer/pixelbuffer.h
 	pixelbuffer/vec2.h
 
+To use the tools, have python3 and pip3 installed:
+
+	sudo apt install python3.9 python3-pip
+
+Install Pillow:
+
+	python3 -m pip install --upgrade pip
+	python3 -m pip install --upgrade Pillow
+
 ## install
 
 	$ sudo ./install.sh
