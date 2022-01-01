@@ -264,7 +264,7 @@ public:
 			for (size_t x = 0; x < width; x++) {
 				RGBAColor color = brush.getPixel(x, y);
 				// handle alpha
-				if (bitdepth == 32 || bitdepth == 16) {
+				if ((bitdepth == 32 || bitdepth == 16) && color.a < 255) {
 					RGBAColor bottom_color = getPixel(x+pos_x, y+pos_y);
 					RGBAColor blend_color = pb::Color::alphaBlend(color, bottom_color);
 					setPixel(x+pos_x, y+pos_y, blend_color);
