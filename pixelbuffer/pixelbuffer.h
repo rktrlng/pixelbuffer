@@ -12,6 +12,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <sstream>
 #include <vector>
 
 #include <pixelbuffer/color.h>
@@ -226,6 +227,16 @@ public:
 		file.close();
 
 		return 1;
+	}
+
+	std::string createFilename(const std::string& prefix, uint32_t counter = 0, uint8_t leading0 = 4, const std::string& ext = "pbf") {
+		std::stringstream filename;
+		filename << prefix;
+		for (int i = 1; i < leading0+1; i++) {
+			if (counter < pow(10, i)) { filename << "0"; }
+		}
+		filename << counter << "." << ext;
+		return filename.str();
 	}
 
 	PixelBuffer copy(uint16_t x, uint16_t y, uint16_t width, uint16_t height) const
