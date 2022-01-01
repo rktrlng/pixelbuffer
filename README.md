@@ -34,3 +34,7 @@ output:
 	rm -f /usr/local/bin/pbf2img
 	rm -f /usr/local/bin/pbf2imgbulk
 	rm -rf /usr/local/lib/pixelbuffer
+
+## MS Windows
+
+Use WSL to install and use PixelBuffer tools.
