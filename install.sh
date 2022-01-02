@@ -1,13 +1,18 @@
 #!/bin/bash
 
-set -x #echo on
+files=( "img2pbf" "pbf2img" "pbf2imgbulk" )
+installdir=/usr/local/bin
 
 if [ -n "$1" ]; then
 	# uninstall
-	rm -f /usr/local/bin/img2pbf
-	rm -f /usr/local/bin/pbf2img
-	rm -f /usr/local/bin/pbf2imgbulk
+	for file in "${files[@]}"; do
+		echo "Uninstalling ${installdir}/${file}"
+		rm -rf "${installdir}/${file}"
+	done
 else
 	# install
-	cp tools/* /usr/local/bin/
+	for file in "${files[@]}"; do
+		echo "Installing ${installdir}/${file}"
+		cp "tools/${file}" ${installdir}
+	done
 fi
