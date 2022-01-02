@@ -14,10 +14,10 @@ include_directories(
 )
 
 if(UNIX)
-	install(
-		DIRECTORY pixelbuffer
-		DESTINATION /usr/local/lib
-	)
+	# install(
+	# 	DIRECTORY pixelbuffer
+	# 	DESTINATION /usr/local/lib
+	# )
 	install(
 		FILES tools/img2pbf tools/pbf2img tools/pbf2imgbulk
 		DESTINATION /usr/local/bin
