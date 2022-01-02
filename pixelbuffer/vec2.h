@@ -75,7 +75,7 @@ typedef vec2f          vec2;
 
 // helper functions
 // =========================================================
-inline vec2i wrap(const vec2i& pos, int cols, int rows) {
+inline static vec2i wrap(const vec2i& pos, int cols, int rows) {
 	vec2i wrapped(pos);
 
 	if (pos.x < 0) { wrapped.x = cols-1; }
@@ -86,7 +86,7 @@ inline vec2i wrap(const vec2i& pos, int cols, int rows) {
 	return wrapped;
 }
 
-inline vec2i clamp(const vec2i& pos, int cols, int rows) {
+inline static vec2i clamp(const vec2i& pos, int cols, int rows) {
 	vec2i clamped(pos);
 
 	if (pos.x < 0) { clamped.x = 0; }
@@ -97,16 +97,16 @@ inline vec2i clamp(const vec2i& pos, int cols, int rows) {
 	return clamped;
 }
 
-inline int idFromPos(int x, int y, int cols) {
+inline static int idFromPos(int x, int y, int cols) {
 	return (y*cols)+x;
 }
 
-inline int idFromPos(const vec2i& pos, int cols) {
+inline static int idFromPos(const vec2i& pos, int cols) {
 	return idFromPos(pos.x, pos.y, cols);
 }
 
 // map(973, 0, 1023, 0, 255); // returns: 242
-inline double map(double x, double in_min, double in_max, double out_min, double out_max)
+inline static double map(double x, double in_min, double in_max, double out_min, double out_max)
 {
 	return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 }

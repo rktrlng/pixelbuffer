@@ -36,7 +36,7 @@ private:
 	PBHeader _header;
 	std::vector<RGBAColor> _pixels;
 
-	bool validBitDepth(uint8_t b) const {
+	bool _validBitdepth(uint8_t b) const {
 		return (
 			b == 8 ||
 			b == 16 ||
@@ -46,10 +46,6 @@ private:
 	}
 
 public:
-	const PBHeader header() const { return _header; }
-	std::vector<RGBAColor>& pixels() { return _pixels; }
-	const std::vector<RGBAColor>& pixels() const { return _pixels; }
-
 	PixelBuffer()
 	{
 		// default header
@@ -92,11 +88,25 @@ public:
 		_pixels.clear();
 	}
 
+	const PBHeader header() const { return _header; }
+	std::vector<RGBAColor>& pixels() { return _pixels; }
+	const std::vector<RGBAColor>& pixels() const { return _pixels; }
+
+	uint8_t width() const { return _header.width; }
+	uint8_t height() const { return _header.height; }
+	uint8_t bitdepth() const { return _header.bitdepth; }
+	uint8_t bitdepth(uint8_t b) {
+		if ( _validBitdepth(b) ) {
+			_header.bitdepth = b;
+		}
+		return _header.bitdepth;
+	}
+
 	bool valid() const
 	{
 		return _header.typep == 0x70 &&
 			_header.typeb == 0x62 &&
-			( validBitDepth(_header.bitdepth) ) &&
+			( _validBitdepth(_header.bitdepth) ) &&
 			_header.end == 0x3A &&
 			_header.width * _header.height == _pixels.size();
 	}
@@ -115,16 +125,6 @@ public:
 		std::cout << "memsize of pixels: " << (width * height * (bitdepth/8)) << " B";
 		std::cout << " | " << (width * height * (bitdepth/8)) / 1024.0f << " KiB";
 		std::cout << " | " << (width * height * (bitdepth/8)) / 1024 / 1024.0f << " MiB" << std::endl;
-	}
-
-	uint8_t width() const { return _header.width; }
-	uint8_t height() const { return _header.height; }
-	uint8_t bitdepth() const { return _header.bitdepth; }
-	uint8_t bitdepth(uint8_t b) {
-		if ( validBitDepth(b) ) {
-			_header.bitdepth = b;
-		}
-		return _header.bitdepth;
 	}
 
 	int read(const std::string& filename)
@@ -229,13 +229,14 @@ public:
 		return 1;
 	}
 
-	std::string createFilename(const std::string& prefix, uint32_t counter = 0, uint8_t leading0 = 4, const std::string& ext = "pbf") {
+	std::string createFilename(const std::string& prefix, uint32_t counter = 0, uint8_t leading0 = 4) const
+	{
 		std::stringstream filename;
 		filename << prefix;
 		for (int i = 1; i < leading0+1; i++) {
 			if (counter < pow(10, i)) { filename << "0"; }
 		}
-		filename << counter << "." << ext;
+		filename << counter << ".pbf";
 		return filename.str();
 	}
 
@@ -346,14 +347,16 @@ public:
 		}
 	}
 
-	void drawSquare(int x0, int y0, int x1, int y1, RGBAColor color) {
+	void drawSquare(int x0, int y0, int x1, int y1, RGBAColor color)
+	{
 		drawLine(x0,    y0,    x0+x1, y0,    color);
 		drawLine(x0+x1, y0,    x0+x1, y0+y1, color);
 		drawLine(x0,    y0+y1, x0+x1, y0+y1, color);
 		drawLine(x0,    y0,    x0,    y0+y1, color);
 	}
 
-	void fill(RGBAColor color) {
+	void fill(RGBAColor color)
+	{
 		for (size_t y = 0; y < _header.height; y++) {
 			for (size_t x = 0; x < _header.width; x++) {
 				setPixel(x, y, color);
@@ -361,7 +364,8 @@ public:
 		}
 	}
 
-	void drawCircle(int circlex, int circley, int radius, RGBAColor color) {
+	void drawCircle(int circlex, int circley, int radius, RGBAColor color)
+	{
 		int x = radius;
 		int y = 0;
 		int err = 0;
@@ -393,7 +397,8 @@ public:
 		}
 	}
 
-	void blur() {
+	void blur()
+	{
 		size_t rows = _header.height;
 		size_t cols = _header.width;
 
