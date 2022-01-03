@@ -91,6 +91,10 @@ public:
 	const PBHeader header() const { return _header; }
 	std::vector<RGBAColor>& pixels() { return _pixels; }
 	const std::vector<RGBAColor>& pixels() const { return _pixels; }
+	inline RGBAColor& operator[](size_t index) {
+		if (index < _pixels.size() && index >= 0) { return _pixels[index]; }
+		return _pixels[0];
+	}
 
 	uint8_t width() const { return _header.width; }
 	uint8_t height() const { return _header.height; }

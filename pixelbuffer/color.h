@@ -84,6 +84,17 @@ struct RGBAColor
 	inline bool operator!=(const RGBAColor& rhs) {
 		return !(*this == rhs);
 	}
+
+	/// @brief [] operator overloader
+	/// @param index the index of the rgba color component
+	/// @return uint8_t& rgba color component
+	inline uint8_t& operator[](size_t index) {
+		if (index == 0) { return r; }
+		if (index == 1) { return g; }
+		if (index == 2) { return b; }
+		if (index == 3) { return a; }
+		return r;
+	}
 };
 inline std::ostream& operator<<(std::ostream& os, const RGBAColor& color) {
 	return os << "(" << (int)color.r << ", " << (int)color.g << ", " << (int)color.b << ", " << (int)color.a << ")";
@@ -120,6 +131,16 @@ struct HSVAColor
 		s = sat;
 		v = val;
 		a = alpha;
+	}
+	/// @brief [] operator overloader
+	/// @param index the index of the hsva color component
+	/// @return float& hsva color component
+	inline float& operator[](size_t index) {
+		if (index == 0) { return h; }
+		if (index == 1) { return s; }
+		if (index == 2) { return v; }
+		if (index == 3) { return a; }
+		return h;
 	}
 };
 inline std::ostream& operator<<(std::ostream& os, const HSVAColor& color) {
