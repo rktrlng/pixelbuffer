@@ -60,6 +60,11 @@ public:
 	inline vec2_t<T>& rotate(T a) { angle(angle() + a); return *this; }
 
 	inline static vec2_t<T> fromAngle(T angle) { return pb::vec2_t<T>(cos(angle), sin(angle)); }
+
+	inline static vec2_t<T> zero()  { return vec2_t<T>(0, 0); }
+	inline static vec2_t<T> one()   { return vec2_t<T>(1, 1); }
+	inline static vec2_t<T> unitx() { return vec2_t<T>(1, 0); }
+	inline static vec2_t<T> unity() { return vec2_t<T>(0, 1); }
 };
 // implementations
 template <class T>

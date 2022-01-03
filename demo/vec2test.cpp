@@ -40,6 +40,15 @@ int main(void)
 	std::cout << "radians:  " << vec.angle() << std::endl;
 	std::cout << "degrees:  " << vec.angle() * DEGREES << std::endl;
 
+	assert(pb::vec2::zero()  == pb::vec2(0, 0));
+	std::cout << "zero():  " << pb::vec2::zero() << std::endl;
+	assert(pb::vec2::one()   == pb::vec2(1, 1));
+	std::cout << "one():   " << pb::vec2::one() << std::endl;
+	assert(pb::vec2::unitx() == pb::vec2(1, 0));
+	std::cout << "unitx(): " << pb::vec2::unitx() << std::endl;
+	assert(pb::vec2::unity() == pb::vec2(0, 1));
+	std::cout << "unity(): " << pb::vec2::unity() << std::endl;
+
 	std::cout << "## finished ##" << std::endl;
 
 	return 0;
