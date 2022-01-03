@@ -26,7 +26,7 @@ int main(void)
 	std::cout << "static vf:  " << vf << std::endl;
 	assert(vf == pb::vec2(0.8, 0.6));
 
-	pb::vec2 vec(0 - v.mag());
+	pb::vec2 vec(-v.mag(), 0);
 	std::cout << "vec:  " << vec << std::endl;
 	assert(vec == pb::vec2(-5, 0));
 	std::cout << "radians:  " << vec.angle() << std::endl;
@@ -48,6 +48,16 @@ int main(void)
 	std::cout << "unitx(): " << pb::vec2::unitx() << std::endl;
 	assert(pb::vec2::unity() == pb::vec2(0, 1));
 	std::cout << "unity(): " << pb::vec2::unity() << std::endl;
+
+	std::cout << "vec:  " << vec << std::endl;
+	assert(vec[0] == 4);
+	assert(vec[1] == 3);
+	std::cout << "vec[0]:  " << vec[0] << std::endl;
+	std::cout << "vec[1]:  " << vec[1] << std::endl;
+	vec[0] = 5;
+	vec[1] = 7;
+	assert(vec == pb::vec2(5, 7));
+	std::cout << "vec:  " << vec << std::endl;
 
 	std::cout << "## finished ##" << std::endl;
 

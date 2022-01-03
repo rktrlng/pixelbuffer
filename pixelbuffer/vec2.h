@@ -23,7 +23,7 @@ public:
 	T y = 0;
 
 	vec2_t<T>() : x(0), y(0) {}
-	vec2_t<T>(T x, T y = 0) : x(x), y(y) {}
+	vec2_t<T>(T x, T y) : x(x), y(y) {}
 	vec2_t<T>(const vec2_t<T>& v) : x(v.x), y(v.y) {}
 
 	inline vec2_t<T>  operator+ (const vec2_t<T>& rhs) const { return vec2_t<T>(x+rhs.x, y+rhs.y); }
@@ -52,6 +52,8 @@ public:
 	inline bool operator<=(const vec2_t<T>& rhs) const { return !(*this > rhs); }
 	inline bool operator>=(const vec2_t<T>& rhs) const { return !(*this < rhs); }
 
+	inline T& operator[](size_t index) { if (index == 1) { return y; } return x; }
+
 	inline T magSQ() const { return ((x*x) + (y*y)); }
 	inline T mag()   const { return sqrt(magSQ()); }
 
@@ -61,10 +63,10 @@ public:
 
 	inline static vec2_t<T> fromAngle(T angle) { return pb::vec2_t<T>(cos(angle), sin(angle)); }
 
-	inline static vec2_t<T> zero()  { return vec2_t<T>(0, 0); }
-	inline static vec2_t<T> one()   { return vec2_t<T>(1, 1); }
-	inline static vec2_t<T> unitx() { return vec2_t<T>(1, 0); }
-	inline static vec2_t<T> unity() { return vec2_t<T>(0, 1); }
+	inline static vec2_t<T> zero()  { return vec2_t<T>(static_cast<T>(0), static_cast<T>(0)); }
+	inline static vec2_t<T> one()   { return vec2_t<T>(static_cast<T>(1), static_cast<T>(1)); }
+	inline static vec2_t<T> unitx() { return vec2_t<T>(static_cast<T>(1), static_cast<T>(0)); }
+	inline static vec2_t<T> unity() { return vec2_t<T>(static_cast<T>(0), static_cast<T>(1)); }
 };
 // implementations
 template <class T>
