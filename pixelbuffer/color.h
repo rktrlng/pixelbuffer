@@ -305,6 +305,7 @@ struct Color
 #define CYAN    pb::RGBAColor(0,   255, 255, 255) ///< @brief color cyan
 #define BLUE    pb::RGBAColor(0,   0,   255, 255) ///< @brief color blue
 #define MAGENTA pb::RGBAColor(255, 0,   255, 255) ///< @brief color magenta
+#define PURPLE  pb::RGBAColor(127, 0,   127, 255) ///< @brief color purple
 #define PINK    pb::RGBAColor(255, 127, 255, 255) ///< @brief color pink
 #define WHITE   pb::RGBAColor(255, 255, 255, 255) ///< @brief color white
 
