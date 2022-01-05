@@ -401,7 +401,9 @@ public:
 		}
 	}
 
-	void blur()
+	// sharpness 1 = fully blurred
+	// sharpness ..50+ = less blurred
+	void blur(int sharpness = 1)
 	{
 		size_t rows = _header.height;
 		size_t cols = _header.width;
@@ -417,16 +419,23 @@ public:
 					for (int c = -1; c < 2; c++) {
 						vec2i n = clamp(vec2i(x+c, y+r), cols, rows);
 						RGBAColor color = getPixel(n.x, n.y);
-						totalr += color.r;
-						totalg += color.g;
-						totalb += color.b;
-						totala += color.a;
+						if (r==0 && c==0) {
+							totalr += color.r * sharpness;
+							totalg += color.g * sharpness;
+							totalb += color.b * sharpness;
+							totala += color.a * sharpness;
+						} else {
+							totalr += color.r;
+							totalg += color.g;
+							totalb += color.b;
+							totala += color.a;
+						}
 					}
 				}
-				uint8_t r = totalr / 9;
-				uint8_t g = totalg / 9;
-				uint8_t b = totalb / 9;
-				uint8_t a = totala / 9;
+				uint8_t r = totalr / (8 + sharpness);
+				uint8_t g = totalg / (8 + sharpness);
+				uint8_t b = totalb / (8 + sharpness);
+				uint8_t a = totala / (8 + sharpness);
 				RGBAColor avg = { r, g, b, a };
 				setPixel(x, y, avg);
 			}
