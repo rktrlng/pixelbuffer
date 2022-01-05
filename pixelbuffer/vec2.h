@@ -27,22 +27,22 @@ public:
 	vec2_t<T>(const vec2_t<T>& v) : x(v.x), y(v.y) {}
 
 	inline vec2_t<T>  operator+ (const vec2_t<T>& rhs) const { return vec2_t<T>(x+rhs.x, y+rhs.y); }
-	inline vec2_t<T>& operator+=(const vec2_t<T>& rhs) { x += rhs.x; y += rhs.y; return *this; }
+	inline vec2_t<T>& operator+=(const vec2_t<T>& rhs) { *this = *this + rhs; return *this; }
 	inline vec2_t<T>  operator- (const vec2_t<T>& rhs) const { return vec2_t<T>(x-rhs.x, y-rhs.y); }
-	inline vec2_t<T>& operator-=(const vec2_t<T>& rhs) { x -= rhs.x; y -= rhs.y; return *this; }
+	inline vec2_t<T>& operator-=(const vec2_t<T>& rhs) { *this = *this - rhs; return *this; }
 	inline vec2_t<T>  operator* (const vec2_t<T>& rhs) const { return vec2_t<T>(x*rhs.x, y*rhs.y); }
-	inline vec2_t<T>& operator*=(const vec2_t<T>& rhs) { x *= rhs.x; y *= rhs.y; return *this; }
-	inline vec2_t<T>  operator/ (const vec2_t<T>& rhs) const { if (rhs.x != 0 && rhs.y != 0) { return vec2_t<T>(x/rhs.x, y/rhs.y); } else { return *this; } }
-	inline vec2_t<T>& operator/=(const vec2_t<T>& rhs) { if(rhs.x != 0 && rhs.y != 0) {x /= rhs.x; y /= rhs.y; } return *this; }
+	inline vec2_t<T>& operator*=(const vec2_t<T>& rhs) { *this = *this * rhs; return *this; }
+	inline vec2_t<T>  operator/ (const vec2_t<T>& rhs) const { if (rhs.x != 0 && rhs.y != 0) { return vec2_t<T>(x/rhs.x, y/rhs.y); } return *this; }
+	inline vec2_t<T>& operator/=(const vec2_t<T>& rhs) { if (rhs.x != 0 && rhs.y != 0) { *this = *this / rhs; } return *this; }
 
 	inline vec2_t<T>  operator+ (T rhs) const { return vec2_t<T>(x+rhs, y+rhs); }
-	inline vec2_t<T>& operator+=(T rhs) { x += rhs; y += rhs; return *this; }
+	inline vec2_t<T>& operator+=(T rhs) { *this = *this + rhs; return *this; }
 	inline vec2_t<T>  operator- (T rhs) const { return vec2_t<T>(x-rhs, y-rhs); }
-	inline vec2_t<T>& operator-=(T rhs) { x -= rhs; y -= rhs; return *this; }
+	inline vec2_t<T>& operator-=(T rhs) { *this = *this - rhs; return *this; }
 	inline vec2_t<T>  operator* (T rhs) const { return vec2_t<T>(x*rhs, y*rhs); }
-	inline vec2_t<T>& operator*=(T rhs) { x *= rhs; y *= rhs; return *this; }
+	inline vec2_t<T>& operator*=(T rhs) { *this = *this * rhs; return *this; }
 	inline vec2_t<T>  operator/ (T rhs) const { if (rhs != 0) { return vec2_t<T>(x/rhs, y/rhs); } else { return *this; } }
-	inline vec2_t<T>& operator/=(T rhs) { if(rhs != 0) {x /= rhs; y /= rhs; } return *this; }
+	inline vec2_t<T>& operator/=(T rhs) { if (rhs != 0) { *this = *this / rhs; } return *this; }
 
 	inline bool operator==(const vec2_t<T>& rhs) const { return (x==rhs.x && y==rhs.y); }
 	inline bool operator!=(const vec2_t<T>& rhs) const { return !(*this == rhs); }
@@ -52,7 +52,7 @@ public:
 	inline bool operator<=(const vec2_t<T>& rhs) const { return !(*this > rhs); }
 	inline bool operator>=(const vec2_t<T>& rhs) const { return !(*this < rhs); }
 
-	inline T& operator[](size_t index) { if (index == 1) { return y; } return x; }
+	inline T& operator[](size_t index) { return index == 1 ? y : x; }
 
 	inline T magSQ() const { return ((x*x) + (y*y)); }
 	inline T mag()   const { return sqrt(magSQ()); }
