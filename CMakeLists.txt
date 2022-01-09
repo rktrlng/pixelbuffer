@@ -27,10 +27,13 @@ endif(UNIX)
 
 ########################################
 add_executable(testpattern
-	demo/testpattern.cpp
+	test/testpattern.cpp
 )
 
 add_executable(vec2test
-	demo/vec2test.cpp
+	test/vec2test.cpp
 )
 
+add_executable(onebittest
+	test/onebittest.cpp
+)

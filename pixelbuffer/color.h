@@ -13,6 +13,7 @@
 #include <cstdint>
 #include <algorithm>
 #include <cmath>
+#include <vector>
 
 namespace pb {
 
@@ -154,7 +155,7 @@ struct Color
 	// http://www.easyrgb.com/index.php?X=MATH&H=20#text20
 	/// @brief RGBA to HSV conversion
 	/// @param rgba the RGBAColor to convert
-	/// @brief return converted HSVAColor color
+	/// @return return converted HSVAColor color
 	static HSVAColor RGBA2HSVA(RGBAColor rgba) {
 		float var_R = (float) rgba.r / 255; //RGB from 0 to 255
 		float var_G = (float) rgba.g / 255;
@@ -194,7 +195,7 @@ struct Color
 	// http://www.easyrgb.com/index.php?X=MATH&H=21#text21
 	/// @brief HSVA to RGBA conversion
 	/// @param hsva the HSVAColor to convert
-	/// @brief return converted RGBAColor color
+	/// @return return converted RGBAColor color
 	static RGBAColor HSVA2RGBA(HSVAColor hsva) {
 		uint8_t R = 0;
 		uint8_t G = 0;
@@ -232,7 +233,7 @@ struct Color
 	/// @brief Rotate RGBA color (use HSV)
 	/// @param rgba the RGBAColor to rotate
 	/// @param step amount to rotate
-	/// @brief return RGBAColor rotated color
+	/// @return return RGBAColor rotated color
 	static RGBAColor rotate(RGBAColor rgba, float step) {
 		HSVAColor hsva = RGBA2HSVA(rgba);
 		hsva.h += step;
@@ -246,7 +247,7 @@ struct Color
 	/// @param c1 first RGBAColor
 	/// @param c2 second RGBAColor
 	/// @param amount between 0 and 1
-	/// @brief return RGBAColor lerped color
+	/// @return return RGBAColor lerped color
 	static RGBAColor lerpColor(RGBAColor c1, RGBAColor c2, float amount) {
 		if (amount < 0) { amount = 0; }
 		if (amount > 1) { amount = 1; }
@@ -265,7 +266,7 @@ struct Color
 	/// @brief blend an alpha color over an alpha color
 	/// @param top top RGBAColor
 	/// @param bottom bottom RGBAColor
-	/// @brief return RGBAColor blended color
+	/// @return return RGBAColor blended color
 	static RGBAColor alphaBlend(RGBAColor top, RGBAColor bottom) {
 		// if we want to overlay top(0) over bottom(1) both with some alpha then:
 
@@ -293,6 +294,42 @@ struct Color
 
 		return pb::RGBAColor(r, g, b, a);
 	}
+
+	/// @brief uint8_t to vector of 8 colors
+	/// most significant bit is colors[0]
+	/// least significant bit is colors[7]
+	/// @param value 8 bit value to convert
+	/// @return vector of RGBAColors 
+	static std::vector<RGBAColor> byte2vec(uint8_t value) {
+		std::vector<RGBAColor> colors(8);
+		for (size_t i = 0; i < colors.size(); i++) {
+			RGBAColor color = { 0, 0, 0, 255 }; // black
+			if ( value & 1) { color = { 255, 255, 255, 255 }; } // white
+			colors[7-i] = color;
+			value >>= 1;
+		}
+		return colors;
+	}
+
+	/// @brief vector of 8 colors to uint8_t
+	/// most significant bit is colors[0]
+	/// least significant bit is colors[7]
+	/// @param colors vector of colors to convert
+	/// @return value as uint8_t
+	static uint8_t vec2byte(const std::vector<RGBAColor>& colors) {
+		size_t size = colors.size();
+		if (size != 8) { return 0; }
+		uint8_t value = 0;
+		for (size_t i = 0; i < size; i++) {
+			if (colors[i].r == 0 && colors[i].g == 0 && colors[i].b == 0 ) { // black
+				value &= ~(1 << (7-i)); // 0 on this bit
+			} else { // white (not black)
+				value |=  (1 << (7-i)); // 1 on this bit
+			}
+		}
+		return value;
+	}
+
 };
 
 
