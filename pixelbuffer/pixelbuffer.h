@@ -158,33 +158,45 @@ public:
 		_pixels.reserve(numpixels);
 		size_t start = sizeof(_header);
 
-		for (size_t i = 0; i < numpixels; i++) {
-			RGBAColor pixel;
-			if (_header.bitdepth == 8 || _header.bitdepth == 16) {
+		if (_header.bitdepth == 1) {
+			for (size_t i = 0; i < numpixels / 8; i++) {
 				char val = memblock[start+0];
-				pixel.r = val;
-				pixel.g = val;
-				pixel.b = val;
-				pixel.a = 255;
+				std::vector<pb::RGBAColor> vec = pb::Color::byte2vec(val);
+				for (size_t i = 0; i < vec.size(); i++) {
+					_pixels.emplace_back(vec[i]);
+				}
+				vec.clear();
+				start++; // next byte
 			}
+		} else {
+			for (size_t i = 0; i < numpixels; i++) {
+				RGBAColor pixel;
+				if (_header.bitdepth == 8 || _header.bitdepth == 16) {
+					char val = memblock[start+0];
+					pixel.r = val;
+					pixel.g = val;
+					pixel.b = val;
+					pixel.a = 255;
+				}
 
-			if (_header.bitdepth == 16) {
-				pixel.a = memblock[start+1];
+				if (_header.bitdepth == 16) {
+					pixel.a = memblock[start+1];
+				}
+				else if (_header.bitdepth == 24 || _header.bitdepth == 32) {
+					pixel.r = memblock[start+0];
+					pixel.g = memblock[start+1];
+					pixel.b = memblock[start+2];
+					pixel.a = 255;
+				}
+
+				if (_header.bitdepth == 32) {
+					pixel.a = memblock[start+3];
+				}
+
+				_pixels.emplace_back(pixel);
+
+				start += _header.bitdepth / 8;
 			}
-			else if (_header.bitdepth == 24 || _header.bitdepth == 32) {
-				pixel.r = memblock[start+0];
-				pixel.g = memblock[start+1];
-				pixel.b = memblock[start+2];
-				pixel.a = 255;
-			}
-
-			if (_header.bitdepth == 32) {
-				pixel.a = memblock[start+3];
-			}
-
-			_pixels.emplace_back(pixel);
-
-			start += _header.bitdepth / 8;
 		}
 
 		delete[] memblock;

@@ -29,7 +29,7 @@ int main(void)
 
 	std::cout << "value: " << (int) value << std::endl;
 
-	// generate and write binary counter.pbf
+	// generate and write binarycounter.pbf
 	size_t height = 256;
 	pb::PixelBuffer pixelbuffer(8, height, 1);
 	pixelbuffer.pixels().clear();
@@ -39,8 +39,13 @@ int main(void)
 			pixelbuffer.pixels().push_back(colorvec[i]);
 		}
 	}
+	// writing
 	pixelbuffer.write("binarycounter.pbf");
-	pixelbuffer.printInfo();
+	// pixelbuffer.printInfo();
+
+	// reading
+	pb::PixelBuffer pbr("binarycounter.pbf");
+	// pbr.printInfo();
 
 	return 0;
 }
