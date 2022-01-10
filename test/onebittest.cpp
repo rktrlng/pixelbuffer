@@ -1,7 +1,7 @@
 #include <iostream>
 #include <assert.h>
 
-#include <pixelbuffer/color.h>
+#include <pixelbuffer/pixelbuffer.h>
 
 int main(void)
 {
@@ -28,6 +28,18 @@ int main(void)
 	value = pb::Color::vec2byte(colors);
 
 	std::cout << "value: " << (int) value << std::endl;
+
+	// generate and write binary counter.pbf
+	size_t height = 256;
+	pb::PixelBuffer pixelbuffer(8, height, 32);
+	pixelbuffer.pixels().clear();
+	for (size_t row = 0; row < height; row++) {
+		std::vector<pb::RGBAColor> colorvec = pb::Color::byte2vec(row);
+		for (size_t i = 0; i < 8; i++) {
+			pixelbuffer.pixels().push_back(colorvec[i]);
+		}
+	}
+	pixelbuffer.write("binarycounter.pbf");
 
 	return 0;
 }
