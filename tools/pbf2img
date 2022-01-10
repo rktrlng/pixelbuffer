@@ -35,6 +35,8 @@ print("height:   ", height)
 print("bitdepth: ", bitdepth)
 # print(pixels)
 
+if bitdepth == 1:
+	mode = '1'
 if bitdepth == 8:
 	mode = 'L'
 if bitdepth == 16:
@@ -52,6 +54,9 @@ imgpixels = img.load()
 start = 0
 for y in range(height):
 	for x in range(width):
+		if bitdepth == 1:
+			# TODO implement. THIS IS INCORRECT!
+			color = ( pixels[start + 0] )
 		if bitdepth == 8:
 			color = ( pixels[start + 0] )
 		if bitdepth == 16:

@@ -31,7 +31,7 @@ int main(void)
 
 	// generate and write binary counter.pbf
 	size_t height = 256;
-	pb::PixelBuffer pixelbuffer(8, height, 32);
+	pb::PixelBuffer pixelbuffer(8, height, 1);
 	pixelbuffer.pixels().clear();
 	for (size_t row = 0; row < height; row++) {
 		std::vector<pb::RGBAColor> colorvec = pb::Color::byte2vec(row);
@@ -40,6 +40,7 @@ int main(void)
 		}
 	}
 	pixelbuffer.write("binarycounter.pbf");
+	pixelbuffer.printInfo();
 
 	return 0;
 }

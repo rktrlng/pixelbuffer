@@ -12,6 +12,8 @@ def convert(filename):
     pixels = im.load()
 
     bitdepth = 0
+    if im.mode == '1':
+        bitdepth = 1
     if im.mode == 'L':
         bitdepth = 8
     elif im.mode == 'LA':
@@ -31,6 +33,14 @@ def convert(filename):
     loheight = (height & 0xFF)
 
     memblock = bytearray([0x70, 0x62, lowidth, hiwidth, loheight, hiheight, bitdepth, 0x3A])
+
+    # 1 bit (black/white)
+    if bitdepth == 1:
+        for y in range(height):
+            for x in range(width/8):
+				# TODO implement. THIS IS INCORRECT!
+                cpixel = pixels[x, y]
+                memblock.append(cpixel)
 
     # grayscale
     if bitdepth == 8:

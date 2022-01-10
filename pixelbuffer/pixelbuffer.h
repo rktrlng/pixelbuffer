@@ -27,7 +27,7 @@ private:
 		uint8_t typeb = 0x62;      // 1 byte: 0x62 = 'b'
 		uint16_t width = 0x0000;   // 2 bytes: 0-65535
 		uint16_t height = 0x0000;  // 2 bytes: 0-65535
-		uint8_t bitdepth = 0x00;   // 1 byte: 8, 16, 24, 32
+		uint8_t bitdepth = 0x00;   // 1 byte: 1, 8, 16, 24, 32
 		uint8_t end = 0x3A;        // 1 byte: 0x3A = ':'
 	};                             // sizeof(PBHeader) = 8 bytes
 	// uint64_t header = 0x706208000400203A; // 8x4 pixels, bitdepth 32, Little Endian
@@ -38,6 +38,7 @@ private:
 
 	bool _validBitdepth(uint8_t b) const {
 		return (
+			b == 1 ||
 			b == 8 ||
 			b == 16 ||
 			b == 24 ||
@@ -60,7 +61,7 @@ public:
 		size_t numpixels = width * height;
 		_pixels.reserve(width*height);
 		for (size_t i = 0; i < numpixels; i++) {
-			_pixels.emplace_back(0, 0, 0, 255);
+			_pixels.emplace_back(pb::RGBAColor(0, 0, 0, 255));
 		}
 	}
 
@@ -126,9 +127,9 @@ public:
 		std::cout << "height: " << height << " pixels" << std::endl;
 		std::cout << "bitdepth: " << (int) bitdepth << " b/pixel" << std::endl;
 		std::cout << "#number of pixels: " << (int) _pixels.size() << std::endl;
-		std::cout << "memsize of pixels: " << (width * height * (bitdepth/8)) << " B";
-		std::cout << " | " << (width * height * (bitdepth/8)) / 1024.0f << " KiB";
-		std::cout << " | " << (width * height * (bitdepth/8)) / 1024 / 1024.0f << " MiB" << std::endl;
+		std::cout << "memsize of pixels: " << (width * height * (bitdepth/8.0f)) << " B";
+		std::cout << " | " << (width * height * (bitdepth/8.0f)) / 1024.0f << " KiB";
+		std::cout << " | " << (width * height * (bitdepth/8.0f)) / 1024 / 1024.0f << " MiB" << std::endl;
 	}
 
 	int read(const std::string& filename)
@@ -208,23 +209,40 @@ public:
 		// file.write((char*)&_pixels[0], _pixels.size()*_header.bitdepth);
 
 		// But we also need to handle the bitdepth
-		for (auto& pixel : _pixels) {
-			if (_header.bitdepth == 8 || _header.bitdepth == 16) {
-				char value = (pixel.r + pixel.b + pixel.g) / 3;
+		if (_header.bitdepth == 1) {
+			size_t start = 0;
+
+			char value = 0;
+			// width must be a multiple of 8 pixels
+			std::vector<RGBAColor> vec;
+			for (size_t i = 0; i < _pixels.size(); i += 8) { // set of 8 pixels
+				for (size_t v = 0; v < 8; v++) {
+					vec.push_back(_pixels[v+start]);
+				}
+				value = (char) pb::Color::vec2byte(vec);
 				file.write(&value, 1);
+				vec.clear();
+				start += 8;
 			}
+		} else {
+			for (auto& pixel : _pixels) {
+				if (_header.bitdepth == 8 || _header.bitdepth == 16) {
+					char value = (pixel.r + pixel.b + pixel.g) / 3;
+					file.write(&value, 1);
+				}
 
-			if (_header.bitdepth == 16) {
-				file.write((char*)&pixel.a, 1);
-			}
-			else if (_header.bitdepth == 24 || _header.bitdepth == 32) {
-				file.write((char*)&pixel.r, 1);
-				file.write((char*)&pixel.g, 1);
-				file.write((char*)&pixel.b, 1);
-			}
+				if (_header.bitdepth == 16) {
+					file.write((char*)&pixel.a, 1);
+				}
+				else if (_header.bitdepth == 24 || _header.bitdepth == 32) {
+					file.write((char*)&pixel.r, 1);
+					file.write((char*)&pixel.g, 1);
+					file.write((char*)&pixel.b, 1);
+				}
 
-			if (_header.bitdepth == 32) {
-				file.write((char*)&pixel.a, 1);
+				if (_header.bitdepth == 32) {
+					file.write((char*)&pixel.a, 1);
+				}
 			}
 		}
 
