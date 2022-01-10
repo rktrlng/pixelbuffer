@@ -321,10 +321,11 @@ struct Color
 		if (size != 8) { return 0; }
 		uint8_t value = 0;
 		for (size_t i = 0; i < size; i++) {
-			if (colors[i].r == 0 && colors[i].g == 0 && colors[i].b == 0 ) { // black
-				value &= ~(1 << (7-i)); // 0 on this bit
+			int avg = (colors[i].r + colors[i].g + colors[i].b) / 3;
+			if (avg < 128 || colors[i].a < 128) { // black
+				value &= ~(1 << (7-i)); // 0 on this bit (most significant bit first)
 			} else { // white (not black)
-				value |=  (1 << (7-i)); // 1 on this bit
+				value |=  (1 << (7-i)); // 1 on this bit (most significant bit first)
 			}
 		}
 		return value;

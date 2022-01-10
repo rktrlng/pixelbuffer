@@ -22,8 +22,6 @@ def convert(filename):
         bitdepth = 24
     elif im.mode == 'RGBA':
         bitdepth = 32
-    else:
-        bitdepth = 0
 
     print("converting: ", filename, width, height, bitdepth)
 
@@ -36,11 +34,15 @@ def convert(filename):
 
     # 1 bit (black/white)
     if bitdepth == 1:
+        print("converting 1 bit .pbf's is currently unsupported.")
+        print("save your .pbf as 8 bit for now.")
+        exit()
         for y in range(height):
             for x in range(width/8):
 				# TODO implement. THIS IS INCORRECT!
                 cpixel = pixels[x, y]
                 memblock.append(cpixel)
+				# Mode 1: 1-bit pixels, black and white, stored with one pixel per byte
 
     # grayscale
     if bitdepth == 8:

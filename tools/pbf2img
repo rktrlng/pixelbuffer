@@ -37,6 +37,9 @@ print("bitdepth: ", bitdepth)
 
 if bitdepth == 1:
 	mode = '1'
+	print("converting 1 bit .pbf's is currently unsupported.")
+	print("save your .pbf as 8 bit for now.")
+	exit()
 if bitdepth == 8:
 	mode = 'L'
 if bitdepth == 16:
@@ -57,6 +60,7 @@ for y in range(height):
 		if bitdepth == 1:
 			# TODO implement. THIS IS INCORRECT!
 			color = ( pixels[start + 0] )
+			# Mode 1: 1-bit pixels, black and white, stored with one pixel per byte
 		if bitdepth == 8:
 			color = ( pixels[start + 0] )
 		if bitdepth == 16:
