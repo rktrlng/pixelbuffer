@@ -41,3 +41,7 @@ add_executable(onebittest
 add_executable(tgatest
 	test/tgatest.cpp
 )
+
+add_executable(asciiart
+	test/asciiart.cpp
+)
