@@ -301,7 +301,7 @@ public:
 		const uint16_t width   = (memblock[12] & 0xFF) + (memblock[13] << 8);
 		const uint16_t height  = (memblock[14] & 0xFF) + (memblock[15] << 8);
 		const uint8_t bitdepth = memblock[16];
-		if (datatype > 3) { return 0; } // compressed image
+		if (datatype > 3) { delete[] memblock; return 0; } // compressed image
 
 		// std::cout << "datatype " << (int) datatype << std::endl;
 		// std::cout << "x_org    " << (int) x_org << std::endl;
