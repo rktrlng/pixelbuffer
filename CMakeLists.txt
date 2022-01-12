@@ -37,3 +37,7 @@ add_executable(vec2test
 add_executable(onebittest
 	test/onebittest.cpp
 )
+
+add_executable(tgatest
+	test/tgatest.cpp
+)

@@ -58,7 +58,7 @@ public:
 		_header.width = width;
 		_header.height = height;
 		_header.bitdepth = bitdepth;
-		size_t numpixels = width * height;
+		const size_t numpixels = width * height;
 		_pixels.reserve(width*height);
 		for (size_t i = 0; i < numpixels; i++) {
 			_pixels.emplace_back(pb::RGBAColor(0, 0, 0, 255));
@@ -272,6 +272,107 @@ public:
 		}
 		filename << counter << ".pbf";
 		return filename.str();
+	}
+
+	int fromTGA(const std::string& filename)
+	{
+		// www.paulbourke.net/dataformats/tga/
+
+		// Try to open the file from disk
+		std::ifstream file(filename, std::fstream::in|std::fstream::binary|std::fstream::ate);
+
+		if (!file.is_open()) {
+			std::cout << "Unable to open file: " << filename << std::endl;
+			return 0;
+		}
+
+		// Read the file into a bytearray
+		const int size = file.tellg();
+		char* memblock = new char[size];
+		file.seekg(0, std::fstream::beg);
+		file.read(memblock, size);
+		file.close();
+
+		// Read TGA header
+		const uint8_t headersize = 18;
+		const uint8_t datatype = memblock[2];
+		// const uint16_t x_org   = (memblock[8] & 0xFF) + (memblock[9] << 8);
+		const uint16_t y_org   = (memblock[10] & 0xFF) + (memblock[11] << 8);
+		const uint16_t width   = (memblock[12] & 0xFF) + (memblock[13] << 8);
+		const uint16_t height  = (memblock[14] & 0xFF) + (memblock[15] << 8);
+		const uint8_t bitdepth = memblock[16];
+		if (datatype > 3) { return 0; } // compressed image
+
+		// std::cout << "datatype " << (int) datatype << std::endl;
+		// std::cout << "x_org    " << (int) x_org << std::endl;
+		// std::cout << "y_org    " << (int) y_org << std::endl;
+		// std::cout << "width    " << (int) width << std::endl;
+		// std::cout << "height   " << (int) height << std::endl;
+		// std::cout << "bitdepth " << (int) bitdepth << std::endl;
+
+		// Create and build the pixelbuffer
+		_header.width = width;
+		_header.height = height;
+		_header.bitdepth = bitdepth;
+
+		const size_t numpixels = width * height;
+		_pixels.clear();
+		_pixels.reserve(width*height);
+		for (size_t i = 0; i < numpixels; i++) {
+			_pixels.emplace_back(pb::RGBAColor(0, 0, 0, 255));
+		}
+
+		// Place the pixels
+		size_t start = headersize;
+		for (size_t i = 0; i < numpixels; i++) {
+			pb::RGBAColor color;
+			if (bitdepth == 8) {
+				color.r = memblock[start+0];
+				color.g = memblock[start+0];
+				color.b = memblock[start+0];
+				color.a = 255;
+			}
+			if (bitdepth == 24) { // BGR
+				color.r = memblock[start+2];
+				color.g = memblock[start+1];
+				color.b = memblock[start+0];
+				color.a = 255;
+			}
+			if (bitdepth == 32) { // BGRA
+				color.r = memblock[start+2];
+				color.g = memblock[start+1];
+				color.b = memblock[start+0];
+				color.a = memblock[start+3];
+			}
+			_pixels[i] = color;
+			start += bitdepth / 8;
+		}
+
+		delete[] memblock;
+
+		// tga: (0, 0) is bottom left
+		// pbf: (0, 0) is top left
+		if(y_org == 0) {
+			flipRows();
+		}
+
+		return size;
+	}
+
+	void flipRows()
+	{
+		PixelBuffer* duplicate = new PixelBuffer(*this);
+
+		uint16_t rows = header().height;
+		uint16_t cols = header().width;
+
+		for (size_t y = 0; y < rows; y++) {
+			for (size_t x = 0; x < cols; x++) {
+				pb::RGBAColor color = duplicate->getPixel(x, rows-y-1);
+				setPixel(x, y, color);
+			}
+		}
+		delete duplicate;
 	}
 
 	PixelBuffer copy(uint16_t x, uint16_t y, uint16_t width, uint16_t height) const
