@@ -53,7 +53,7 @@ public:
 		// empty list of pixels
 	}
 
-	PixelBuffer(uint16_t width, uint16_t height, uint8_t bitdepth)
+	PixelBuffer(uint16_t width, uint16_t height, uint8_t bitdepth, pb::RGBAColor color = {0,0,0,255})
 	{
 		_header.width = width;
 		_header.height = height;
@@ -61,7 +61,7 @@ public:
 		const size_t numpixels = width * height;
 		_pixels.reserve(width*height);
 		for (size_t i = 0; i < numpixels; i++) {
-			_pixels.emplace_back(pb::RGBAColor(0, 0, 0, 255));
+			_pixels.emplace_back(color);
 		}
 	}
 
@@ -395,19 +395,11 @@ public:
 	{
 		size_t height = brush.header().height;
 		size_t width = brush.header().width;
-		size_t bitdepth = brush.header().bitdepth;
 		for (size_t y = 0; y < height; y++) {
 			for (size_t x = 0; x < width; x++) {
 				RGBAColor color = brush.getPixel(x, y);
-				// handle alpha
-				if ((bitdepth == 32 || bitdepth == 16) && color.a < 255) {
-					RGBAColor bottom_color = getPixel(x+pos_x, y+pos_y);
-					RGBAColor blend_color = pb::Color::alphaBlend(color, bottom_color);
-					setPixel(x+pos_x, y+pos_y, blend_color);
-				}
-				else {
-					setPixel(x+pos_x, y+pos_y, color);
-				}
+				// setPixel handles alpha
+				setPixel(x+pos_x, y+pos_y, color);
 			}
 		}
 
