@@ -53,7 +53,7 @@ public:
 		// empty list of pixels
 	}
 
-	PixelBuffer(uint16_t width, uint16_t height, uint8_t bitdepth, pb::RGBAColor color = {0,0,0,255})
+	PixelBuffer(uint16_t width, uint16_t height, uint8_t bitdepth, pb::RGBAColor color = TRANSPARENT)
 	{
 		_header.width = width;
 		_header.height = height;
