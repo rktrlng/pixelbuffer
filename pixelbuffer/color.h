@@ -334,18 +334,19 @@ struct Color
 };
 
 
-#define BLACK   pb::RGBAColor(0,   0,   0,   255) ///< @brief color black
-#define GRAY    pb::RGBAColor(127, 127, 127, 255) ///< @brief color gray
-#define RED     pb::RGBAColor(255, 0,   0,   255) ///< @brief color red
-#define ORANGE  pb::RGBAColor(255, 127, 0,   255) ///< @brief color orange
-#define YELLOW  pb::RGBAColor(255, 255, 0,   255) ///< @brief color yellow
-#define GREEN   pb::RGBAColor(0,   255, 0,   255) ///< @brief color green
-#define CYAN    pb::RGBAColor(0,   255, 255, 255) ///< @brief color cyan
-#define BLUE    pb::RGBAColor(0,   0,   255, 255) ///< @brief color blue
-#define MAGENTA pb::RGBAColor(255, 0,   255, 255) ///< @brief color magenta
-#define PURPLE  pb::RGBAColor(127, 0,   127, 255) ///< @brief color purple
-#define PINK    pb::RGBAColor(255, 127, 255, 255) ///< @brief color pink
-#define WHITE   pb::RGBAColor(255, 255, 255, 255) ///< @brief color white
+#define BLACK       pb::RGBAColor(0,   0,   0,   255) ///< @brief color black
+#define GRAY        pb::RGBAColor(127, 127, 127, 255) ///< @brief color gray
+#define RED         pb::RGBAColor(255, 0,   0,   255) ///< @brief color red
+#define ORANGE      pb::RGBAColor(255, 127, 0,   255) ///< @brief color orange
+#define YELLOW      pb::RGBAColor(255, 255, 0,   255) ///< @brief color yellow
+#define GREEN       pb::RGBAColor(0,   255, 0,   255) ///< @brief color green
+#define CYAN        pb::RGBAColor(0,   255, 255, 255) ///< @brief color cyan
+#define BLUE        pb::RGBAColor(0,   0,   255, 255) ///< @brief color blue
+#define MAGENTA     pb::RGBAColor(255, 0,   255, 255) ///< @brief color magenta
+#define PURPLE      pb::RGBAColor(127, 0,   127, 255) ///< @brief color purple
+#define PINK        pb::RGBAColor(255, 127, 255, 255) ///< @brief color pink
+#define WHITE       pb::RGBAColor(255, 255, 255, 255) ///< @brief color white
+#define TRANSPARENT pb::RGBAColor(0,   0,   0,   0  ) ///< @brief color transparent
 
 } // namespace pb
 

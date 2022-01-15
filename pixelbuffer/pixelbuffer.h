@@ -362,6 +362,7 @@ public:
 	void flipRows()
 	{
 		PixelBuffer* duplicate = new PixelBuffer(*this);
+		fill(TRANSPARENT);
 
 		uint16_t rows = header().height;
 		uint16_t cols = header().width;
@@ -484,10 +485,9 @@ public:
 
 	void fill(RGBAColor color)
 	{
-		for (size_t y = 0; y < _header.height; y++) {
-			for (size_t x = 0; x < _header.width; x++) {
-				setPixel(x, y, color);
-			}
+		size_t numpixels = _header.width * _header.height;
+		for (size_t i = 0; i < numpixels; i++) {
+			_pixels[i] = color;
 		}
 	}
 
