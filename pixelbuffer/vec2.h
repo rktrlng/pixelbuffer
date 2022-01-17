@@ -137,6 +137,12 @@ inline static float rand_bm() {
 	return n;
 }
 
+inline static vec2f box_muller(pb::vec2f in) {
+	float u = sqrt(-2.0f * logf(in.x));
+	float v = cosf(2.0f * M_PI * in.y);
+	return vec2f(u, v);
+}
+
 // =========================================================
 
 

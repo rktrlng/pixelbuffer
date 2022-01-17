@@ -97,6 +97,10 @@ int main(void)
 	}
 #endif
 
+	pb::vec2f vf = pb::vec2f(4,3);
+	vf = pb::box_muller(vf);
+	std::cout << "bm: " << vf << std::endl;
+
 	std::cout << "## finished ##" << std::endl;
 
 	return 0;
