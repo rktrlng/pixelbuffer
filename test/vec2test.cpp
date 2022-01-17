@@ -8,6 +8,7 @@ const double RADIANS = M_PI / 180.0;
 
 int main(void)
 {
+	srand(time(nullptr));
 	pb::vec2 v0 = pb::vec2(1, 1);
 	v0 *= 2;
 	v0 += pb::vec2(2, 1);
@@ -58,6 +59,43 @@ int main(void)
 	vec[1] = 7;
 	assert(vec == pb::vec2(5, 7));
 	std::cout << "vec:  " << vec << std::endl;
+
+#if 0
+	const int N = 25;
+	const int AMOUNT = 1000;
+
+	std::cout << "Uniform distributed random floats:" << std::endl;
+	int uvalues[N] = {0};
+	for (size_t i = 0; i < AMOUNT; i++) {
+		float v = pb::rand_float();
+		int index = (int) (v*N);
+		uvalues[index]++;
+	}
+
+	for (size_t i = 0; i < N; i++) {
+		std::cout << i << ": ";
+		for (int s = 0; s < uvalues[i]; s++) {
+			std::cout << "*";
+		}
+		std::cout << std::endl;
+	}
+
+	std::cout << "Normal distributed random floats:" << std::endl;
+	int nvalues[N] = {0};
+	for (size_t i = 0; i < AMOUNT; i++) {
+		float v = pb::rand_bm();
+		int index = (int) (v*N);
+		nvalues[index]++;
+	}
+
+	for (size_t i = 0; i < N; i++) {
+		std::cout << i << ": ";
+		for (int s = 0; s < nvalues[i]; s++) {
+			std::cout << "*";
+		}
+		std::cout << std::endl;
+	}
+#endif
 
 	std::cout << "## finished ##" << std::endl;
 
