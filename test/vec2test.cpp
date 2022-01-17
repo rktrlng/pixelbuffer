@@ -60,7 +60,7 @@ int main(void)
 	assert(vec == pb::vec2(5, 7));
 	std::cout << "vec:  " << vec << std::endl;
 
-#if 0
+#if 1
 	const int N = 25;
 	const int AMOUNT = 1000;
 
@@ -96,10 +96,6 @@ int main(void)
 		std::cout << std::endl;
 	}
 #endif
-
-	pb::vec2f vf = pb::vec2f(4,3);
-	vf = pb::box_muller(vf);
-	std::cout << "bm: " << vf << std::endl;
 
 	std::cout << "## finished ##" << std::endl;
 
