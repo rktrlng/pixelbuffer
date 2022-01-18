@@ -144,9 +144,9 @@ public:
 
 		// Read the file into a bytearray
 		const int size = file.tellg();
-		char* memblock = new char[size];
+		uint8_t* memblock = new uint8_t[size];
 		file.seekg(0, std::fstream::beg);
-		file.read(memblock, size);
+		file.read((char*)memblock, size);
 		file.close();
 
 		// Build header
@@ -160,7 +160,7 @@ public:
 
 		if (_header.bitdepth == 1) {
 			for (size_t i = 0; i < numpixels / 8; i++) {
-				char val = memblock[start+0];
+				uint8_t val = memblock[start+0];
 				std::vector<pb::RGBAColor> vec = pb::Color::byte2vec(val);
 				for (size_t i = 0; i < vec.size(); i++) {
 					_pixels.emplace_back(vec[i]);
@@ -172,7 +172,7 @@ public:
 			for (size_t i = 0; i < numpixels; i++) {
 				RGBAColor pixel;
 				if (_header.bitdepth == 8 || _header.bitdepth == 16) {
-					char val = memblock[start+0];
+					uint8_t val = memblock[start+0];
 					pixel.r = val;
 					pixel.g = val;
 					pixel.b = val;
