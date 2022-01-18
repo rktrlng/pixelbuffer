@@ -15,8 +15,6 @@
 
 namespace pb {
 
-#define PI 3.14159265359f
-
 // vec2 definition
 template <class T>
 class vec2_t {
@@ -128,6 +126,7 @@ inline static float rand_float() {
 // normal distribution: box-muller transform
 // https://en.wikipedia.org/wiki/Box%E2%80%93Muller_transform
 inline static float rand_bm() {
+	const float PI = 3.14159265359f;
 	const float RANGE = 3.6f;
 	float u = 0.0f;
 	float v = 0.0f;
