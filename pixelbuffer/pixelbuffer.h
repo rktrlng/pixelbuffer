@@ -93,7 +93,7 @@ public:
 	std::vector<RGBAColor>& pixels() { return _pixels; }
 	const std::vector<RGBAColor>& pixels() const { return _pixels; }
 	inline RGBAColor& operator[](size_t index) {
-		if (index < _pixels.size() && index >= 0) { return _pixels[index]; }
+		if (index < _pixels.size()) { return _pixels[index]; }
 		return _pixels[0];
 	}
 

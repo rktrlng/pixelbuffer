@@ -15,6 +15,8 @@
 
 namespace pb {
 
+#define PI 3.14159265359f
+
 // vec2 definition
 template <class T>
 class vec2_t {
@@ -131,7 +133,7 @@ inline static float rand_bm() {
 	float v = 0.0f;
 	while (u == 0.0f) u = rand_float();
 	while (v == 0.0f) v = rand_float();
-	float n = sqrt(-2.0f * logf(u)) * cosf(2.0f * M_PI * v);
+	float n = sqrt(-2.0f * logf(u)) * cosf(2.0f * PI * v);
 	while (n < -RANGE || n > RANGE) n = rand_bm();
 	n = map(n, -RANGE, RANGE, 0.0f, 1.0f);
 	return n;

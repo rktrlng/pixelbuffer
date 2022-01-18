@@ -2,7 +2,7 @@ cmake_minimum_required (VERSION 2.8.12)
 project (PixelBuffer)
 
 if(UNIX)
-	set(CMAKE_CXX_FLAGS "-Wall -Werror -std=c++11 -O2")
+	set(CMAKE_CXX_FLAGS "-Wall -Werror -pedantic -std=c++11 -O2")
 endif(UNIX)
 
 if(WIN32)
