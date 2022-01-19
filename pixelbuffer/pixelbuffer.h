@@ -587,13 +587,13 @@ public:
 		floodFill(pos.x, pos.y, fill_color);
 	}
 
-	#define FFEXPTN_COLOR pb::RGBAColor(242, 13, 248, 1) // some crazy color to use as default param
-	void floodFill(int x, int y, pb::RGBAColor fill_color, pb::RGBAColor check_color = FFEXPTN_COLOR)
+	// Warning: hardcoded crazy color in 2 places
+	void floodFill(int x, int y, pb::RGBAColor fill_color, pb::RGBAColor check_color = {242, 13, 248, 1})
 	{
 		int height = _header.height;
 		int width = _header.width;
 
-		if (check_color == FFEXPTN_COLOR) { check_color = getPixel(x, y); }
+		if (check_color == pb::RGBAColor(242, 13, 248, 1)) { check_color = getPixel(x, y); }
 		std::vector<pb::vec2i> neighbours = { {0,-1}, {1,0}, {0,1}, {-1,0} };
 
 		if ((x > 0 && x < width-1) && (y > 0 && y < height-1)) {
