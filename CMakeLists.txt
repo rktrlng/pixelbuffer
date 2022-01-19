@@ -45,3 +45,7 @@ add_executable(tgatest
 add_executable(asciiart
 	test/asciiart.cpp
 )
+
+add_executable(floodfilltest
+	test/floodfilltest.cpp
+)

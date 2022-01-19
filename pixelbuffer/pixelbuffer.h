@@ -565,6 +565,33 @@ public:
 		}
 	}
 
+	void floodFill(pb::vec2i pos, pb::RGBAColor fill_color)
+	{
+		floodFill(pos.x, pos.y, fill_color);
+	}
+
+	#define FFEXPTN_COLOR pb::RGBAColor(242, 13, 248, 1) // some crazy color to use as default param
+	void floodFill(int x, int y, pb::RGBAColor fill_color, pb::RGBAColor check_color = FFEXPTN_COLOR)
+	{
+		int height = _header.height;
+		int width = _header.width;
+
+		if (check_color == FFEXPTN_COLOR) { check_color = getPixel(x, y); }
+		std::vector<pb::vec2i> neighbours = { {0,-1}, {1,0}, {0,1}, {-1,0} };
+
+		if ((x > 0 && x < width-1) && (y > 0 && y < height-1)) {
+			for (size_t i = 0; i < neighbours.size(); i++) {
+				pb::vec2i npos = pb::vec2i(x, y) + neighbours[i];
+				pb::RGBAColor back_color = getPixel(npos.x, npos.y);
+				if (back_color == check_color) {
+					setPixel(npos.x, npos.y, fill_color);
+					floodFill(npos.x, npos.y, fill_color, check_color);
+				}
+			}
+		}
+	}
+
+
 }; // PixelBuffer
 
 } // namespace pb
