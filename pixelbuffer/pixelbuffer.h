@@ -475,12 +475,19 @@ public:
 		}
 	}
 
-	void drawSquare(int x0, int y0, int x1, int y1, RGBAColor color)
+	void drawSquare(int x, int y, int width, int height, RGBAColor color)
 	{
-		drawLine(x0,    y0,    x0+x1, y0,    color);
-		drawLine(x0+x1, y0,    x0+x1, y0+y1, color);
-		drawLine(x0,    y0+y1, x0+x1, y0+y1, color);
-		drawLine(x0,    y0,    x0,    y0+y1, color);
+		drawLine(x,       y,        x+width, y,        color);
+		drawLine(x+width, y,        x+width, y+height, color);
+		drawLine(x,       y+height, x+width, y+height, color);
+		drawLine(x,       y,        x,       y+height, color);
+	}
+
+	void drawSquareFilled(int x, int y, int width, int height, RGBAColor color)
+	{
+		pb::PixelBuffer pb = pb::PixelBuffer(width, height, _header.bitdepth);
+		pb.fill(color);
+		paste(pb, x, y);
 	}
 
 	void fill(RGBAColor color)
@@ -522,6 +529,16 @@ public:
 		for (auto local : positions) {
 			setPixel(local.x + circlex, local.y + circley, color);
 		}
+	}
+
+	void drawCircleFilled(int circlex, int circley, int radius, RGBAColor color)
+	{
+		// drawCircle(circlex, circley, radius, color);
+		int size = radius*2;
+		pb::PixelBuffer pb = pb::PixelBuffer(size, size, _header.bitdepth);
+		pb.drawCircle(size/2, size/2, radius, color);
+		pb.floodFill(size/2, size/2, color);
+		paste(pb, circlex-radius, circley-radius);
 	}
 
 	// sharpness 1 = fully blurred
