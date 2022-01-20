@@ -23,7 +23,7 @@ public:
 	T x = 0;
 	T y = 0;
 
-	vec2_t<T>() : x(0), y(0) {}
+	vec2_t<T>() : x(static_cast<T>(0)), y(static_cast<T>(0)) {}
 	vec2_t<T>(T x, T y) : x(x), y(y) {}
 	vec2_t<T>(const vec2_t<T>& v) : x(v.x), y(v.y) {}
 

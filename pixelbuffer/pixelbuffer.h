@@ -161,7 +161,7 @@ public:
 		if (_header.bitdepth == 1) {
 			for (size_t i = 0; i < numpixels / 8; i++) {
 				uint8_t val = memblock[start+0];
-				std::vector<pb::RGBAColor> vec = pb::Color::byte2vec(val);
+				std::vector<pb::RGBAColor> vec = byte2vec(val);
 				for (size_t i = 0; i < vec.size(); i++) {
 					_pixels.emplace_back(vec[i]);
 				}
@@ -231,7 +231,7 @@ public:
 				for (size_t v = 0; v < 8; v++) {
 					vec.push_back(_pixels[v+start]);
 				}
-				value = (char) pb::Color::vec2byte(vec);
+				value = (char) vec2byte(vec);
 				file.write(&value, 1);
 				vec.clear();
 				start += 8;
@@ -261,6 +261,32 @@ public:
 		file.close();
 
 		return 1;
+	}
+
+	static std::vector<RGBAColor> byte2vec(uint8_t value) {
+		std::vector<RGBAColor> colors(8);
+		for (size_t i = 0; i < colors.size(); i++) {
+			RGBAColor color = { 0, 0, 0, 255 }; // black
+			if ( value & 1) { color = { 255, 255, 255, 255 }; } // white
+			colors[7-i] = color;
+			value >>= 1;
+		}
+		return colors;
+	}
+
+	static uint8_t vec2byte(const std::vector<RGBAColor>& colors) {
+		size_t size = colors.size();
+		if (size != 8) { return 0; }
+		uint8_t value = 0;
+		for (size_t i = 0; i < size; i++) {
+			int avg = (colors[i].r + colors[i].g + colors[i].b) / 3;
+			if (avg < 128 || colors[i].a < 128) { // black
+				value &= ~(1 << (7-i)); // 0 on this bit (most significant bit first)
+			} else { // white (not black)
+				value |=  (1 << (7-i)); // 1 on this bit (most significant bit first)
+			}
+		}
+		return value;
 	}
 
 	std::string createFilename(const std::string& prefix, uint32_t counter = 0, uint8_t leading0 = 4) const

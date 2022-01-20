@@ -295,42 +295,6 @@ struct Color
 		return pb::RGBAColor(r, g, b, a);
 	}
 
-	/// @brief uint8_t to vector of 8 colors
-	/// most significant bit is colors[0]
-	/// least significant bit is colors[7]
-	/// @param value 8 bit value to convert
-	/// @return vector of RGBAColors 
-	static std::vector<RGBAColor> byte2vec(uint8_t value) {
-		std::vector<RGBAColor> colors(8);
-		for (size_t i = 0; i < colors.size(); i++) {
-			RGBAColor color = { 0, 0, 0, 255 }; // black
-			if ( value & 1) { color = { 255, 255, 255, 255 }; } // white
-			colors[7-i] = color;
-			value >>= 1;
-		}
-		return colors;
-	}
-
-	/// @brief vector of 8 colors to uint8_t
-	/// most significant bit is colors[0]
-	/// least significant bit is colors[7]
-	/// @param colors vector of colors to convert
-	/// @return value as uint8_t
-	static uint8_t vec2byte(const std::vector<RGBAColor>& colors) {
-		size_t size = colors.size();
-		if (size != 8) { return 0; }
-		uint8_t value = 0;
-		for (size_t i = 0; i < size; i++) {
-			int avg = (colors[i].r + colors[i].g + colors[i].b) / 3;
-			if (avg < 128 || colors[i].a < 128) { // black
-				value &= ~(1 << (7-i)); // 0 on this bit (most significant bit first)
-			} else { // white (not black)
-				value |=  (1 << (7-i)); // 1 on this bit (most significant bit first)
-			}
-		}
-		return value;
-	}
-
 };
 
 
