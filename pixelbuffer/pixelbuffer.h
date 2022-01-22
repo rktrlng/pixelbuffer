@@ -425,15 +425,15 @@ public:
 		for (size_t y = 0; y < height; y++) {
 			for (size_t x = 0; x < width; x++) {
 				RGBAColor color = brush.getPixel(x, y);
-				// setPixel handles alpha
-				setPixel(x+pos_x, y+pos_y, color);
+				// setPixel handles alpha if we set blend true
+				setPixel(x+pos_x, y+pos_y, color, true);
 			}
 		}
 
 		return 1;
 	}
 
-	int setPixel(int x, int y, RGBAColor color)
+	int setPixel(int x, int y, RGBAColor color, bool blend = false)
 	{
 		// Sanity check
 		if ( (x < 0) || (x >_header.width) || (y < 0) || (y > _header.height) ) {
@@ -445,7 +445,7 @@ public:
 			return 0;
 		}
 
-		if (color.a < 255) {
+		if (color.a < 255 && blend) {
 			color = pb::Color::alphaBlend(color, getPixel(x, y));
 		}
 		_pixels[index] = color;
