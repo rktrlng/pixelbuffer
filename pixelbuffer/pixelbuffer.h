@@ -97,8 +97,8 @@ public:
 		return _pixels[0];
 	}
 
-	uint8_t width() const { return _header.width; }
-	uint8_t height() const { return _header.height; }
+	uint16_t width() const { return _header.width; }
+	uint16_t height() const { return _header.height; }
 	uint8_t bitdepth() const { return _header.bitdepth; }
 	uint8_t bitdepth(uint8_t b) {
 		if ( _validBitdepth(b) ) {
