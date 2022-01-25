@@ -625,6 +625,15 @@ public:
 		}
 	}
 
+	void posterize_8(uint8_t levels) {
+		for (size_t i = 0; i < _pixels.size(); i++) {
+			uint8_t readvalue = _pixels[i].r;
+			uint8_t writevalue = pb::map(readvalue, 0, 255, 0, levels);
+			writevalue = pb::map(writevalue, 0, levels, 0, 255);
+			_pixels[i] = {writevalue, writevalue, writevalue, 255};
+		}
+	}
+
 	void floodFill(pb::vec2i pos, pb::RGBAColor fill_color)
 	{
 		floodFill(pos.x, pos.y, fill_color);
