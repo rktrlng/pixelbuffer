@@ -295,6 +295,25 @@ struct Color
 		return pb::RGBAColor(r, g, b, a);
 	}
 
+	static pb::RGBAColor quantize(RGBAColor rgba, int factor = 1)
+	{
+		float r = (float)rgba.r;
+		float g = (float)rgba.g;
+		float b = (float)rgba.b;
+
+		uint8_t nr = round(factor * r / 255) * (255 / factor);
+		uint8_t ng = round(factor * g / 255) * (255 / factor);
+		uint8_t nb = round(factor * b / 255) * (255 / factor);
+
+		return pb::RGBAColor(nr, ng, nb, rgba.a);
+	}
+
+	static pb::RGBAColor grayscale(RGBAColor rgba)
+	{
+		uint8_t avg = (rgba.r + rgba.g + rgba.b) / 3;
+		return pb::RGBAColor(avg, avg, avg, rgba.a);
+	}
+
 };
 
 
