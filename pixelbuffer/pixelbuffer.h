@@ -38,7 +38,7 @@ private:
 
 	bool _validBitdepth(uint8_t b) const {
 		return (
-			b == 1 ||
+			(b == 1 && _header.width%8 == 0) ||
 			b == 8 ||
 			b == 16 ||
 			b == 24 ||
