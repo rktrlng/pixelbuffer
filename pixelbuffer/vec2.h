@@ -105,12 +105,12 @@ inline static vec2i clamp(const vec2i& pos, int cols, int rows) {
 	return clamped;
 }
 
-inline static int idFromPos(int x, int y, int cols) {
+inline static int index(int x, int y, int cols) {
 	return (y*cols)+x;
 }
 
-inline static int idFromPos(const vec2i& pos, int cols) {
-	return idFromPos(pos.x, pos.y, cols);
+inline static int index(const vec2i& pos, int cols) {
+	return index(pos.x, pos.y, cols);
 }
 
 // map(973, 0, 1023, 0, 255); // returns: 242
