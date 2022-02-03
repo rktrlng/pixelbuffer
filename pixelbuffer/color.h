@@ -295,19 +295,26 @@ struct Color
 		return pb::RGBAColor(r, g, b, a);
 	}
 
+	/// @brief quantize a color (find closest palette color)
+	/// @param rgba the color to quantize
+	/// @param factor number of palette colors. default 1 for 2 colors (eg. black/white)
+	/// @return return RGBAColor quatized color
 	static pb::RGBAColor quantize(RGBAColor rgba, int factor = 1)
 	{
 		float r = (float)rgba.r;
 		float g = (float)rgba.g;
 		float b = (float)rgba.b;
 
-		uint8_t nr = round(factor * r / 255) * (255 / factor);
-		uint8_t ng = round(factor * g / 255) * (255 / factor);
-		uint8_t nb = round(factor * b / 255) * (255 / factor);
+		uint8_t nr = round(factor * r / 255) * (255.0f / factor);
+		uint8_t ng = round(factor * g / 255) * (255.0f / factor);
+		uint8_t nb = round(factor * b / 255) * (255.0f / factor);
 
 		return pb::RGBAColor(nr, ng, nb, rgba.a);
 	}
 
+	/// @brief convert rgba color to grayscale
+	/// @param rgba the color to convert
+	/// @return return RGBAColor grayscale color
 	static pb::RGBAColor grayscale(RGBAColor rgba)
 	{
 		uint8_t avg = (rgba.r + rgba.g + rgba.b) / 3;

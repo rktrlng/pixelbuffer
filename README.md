@@ -15,6 +15,10 @@ Install Pillow:
 	python3 -m pip install --upgrade pip
 	python3 -m pip install --upgrade Pillow
 
+## examples
+
+See the [Canvas](https://github.com/rktrlng/canvas) project for examples on how to use this code.
+
 ## install
 
 	$ sudo ./install.sh
