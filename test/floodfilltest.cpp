@@ -23,6 +23,7 @@ int main(void)
 	pixelbuffer.write("floodfill.pbf");
 	std::cout << "floodfill.pbf" << std::endl;
 
+	pixelbuffer.bitdepth(32);
 	pixelbuffer.writeTGA("floodfill.tga");
 	std::cout << "floodfill.tga" << std::endl;
 

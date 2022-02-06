@@ -385,7 +385,7 @@ public:
 	}
 
 	// http://paulbourke.net/dataformats/tga/
-	int writeTGA(std::string filename)
+	int writeTGA(const std::string&  filename)
 	{
 		// Try to write to a file
 		std::ofstream file(filename, std::fstream::out|std::fstream::binary|std::fstream::trunc);
@@ -396,19 +396,20 @@ public:
 		}
 
 		// set bitdepth for tga (1 bit is grayscale)
-		int bd = 8;
-		if (bitdepth() != 1) { bd = bitdepth(); }
+		int bd = bitdepth();
+		if (bd == 1 || bd == 8) { bd = 24; }
+		if (bd == 16) { bd = 32; }
 
 		// The image header
 		unsigned char tgaheader[ 18 ] = { 0 };
-		tgaheader[ 2 ] = 2; // true color
-		tgaheader[ 10 ] = height() & 0xFF; // y_org high byte
-		tgaheader[ 11 ] = (height() >> 8) & 0xFF; // y_org low byte
+		tgaheader[ 2 ] = 2; // true color (grayscale saved as rgb for now)
+		tgaheader[ 10 ] = height() & 0xFF; // y_org low byte
+		tgaheader[ 11 ] = (height() >> 8) & 0xFF; // y_org high byte
 		tgaheader[ 12 ] = width() & 0xFF;
 		tgaheader[ 13 ] = (width() >> 8) & 0xFF;
 		tgaheader[ 14 ] = height() & 0xFF;
 		tgaheader[ 15 ] = (height() >> 8) & 0xFF;
-		tgaheader[ 16 ] = bitdepth();
+		tgaheader[ 16 ] = bd;
 	
 		// Write header
 		file.write((char*)&tgaheader, sizeof(tgaheader));
@@ -418,19 +419,20 @@ public:
 				size_t index = pb::index(x, y, width());
 				pb::RGBAColor pixel = _pixels[index];
 
-				if (bd == 8) {
-					pb::RGBAColor gray = pb::Color::grayscale(_pixels[index]);
-					file.write((char*)&gray.r, 1);
-				}
-
 				if (bd == 24 || bd == 32) {
-					file.write((char*)&pixel.b, 1);
-					file.write((char*)&pixel.g, 1);
-					file.write((char*)&pixel.r, 1);
-				}
-
-				if (bd == 32) {
-					file.write((char*)&pixel.a, 1);
+					pb::RGBAColor gray = pb::Color::grayscale(_pixels[index]);
+					if (bitdepth() == 8 || bitdepth() == 16) {
+						file.write((char*)&gray.b, 1);
+						file.write((char*)&gray.g, 1);
+						file.write((char*)&gray.r, 1);
+					} else {
+						file.write((char*)&pixel.b, 1);
+						file.write((char*)&pixel.g, 1);
+						file.write((char*)&pixel.r, 1);
+					}
+					if (bitdepth() == 16 || bitdepth() == 32) {
+						file.write((char*)&pixel.a, 1);
+					}
 				}
 			}
 		}
