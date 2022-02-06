@@ -300,10 +300,9 @@ public:
 		return filename.str();
 	}
 
+	// www.paulbourke.net/dataformats/tga/
 	int fromTGA(const std::string& filename)
 	{
-		// www.paulbourke.net/dataformats/tga/
-
 		// Try to open the file from disk
 		std::ifstream file(filename, std::fstream::in|std::fstream::binary|std::fstream::ate);
 
@@ -383,6 +382,62 @@ public:
 		}
 
 		return size;
+	}
+
+	// http://paulbourke.net/dataformats/tga/
+	int writeTGA(std::string filename)
+	{
+		// Try to write to a file
+		std::ofstream file(filename, std::fstream::out|std::fstream::binary|std::fstream::trunc);
+
+		if (!file.is_open()) {
+			std::cout << "Unable to write to file: " << filename << std::endl;
+			return 0;
+		}
+
+		// set bitdepth for tga (1 bit is grayscale)
+		int bd = 8;
+		if (bitdepth() != 1) { bd = bitdepth(); }
+
+		// The image header
+		unsigned char tgaheader[ 18 ] = { 0 };
+		tgaheader[ 2 ] = 2; // true color
+		tgaheader[ 10 ] = height() & 0xFF; // y_org high byte
+		tgaheader[ 11 ] = (height() >> 8) & 0xFF; // y_org low byte
+		tgaheader[ 12 ] = width() & 0xFF;
+		tgaheader[ 13 ] = (width() >> 8) & 0xFF;
+		tgaheader[ 14 ] = height() & 0xFF;
+		tgaheader[ 15 ] = (height() >> 8) & 0xFF;
+		tgaheader[ 16 ] = bitdepth();
+	
+		// Write header
+		file.write((char*)&tgaheader, sizeof(tgaheader));
+
+		for (int y = height()-1; y >= 0; y--) {
+			for (int x = 0; x < width(); x++) {
+				size_t index = pb::index(x, y, width());
+				pb::RGBAColor pixel = _pixels[index];
+
+				if (bd == 8) {
+					pb::RGBAColor gray = pb::Color::grayscale(_pixels[index]);
+					file.write((char*)&gray.r, 1);
+				}
+
+				if (bd == 24 || bd == 32) {
+					file.write((char*)&pixel.b, 1);
+					file.write((char*)&pixel.g, 1);
+					file.write((char*)&pixel.r, 1);
+				}
+
+				if (bd == 32) {
+					file.write((char*)&pixel.a, 1);
+				}
+			}
+		}
+
+		file.close();
+
+		return 1;
 	}
 
 	void flipRows()
