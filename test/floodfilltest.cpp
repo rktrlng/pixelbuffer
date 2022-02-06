@@ -27,5 +27,9 @@ int main(void)
 	pixelbuffer.writeTGA("floodfill.tga");
 	std::cout << "floodfill.tga" << std::endl;
 
+	pixelbuffer.fromTGA("floodfill.tga");
+	pixelbuffer.write("floodfilltga.pbf");
+	std::cout << "floodfilltga.pbf" << std::endl;
+
 	return 0;
 }

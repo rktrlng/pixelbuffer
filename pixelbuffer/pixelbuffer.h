@@ -403,8 +403,8 @@ public:
 		// The image header
 		unsigned char tgaheader[ 18 ] = { 0 };
 		tgaheader[ 2 ] = 2; // true color (grayscale saved as rgb for now)
-		tgaheader[ 10 ] = height() & 0xFF; // y_org low byte
-		tgaheader[ 11 ] = (height() >> 8) & 0xFF; // y_org high byte
+		// tgaheader[ 10 ] = height() & 0xFF; // y_org low byte
+		// tgaheader[ 11 ] = (height() >> 8) & 0xFF; // y_org high byte
 		tgaheader[ 12 ] = width() & 0xFF;
 		tgaheader[ 13 ] = (width() >> 8) & 0xFF;
 		tgaheader[ 14 ] = height() & 0xFF;
