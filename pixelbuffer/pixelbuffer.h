@@ -322,10 +322,15 @@ public:
 		const uint8_t headersize = 18;
 		const uint8_t datatype = memblock[2];
 		// const uint16_t x_org   = (memblock[8] & 0xFF) + (memblock[9] << 8);
-		const uint16_t y_org   = (memblock[10] & 0xFF) + (memblock[11] << 8);
+		// const uint16_t y_org   = (memblock[10] & 0xFF) + (memblock[11] << 8);
 		const uint16_t width   = (memblock[12] & 0xFF) + (memblock[13] << 8);
 		const uint16_t height  = (memblock[14] & 0xFF) + (memblock[15] << 8);
 		const uint8_t bitdepth = memblock[16];
+		// screen origin bit
+		// 0 = Origin in lower left-hand corner
+		// 1 = Origin in upper left-hand corner
+		const bool origin_bit = (memblock[17] >> 5) & 1;
+
 		if (datatype > 3) { delete[] memblock; return 0; } // compressed image
 
 		// std::cout << "datatype " << (int) datatype << std::endl;
@@ -375,9 +380,8 @@ public:
 
 		delete[] memblock;
 
-		// tga: (0, 0) is bottom left
-		// pbf: (0, 0) is top left
-		if(y_org == 0) {
+		// origin top-left
+		if (!origin_bit) {
 			flipRows();
 		}
 
@@ -410,11 +414,12 @@ public:
 		tgaheader[ 14 ] = height() & 0xFF;
 		tgaheader[ 15 ] = (height() >> 8) & 0xFF;
 		tgaheader[ 16 ] = bd;
-	
+		tgaheader[ 17 ] = (1 << 5); // origin top-left
+
 		// Write header
 		file.write((char*)&tgaheader, sizeof(tgaheader));
 
-		for (int y = height()-1; y >= 0; y--) {
+		for (int y = 0; y < height(); y++) {
 			for (int x = 0; x < width(); x++) {
 				size_t index = pb::index(x, y, width());
 				pb::RGBAColor pixel = _pixels[index];
