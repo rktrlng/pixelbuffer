@@ -312,13 +312,22 @@ struct Color
 		return pb::RGBAColor(nr, ng, nb, rgba.a);
 	}
 
-	/// @brief convert rgba color to grayscale
+	/// @brief convert rgba color to average grayscale
 	/// @param rgba the color to convert
-	/// @return return RGBAColor grayscale color
-	static pb::RGBAColor grayscale(RGBAColor rgba)
+	/// @return return RGBAColor average grayscale color
+	static pb::RGBAColor average(RGBAColor rgba)
 	{
 		uint8_t avg = (rgba.r + rgba.g + rgba.b) / 3;
 		return pb::RGBAColor(avg, avg, avg, rgba.a);
+	}
+
+	/// @brief convert rgba color to luminance value
+	/// @param rgba the color to convert
+	/// @return return RGBAColor luminance color
+	static pb::RGBAColor luminance(RGBAColor rgba)
+	{
+		uint8_t lum = rgba.r * 0.3f + rgba.g * 0.59f + rgba.b * 0.11f;
+		return pb::RGBAColor(lum, lum, lum, rgba.a);
 	}
 
 };

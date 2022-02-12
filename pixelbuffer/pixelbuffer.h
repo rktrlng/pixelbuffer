@@ -239,7 +239,8 @@ public:
 		} else {
 			for (auto& pixel : _pixels) {
 				if (_header.bitdepth == 8 || _header.bitdepth == 16) {
-					char value = (pixel.r + pixel.b + pixel.g) / 3;
+					pb::RGBAColor gray = pb::Color::luminance(pixel);
+					char value = (char) gray.r;
 					file.write(&value, 1);
 				}
 
@@ -425,7 +426,7 @@ public:
 				pb::RGBAColor pixel = _pixels[index];
 
 				if (bd == 24 || bd == 32) {
-					pb::RGBAColor gray = pb::Color::grayscale(_pixels[index]);
+					pb::RGBAColor gray = pb::Color::luminance(_pixels[index]);
 					if (bitdepth() == 8 || bitdepth() == 16) {
 						file.write((char*)&gray.b, 1);
 						file.write((char*)&gray.g, 1);
