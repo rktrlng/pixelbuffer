@@ -2,96 +2,106 @@
 
 import os
 import sys
-from PIL import Image, ImageDraw
+from PIL import Image
 
-filename = "my_pixel_buffer.pbf"
+def pbf2img(filename):
+	# Read .pbf image
+	with open(filename, "rb") as binary_file :
+		pbf = bytearray(binary_file.read())
 
-if len(sys.argv) > 1:
-    filename = sys.argv[1]
+	# Read header information
+	# pbf[0] = 'p'
+	# pbf[1] = 'b'
+	lowidth = pbf[2]
+	hiwidth = pbf[3]
+	loheight = pbf[4]
+	hiheight = pbf[5]
+	bitdepth = pbf[6]
+	# pbf[7] = ':'
 
-# Read .pbf image
-with open(filename, "rb") as binaryfile :
-    pbf = bytearray(binaryfile.read())
+	# Little endian
+	width = (hiwidth << 8) | (lowidth & 0xFF)
+	height = (hiheight << 8) | (loheight & 0xFF)
 
-# Read header information
-# pbf[0] = 'p'
-# pbf[1] = 'b'
-lowidth = pbf[2]
-hiwidth = pbf[3]
-loheight = pbf[4]
-hiheight = pbf[5]
-bitdepth = pbf[6]
-# pbf[7] = ':'
+	# The rest of the bytes are the pixels
+	pixels = pbf[8:]
 
-# Little endian
-width = (hiwidth << 8) | (lowidth & 0xFF)
-height = (hiheight << 8) | (loheight & 0xFF)
+	print("width:    ", width)
+	print("height:   ", height)
+	print("bitdepth: ", bitdepth)
+	# print(pixels)
 
-# The rest of the bytes are the pixels
-pixels = pbf[8:]
+	if bitdepth == 1:
+		mode = '1'
+		print("converting 1 bit .pbf's is currently unsupported.")
+		print("save your .pbf as 8 bit for now.")
+		exit()
+	if bitdepth == 8:
+		mode = 'L'
+	if bitdepth == 16:
+		mode = 'LA'
+	if bitdepth == 24:
+		mode = 'RGB'
+	if bitdepth == 32:
+		mode = 'RGBA'
 
-print("width:    ", width)
-print("height:   ", height)
-print("bitdepth: ", bitdepth)
-# print(pixels)
+	print("#pixels:  ", int( len(pixels) / (bitdepth/8)) )
 
-if bitdepth == 1:
-	mode = '1'
-	print("converting 1 bit .pbf's is currently unsupported.")
-	print("save your .pbf as 8 bit for now.")
-	exit()
-if bitdepth == 8:
-	mode = 'L'
-if bitdepth == 16:
-	mode = 'LA'
-if bitdepth == 24:
-	mode = 'RGB'
-if bitdepth == 32:
-	mode = 'RGBA'
+	img = Image.new(mode, (width, height), color = 'white')
+	imgpixels = img.load()
 
-print("#pixels:  ", int( len(pixels) / (bitdepth/8)) )
+	start = 0
+	for y in range(height):
+		for x in range(width):
+			if bitdepth == 1:
+				# TODO implement. THIS IS INCORRECT!
+				color = ( pixels[start + 0] )
+				# Mode 1: 1-bit pixels, black and white, stored with one pixel per byte
+			if bitdepth == 8:
+				color = ( pixels[start + 0] )
+			if bitdepth == 16:
+				color = ( pixels[start + 0], pixels[start + 1] )
+			if bitdepth == 24:
+				color = ( pixels[start + 0], pixels[start + 1], pixels[start + 2] )
+			if bitdepth == 32:
+				color = ( pixels[start + 0], pixels[start + 1], pixels[start + 2], pixels[start + 3] )
 
-img = Image.new(mode, (width, height), color = 'white')
-imgpixels = img.load()
+			imgpixels[x, y] = color
+			start += int(bitdepth / 8)
 
-start = 0
-for y in range(height):
-	for x in range(width):
-		if bitdepth == 1:
-			# TODO implement. THIS IS INCORRECT!
-			color = ( pixels[start + 0] )
-			# Mode 1: 1-bit pixels, black and white, stored with one pixel per byte
-		if bitdepth == 8:
-			color = ( pixels[start + 0] )
-		if bitdepth == 16:
-			color = ( pixels[start + 0], pixels[start + 1] )
-		if bitdepth == 24:
-			color = ( pixels[start + 0], pixels[start + 1], pixels[start + 2] )
-		if bitdepth == 32:
-			color = ( pixels[start + 0], pixels[start + 1], pixels[start + 2], pixels[start + 3] )
+	no_extension = os.path.splitext(filename)[0]
 
-		imgpixels[x, y] = color
-		start += int(bitdepth / 8)
-
-no_extension = os.path.splitext(filename)[0]
-
-if len(sys.argv) > 2:
-	imgtype = sys.argv[2]
-	if imgtype == 'tga':
-		img.save( no_extension + '.tga', 'TGA' )
-	elif imgtype == 'png':
-		img.save( no_extension + '.png', 'PNG' )
-	elif imgtype == 'gif':
-		img.save( no_extension + '.gif', 'GIF' )
-	elif imgtype == 'jpg':
-		img.save( no_extension + '.jpg', 'JPEG' )
-	elif imgtype == 'jpeg':
-		img.save( no_extension + '.jpeg', 'JPEG' )
-	elif imgtype == 'bmp':
-		img.save( no_extension + '.bmp', 'BMP' )
+	if len(sys.argv) > 2:
+		img_type = sys.argv[2]
+		if img_type == 'tga':
+			img.save( no_extension + '.tga', 'TGA' )
+		elif img_type == 'png':
+			img.save( no_extension + '.png', 'PNG' )
+		elif img_type == 'gif':
+			img.save( no_extension + '.gif', 'GIF' )
+		elif img_type == 'jpg':
+			img.save( no_extension + '.jpg', 'JPEG' )
+		elif img_type == 'jpeg':
+			img.save( no_extension + '.jpeg', 'JPEG' )
+		elif img_type == 'bmp':
+			img.save( no_extension + '.bmp', 'BMP' )
+		else:
+			print("Unknown type, save as PNG (default)")
+			img.save( no_extension + '.png', 'PNG' )
 	else:
-		print("Unknown type, save as PNG (default)")
+		print("No type, save as PNG (default)")
 		img.save( no_extension + '.png', 'PNG' )
-else:
-	print("No type, save as PNG (default)")
-	img.save( no_extension + '.png', 'PNG' )
+
+
+def main():
+	if len(sys.argv) > 1:
+		filename = sys.argv[1]
+		pbf2img(filename)
+	else:
+		for name in os.listdir('.'):
+			ext = os.path.splitext(name)[1]
+			if ext == '.pbf':
+				pbf2img(name)
+
+if __name__ == "__main__":
+    main()

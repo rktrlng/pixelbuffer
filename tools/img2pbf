@@ -4,7 +4,7 @@ import os
 import sys
 from PIL import Image
 
-def convert(filename):
+def img2pbf(filename):
     # Read image
     im = Image.open( filename )
 
@@ -61,17 +61,20 @@ def convert(filename):
 
     no_extension = os.path.splitext(filename)[0]
 
-    saveFile = open(no_extension + ".pbf", "wb")
-    saveFile.write(memblock)
+    save_file = open(no_extension + ".pbf", "wb")
+    save_file.write(memblock)
 
 
-# main
-if len(sys.argv) > 1:
-    filename = sys.argv[1]
-    convert(filename)
-else:
-    validfiles = [ '.png', '.tga', '.gif', '.bmp']
-    for name in os.listdir('.'):
-        ext = os.path.splitext(name)[1]
-        if ext in validfiles:
-            convert(name)
+def main():
+	if len(sys.argv) > 1:
+		filename = sys.argv[1]
+		img2pbf(filename)
+	else:
+		valid_files = [ '.png', '.tga', '.gif', '.bmp']
+		for name in os.listdir('.'):
+			ext = os.path.splitext(name)[1]
+			if ext in valid_files:
+				img2pbf(name)
+
+if __name__ == "__main__":
+    main()
