@@ -43,21 +43,20 @@ struct RGBAColor
 	/// @param green The green component of the color
 	/// @param blue The blue component of the color
 	/// @param alpha The alpha component of the color
-	RGBAColor(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha) {
+	RGBAColor(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha = 255) {
 		r = red;
 		g = green;
 		b = blue;
 		a = alpha;
 	}
 	/// @brief constructor
-	/// @param red The red component of the color
-	/// @param green The green component of the color
-	/// @param blue The blue component of the color
-	RGBAColor(uint8_t red, uint8_t green, uint8_t blue) {
-		r = red;
-		g = green;
-		b = blue;
-		a = 255;
+	/// @param gray The gray component of the color
+	/// @param alpha The alpha component of the color
+	RGBAColor(uint8_t gray, uint8_t alpha = 255) {
+		r = gray;
+		g = gray;
+		b = gray;
+		a = alpha;
 	}
 	/// @brief constructor
 	/// @param color The color as a 32 bits int
@@ -69,20 +68,20 @@ struct RGBAColor
 	}
 	/// @brief get color as a uint32_t
 	/// @return uint32_t color as a 32 bits int
-	uint32_t asInt() {
+	uint32_t asInt() const {
 		uint32_t color = (r << 24) + (g << 16) + (b << 8) + (a);
 		return color;
 	}
 	/// @brief == operator overloader
 	/// @param rhs the color to compare against
 	/// @return bool equal or not
-	inline bool operator==(const RGBAColor& rhs) {
+	inline bool operator==(const RGBAColor& rhs) const {
 		return ( r == rhs.r && g == rhs.g && b == rhs.b && a == rhs.a );
 	}
 	/// @brief != operator overloader
 	/// @param rhs the color to compare against
 	/// @return bool equal or not
-	inline bool operator!=(const RGBAColor& rhs) {
+	inline bool operator!=(const RGBAColor& rhs) const {
 		return !(*this == rhs);
 	}
 
@@ -162,8 +161,8 @@ struct Color
 		float var_B = (float) rgba.b / 255;
 		float var_A = (float) rgba.a / 255;
 
-		float var_Min = std::min( std::min( var_R, var_G), var_B ); // Min. value of RGB
-		float var_Max = std::max( std::max( var_R, var_G), var_B ); // Max. value of RGB
+		float var_Min = std::min( std::min(var_R, var_G), var_B ); // Min. value of RGB
+		float var_Max = std::max( std::max(var_R, var_G), var_B ); // Max. value of RGB
 		float del_Max = var_Max - var_Min; // Delta RGB value
 
 		float H = 0.0f;
@@ -177,16 +176,16 @@ struct Color
 		} else { //Chromatic data...
 			S = del_Max / var_Max;
 
-			float del_R = ( ( ( var_Max - var_R ) / 6.0f ) + ( del_Max / 2.0f ) ) / del_Max;
-			float del_G = ( ( ( var_Max - var_G ) / 6.0f ) + ( del_Max / 2.0f ) ) / del_Max;
-			float del_B = ( ( ( var_Max - var_B ) / 6.0f ) + ( del_Max / 2.0f ) ) / del_Max;
+			float del_R = (((var_Max - var_R) / 6.0f) + (del_Max / 2.0f)) / del_Max;
+			float del_G = (((var_Max - var_G) / 6.0f) + (del_Max / 2.0f)) / del_Max;
+			float del_B = (((var_Max - var_B) / 6.0f) + (del_Max / 2.0f)) / del_Max;
 
-			if      ( var_R == var_Max ) H = del_B - del_G;
-			else if ( var_G == var_Max ) H = ( 1.0f / 3.0f ) + del_R - del_B;
-			else if ( var_B == var_Max ) H = ( 2.0f / 3.0f ) + del_G - del_R;
+			if      (var_R == var_Max) H = del_B - del_G;
+			else if (var_G == var_Max) H = (1.0f / 3.0f) + del_R - del_B;
+			else if (var_B == var_Max) H = (2.0f / 3.0f) + del_G - del_R;
 
-			if ( H < 0.0f ) H += 1.0f;
-			if ( H > 1.0f ) H -= 1.0f;
+			if (H < 0.0f) H += 1.0f;
+			if (H > 1.0f) H -= 1.0f;
 		}
 		return HSVAColor(H, S, V, A);
 	}
@@ -207,7 +206,7 @@ struct Color
 			B = hsva.v * 255;
 		} else {
 			float var_h = hsva.h * 6;
-			if ( var_h >= 6.0f ) { var_h = 0; } //H must be < 1
+			if (var_h >= 6.0f) { var_h = 0; } //H must be < 1
 			int var_i = int( var_h ); //Or ... var_i = floor( var_h )
 			float var_1 = hsva.v * ( 1.0f - hsva.s );
 			float var_2 = hsva.v * ( 1.0f - hsva.s * ( var_h - var_i ) );
@@ -215,12 +214,12 @@ struct Color
 			float var_r;
 			float var_g;
 			float var_b;
-			if      ( var_i == 0 ) { var_r = hsva.v ; var_g = var_3 ; var_b = var_1 ; }
-			else if ( var_i == 1 ) { var_r = var_2 ; var_g = hsva.v ; var_b = var_1 ; }
-			else if ( var_i == 2 ) { var_r = var_1 ; var_g = hsva.v ; var_b = var_3 ; }
-			else if ( var_i == 3 ) { var_r = var_1 ; var_g = var_2 ; var_b = hsva.v ; }
-			else if ( var_i == 4 ) { var_r = var_3 ; var_g = var_1 ; var_b = hsva.v ; }
-			else                   { var_r = hsva.v ; var_g = var_1 ; var_b = var_2 ; }
+			if      (var_i == 0) { var_r = hsva.v; var_g = var_3;  var_b = var_1; }
+			else if (var_i == 1) { var_r = var_2;  var_g = hsva.v; var_b = var_1; }
+			else if (var_i == 2) { var_r = var_1;  var_g = hsva.v; var_b = var_3; }
+			else if (var_i == 3) { var_r = var_1;  var_g = var_2;  var_b = hsva.v; }
+			else if (var_i == 4) { var_r = var_3;  var_g = var_1;  var_b = hsva.v; }
+			else                 { var_r = hsva.v; var_g = var_1;  var_b = var_2; }
 
 			R = var_r * 255; //RGB results from 0 to 255
 			G = var_g * 255;
@@ -299,8 +298,7 @@ struct Color
 	/// @param rgba the color to quantize
 	/// @param factor number of palette colors. default 1 for 2 colors (eg. black/white)
 	/// @return return RGBAColor quatized color
-	static pb::RGBAColor quantize(RGBAColor rgba, int factor = 1)
-	{
+	static pb::RGBAColor quantize(RGBAColor rgba, int factor = 1) {
 		float r = (float)rgba.r;
 		float g = (float)rgba.g;
 		float b = (float)rgba.b;
@@ -315,8 +313,7 @@ struct Color
 	/// @brief convert rgba color to average grayscale
 	/// @param rgba the color to convert
 	/// @return return RGBAColor average grayscale color
-	static pb::RGBAColor average(RGBAColor rgba)
-	{
+	static pb::RGBAColor average(RGBAColor rgba) {
 		uint8_t avg = (rgba.r + rgba.g + rgba.b) / 3;
 		return pb::RGBAColor(avg, avg, avg, rgba.a);
 	}
@@ -324,8 +321,7 @@ struct Color
 	/// @brief convert rgba color to luminance value
 	/// @param rgba the color to convert
 	/// @return return RGBAColor luminance color
-	static pb::RGBAColor luminance(RGBAColor rgba)
-	{
+	static pb::RGBAColor luminance(RGBAColor rgba) {
 		uint8_t lum = rgba.r * 0.3f + rgba.g * 0.59f + rgba.b * 0.11f;
 		return pb::RGBAColor(lum, lum, lum, rgba.a);
 	}
