@@ -38,7 +38,7 @@ struct RGBAColor
 		b = 255;
 		a = 255;
 	}
-	/// @brief constructor
+	/// @brief 24/32 bit constructor
 	/// @param red The red component of the color
 	/// @param green The green component of the color
 	/// @param blue The blue component of the color
@@ -49,7 +49,7 @@ struct RGBAColor
 		b = blue;
 		a = alpha;
 	}
-	/// @brief constructor
+	/// @brief 8/16 bit constructor
 	/// @param gray The gray component of the color
 	/// @param alpha The alpha component of the color
 	RGBAColor(uint8_t gray, uint8_t alpha = 255) {
@@ -58,7 +58,7 @@ struct RGBAColor
 		b = gray;
 		a = alpha;
 	}
-	/// @brief constructor
+	/// @brief int constructor
 	/// @param color The color as a 32 bits int
 	RGBAColor(uint32_t color) {
 		r = color >> 24 & 0xFF;
@@ -247,7 +247,7 @@ struct Color
 	/// @param c2 second RGBAColor
 	/// @param amount between 0 and 1
 	/// @return return RGBAColor lerped color
-	static inline RGBAColor lerpColor(RGBAColor c1, RGBAColor c2, float amount) {
+	static RGBAColor lerpColor(RGBAColor c1, RGBAColor c2, float amount) {
 		if (amount < 0) { amount = 0; }
 		if (amount > 1) { amount = 1; }
 
@@ -266,7 +266,7 @@ struct Color
 	/// @param top top RGBAColor
 	/// @param bottom bottom RGBAColor
 	/// @return return RGBAColor blended color
-	static inline RGBAColor alphaBlend(RGBAColor top, RGBAColor bottom) {
+	static RGBAColor alphaBlend(RGBAColor top, RGBAColor bottom) {
 		// if we want to overlay top(0) over bottom(1) both with some alpha then:
 
 		// uint8_t 0-255 to float 0.0-1.0
@@ -298,7 +298,7 @@ struct Color
 	/// @param rgba the color to quantize
 	/// @param factor number of palette colors. default 1 for 2 colors (eg. black/white)
 	/// @return return RGBAColor quatized color
-	static inline pb::RGBAColor quantize(RGBAColor rgba, int factor = 1) {
+	static pb::RGBAColor quantize(RGBAColor rgba, int factor = 1) {
 		float r = (float)rgba.r;
 		float g = (float)rgba.g;
 		float b = (float)rgba.b;
@@ -313,14 +313,14 @@ struct Color
 	/// @brief returns negative version of rgba color
 	/// @param rgba the color to invert
 	/// @return return RGBAColor negative color
-	static inline pb::RGBAColor negative(RGBAColor rgba) {
+	static pb::RGBAColor negative(RGBAColor rgba) {
 		return pb::RGBAColor(255-rgba.r, 255-rgba.g, 255-rgba.b, rgba.a);
 	}
 
 	/// @brief convert rgba color to average grayscale
 	/// @param rgba the color to convert
 	/// @return return RGBAColor average grayscale color
-	static inline pb::RGBAColor average(RGBAColor rgba) {
+	static pb::RGBAColor average(RGBAColor rgba) {
 		uint8_t avg = (rgba.r + rgba.g + rgba.b) / 3;
 		return pb::RGBAColor(avg, rgba.a);
 	}
@@ -328,7 +328,7 @@ struct Color
 	/// @brief convert rgba color to luminance value
 	/// @param rgba the color to convert
 	/// @return return RGBAColor luminance color
-	static inline pb::RGBAColor luminance(RGBAColor rgba) {
+	static pb::RGBAColor luminance(RGBAColor rgba) {
 		uint8_t lum = rgba.r * 0.3f + rgba.g * 0.59f + rgba.b * 0.11f;
 		return pb::RGBAColor(lum, rgba.a);
 	}
