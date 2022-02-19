@@ -75,6 +75,13 @@ int main(void)
 		std::cout << "random:  " << r << " mag: " << r.magSQ() << " angle: " << r.angle() << " deg: " << r.angle() * 180 / 3.14159f << std::endl;
 	}
 
+	std::cout << "####" << std::endl;
+	std::cout << "n:  " << n << std::endl;
+	n.mag(0.5f);
+	std::cout << "n:  " << n << std::endl;
+	n.mag(5);
+	std::cout << "n:  " << n << std::endl;
+
 #if 0
 	const int N = 25;
 	const int AMOUNT = 1000;

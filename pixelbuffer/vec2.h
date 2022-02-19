@@ -57,6 +57,7 @@ public:
 
 	inline T magSQ() const { return ((x*x) + (y*y)); }
 	inline T mag()   const { return sqrt(magSQ()); }
+	inline vec2_t<T>& mag(T m) { this->normalize(); *this *= m; return *this; }
 
 	inline T angle() const { return atan2(y, x); }
 	inline vec2_t<T>& angle(T a) { T m = mag(); x = cos(a) * m; y = sin(a) * m; return *this; }
