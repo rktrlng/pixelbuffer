@@ -60,7 +60,17 @@ int main(void)
 	assert(vec == pb::vec2(5, 7));
 	std::cout << "vec:  " << vec << std::endl;
 
-#if 1
+	pb::vec2 n(4, 3);
+
+	std::cout << "####" << std::endl;
+	std::cout << "n:  " << n << std::endl;
+	std::cout << "n.normalized:  " << n.normalized() << std::endl;
+	std::cout << "n:  " << n << std::endl;
+	std::cout << "n.normalize:  " << n.normalize() << std::endl;
+	std::cout << "n:  " << n << std::endl;
+
+
+#if 0
 	const int N = 25;
 	const int AMOUNT = 1000;
 
