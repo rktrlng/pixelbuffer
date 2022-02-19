@@ -69,6 +69,11 @@ int main(void)
 	std::cout << "n.normalize:  " << n.normalize() << std::endl;
 	std::cout << "n:  " << n << std::endl;
 
+	pb::vec2 r = pb::vec2::random();
+	for (size_t i = 0; i < 10; i++) {
+		r = pb::vec2::random();
+		std::cout << "random:  " << r << " mag: " << r.magSQ() << " angle: " << r.angle() << " deg: " << r.angle() * 180 / 3.14159f << std::endl;
+	}
 
 #if 0
 	const int N = 25;

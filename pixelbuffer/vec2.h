@@ -58,13 +58,15 @@ public:
 	inline T magSQ() const { return ((x*x) + (y*y)); }
 	inline T mag()   const { return sqrt(magSQ()); }
 
-	inline static vec2_t<T> fromAngle(T a) { return pb::vec2_t<T>(cos(a), sin(a)); }
 	inline T angle() const { return atan2(y, x); }
 	inline vec2_t<T>& angle(T a) { T m = mag(); x = cos(a) * m; y = sin(a) * m; return *this; }
 	inline vec2_t<T>& rotate(T a) { angle(angle() + a); return *this; }
 
 	inline vec2_t<T>& normalize() { T m = mag(); x /= m; y /= m; return *this; }
 	inline vec2_t<T> normalized() { T m = mag(); return pb::vec2_t<T>(x/m, y/m); }
+
+	inline static vec2_t<T> fromAngle(T a) { return pb::vec2_t<T>(cos(a), sin(a)); }
+	inline static vec2_t<T> random() { return vec2_t<T>().fromAngle((rand()%62832)/10000.0f); }
 
 	inline static vec2_t<T> zero()  { return vec2_t<T>(static_cast<T>(0), static_cast<T>(0)); }
 	inline static vec2_t<T> one()   { return vec2_t<T>(static_cast<T>(1), static_cast<T>(1)); }
