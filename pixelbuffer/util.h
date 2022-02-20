@@ -3,7 +3,7 @@
  *
  * @brief collection of helper functions
  *
- * Copyright 2008-2022 @rktrlng
+ * Copyright 2015-2022 @rktrlng
  * https://github.com/rktrlng/pixelbuffer
  */
 
@@ -16,9 +16,7 @@ namespace pb {
 extern "C" {
 #endif
 
-#include <iostream>
 #include <cmath>
-#include <cstdlib>
 
 /**
  * @brief returns the low byte of a word
@@ -87,7 +85,8 @@ inline double constrain(double value, double min, double max)
  * @param cols the width of the 2x2 grid
  * @return size_t index of element in array
  */
-inline size_t index(int x, int y, int cols) {
+inline size_t index(int x, int y, int cols)
+{
 	return (y*cols)+x;
 }
 
@@ -95,7 +94,8 @@ inline size_t index(int x, int y, int cols) {
  * @brief random uniformly distributed float
  * @return random float between 0.0f - 1.0f
  */
-inline float rand_float() {
+inline float rand_float()
+{
 	return (float) rand() / (float) RAND_MAX;
 }
 
@@ -103,7 +103,8 @@ inline float rand_float() {
  * @brief random uniformly distributed double
  * @return random double between 0.0 - 1.0
  */
-inline double rand_double() {
+inline double rand_double()
+{
 	return (double) rand() / (double) RAND_MAX;
 }
 
@@ -112,7 +113,8 @@ inline double rand_double() {
  * https://en.wikipedia.org/wiki/Box%E2%80%93Muller_transform
  * @return random float between 0.0 - 1.0
  */
-inline float rand_bm() {
+inline float rand_bm()
+{
 	const float PI = 3.14159265359f;
 	const float RANGE = 3.6f;
 	float u = 0.0f;
