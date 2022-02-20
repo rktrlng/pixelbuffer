@@ -73,7 +73,7 @@ public:
 	inline vec2_t<T> rotate(T a) { angle(angle() + a); return *this; }
 
 	inline static vec2_t<T> fromAngle(T a) { return vec2_t<T>(cos(a), sin(a)); }
-	inline static vec2_t<T> random() { return vec2_t<T>::fromAngle((rand()%62832)/10000.0f); }
+	inline static vec2_t<T> random() { return vec2_t<T>::fromAngle((rand()%628318)/100000.0); }
 
 	inline static vec2_t<T> zero()  { return vec2_t<T>(static_cast<T>(0), static_cast<T>(0)); }
 	inline static vec2_t<T> one()   { return vec2_t<T>(static_cast<T>(1), static_cast<T>(1)); }
