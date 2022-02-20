@@ -47,18 +47,18 @@ int create_vec_args()
 
 int create_vec_copy()
 {
-	pb::vec2 v0 = pb::vec2(4, 3);
-	pb::vec2 v1(v0);
-	assert(v1.x == 4);
-	assert(v1.y == 3);
+	pb::vec2 a = pb::vec2(4, 3);
+	pb::vec2 b(a);
+	assert(b.x == 4);
+	assert(b.y == 3);
 
 	// change original
-	v0.x = 5;
-	v0.y = 5;
+	a.x = 5;
+	a.y = 5;
 
 	// current should be unchanged
-	assert(v1.x == 4);
-	assert(v1.y == 3);
+	assert(b.x == 4);
+	assert(b.y == 3);
 
     return 1;
 }
@@ -123,6 +123,38 @@ int op_mult_scalar_eq()
     return 1;
 }
 
+int op_div_scalar()
+{
+	pb::vec2 v = pb::vec2(4, 3);
+	v = v / 5;
+	assert(v.x == 0.8f);
+	assert(v.y == 0.6f);
+
+	// divide by zero
+	v = pb::vec2(4, 3);
+	v = v / 0;
+	assert(v.x == 4);
+	assert(v.y == 3);
+
+    return 1;
+}
+
+int op_div_scalar_eq()
+{
+	pb::vec2 v = pb::vec2(4, 3);
+	v /= 5;
+	assert(v.x == 0.8f);
+	assert(v.y == 0.6f);
+
+	// divide by zero
+	v = pb::vec2(4, 3);
+	v /= 0;
+	assert(v.x == 4);
+	assert(v.y == 3);
+
+    return 1;
+}
+
 int op_vec_eq()
 {
 	pb::vec2 v = pb::vec2(4, 3);
@@ -133,27 +165,90 @@ int op_vec_eq()
 
 int op_lt_gt()
 {
-	pb::vec2 v0 = pb::vec2(4, 3);
-	pb::vec2 v1 = pb::vec2(5, 5);
-	assert(v0 < v1);
-	assert(v1 > v0);
+	pb::vec2 a = pb::vec2(4, 3);
+	pb::vec2 b = pb::vec2(5, 5);
+	assert(a < b);
+	assert(b > a);
 
     return 1;
 }
 
 int op_lt_gt_eq()
 {
-	pb::vec2 v0 = pb::vec2(4, 3);
-	pb::vec2 v1 = pb::vec2(5, 5);
-	assert(v0 <= v1);
-	assert(v1 >= v0);
+	pb::vec2 a = pb::vec2(4, 3);
+	pb::vec2 b = pb::vec2(5, 5);
+	assert(a <= b);
+	assert(b >= a);
 
-	pb::vec2 v2 = pb::vec2(-4, 3);
-	assert(v0 <= v2);
-	assert(v2 >= v0);
+	pb::vec2 c = pb::vec2(-4, 3);
+	assert(a <= c);
+	assert(c >= a);
+	assert(a >= c);
+	assert(c <= a);
 
-	assert(v1 >= v2);
-	assert(v2 <= v1);
+	assert(b >= c);
+	assert(c <= b);
+
+    return 1;
+}
+
+int op_index()
+{
+	pb::vec2 v = pb::vec2(4, 3);
+	float x = v[0];
+	float y = v[1];
+	assert(x == 4);
+	assert(y == 3);
+
+	x = v[2];
+	y = v[3];
+	assert(x == 4);
+	assert(y == 3);
+
+	v[4] = 5;
+	v[5] = 7;
+	assert(v.x == 5);
+	assert(v.y == 7);
+
+    return 1;
+}
+
+int vec_normalize()
+{
+	pb::vec2 v = pb::vec2(4, 3);
+	v.normalize();
+	
+	assert(v.x == 0.8f);
+	assert(v.y == 0.6f);
+
+    return 1;
+}
+
+int vec_normalized()
+{
+	pb::vec2 a = pb::vec2(4, 3);
+	pb::vec2 b = a.normalized();
+	
+	assert(a.x == 4);
+	assert(a.y == 3);
+	assert(b.x == 0.8f);
+	assert(b.y == 0.6f);
+
+    return 1;
+}
+
+int vec_mag()
+{
+	pb::vec2 a = pb::vec2(4, 3);
+	
+	assert(a.mag() == 5);
+	assert(a.magSQ() == 25);
+
+	pb::vec2 b = a.mag(1);
+	assert(a.x == 0.8f);
+	assert(a.y == 0.6f);
+	assert(b.x == 0.8f);
+	assert(b.y == 0.6f);
 
     return 1;
 }
@@ -172,19 +267,25 @@ int main(void)
 	run_test("op_minus_vec_eq", op_minus_vec_eq);
 	run_test("op_mult_scalar", op_mult_scalar);
 	run_test("op_mult_scalar_eq", op_mult_scalar_eq);
+	run_test("op_div_scalar", op_div_scalar);
+	run_test("op_div_scalar_eq", op_div_scalar_eq);
 	run_test("op_vec_eq", op_vec_eq);
 	run_test("op_lt_gt", op_lt_gt);
 	run_test("op_lt_gt_eq", op_lt_gt_eq);
+	run_test("op_index", op_index);
+	run_test("vec_normalize", vec_normalize);
+	run_test("vec_normalized", vec_normalized);
+	run_test("vec_mag", vec_mag);
 
 
 /*
-	pb::vec2 v0 = pb::vec2(1, 1);
-	v0 *= 2;
-	v0 += pb::vec2(2, 1);
-	pb::vec2 v(v0);
+	pb::vec2 a = pb::vec2(1, 1);
+	a *= 2;
+	a += pb::vec2(2, 1);
+	pb::vec2 v(a);
 
-	assert(v0 == pb::vec2(4, 3));
-	assert(v == v0);
+	assert(a == pb::vec2(4, 3));
+	assert(v == a);
 	assert(v.mag() == 5);
 
 	std::cout << "vec2:  " << v << std::endl;
