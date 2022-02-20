@@ -82,6 +82,17 @@ int main(void)
 	n.mag(5);
 	std::cout << "n:  " << n << std::endl;
 
+	pb::vec2 f = n-vec;
+	std::cout << "f:  " << f << std::endl;
+	std::cout << "f.mag:  " << f.mag() << std::endl;
+	std::cout << "distance:  " << pb::vec2::distance(vec, n) << std::endl;
+
+	std::cout << "n:  " << n << std::endl;
+	std::cout << "vec:  " << vec << std::endl;
+	std::cout << "n.dot(vec): " << n.dot(vec) << std::endl;
+	std::cout << "dot(n, vec): " << pb::vec2::dot(n, vec) << std::endl;
+
+
 #if 0
 	const int N = 25;
 	const int AMOUNT = 1000;
