@@ -10,9 +10,7 @@
 #ifndef VEC2_H
 #define VEC2_H
 
-#include <iostream>
 #include <cmath>
-#include <cstdlib>
 
 namespace pb {
 
@@ -116,41 +114,6 @@ inline static vec2i clamp(const vec2i& pos, int cols, int rows) {
 
 	return clamped;
 }
-
-inline static int index(int x, int y, int cols) {
-	return (y*cols)+x;
-}
-
-inline static int index(const vec2i& pos, int cols) {
-	return index(pos.x, pos.y, cols);
-}
-
-// map(973, 0, 1023, 0, 255); // returns: 242
-inline static double map(double x, double in_min, double in_max, double out_min, double out_max) {
-	return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
-}
-
-// uniform distribution 0.0f - 1.0f
-inline static float rand_float() {
-	return (float) rand() / (float) RAND_MAX;
-}
-
-// normal distribution: box-muller transform 0.0f - 1.0f
-// https://en.wikipedia.org/wiki/Box%E2%80%93Muller_transform
-inline static float rand_bm() {
-	const float PI = 3.14159265359f;
-	const float RANGE = 3.6f;
-	float u = 0.0f;
-	float v = 0.0f;
-	while (u == 0.0f) u = rand_float();
-	while (v == 0.0f) v = rand_float();
-	float n = sqrt(-2.0f * logf(u)) * cosf(2.0f * PI * v);
-	while (n < -RANGE || n > RANGE) n = rand_bm();
-	n = map(n, -RANGE, RANGE, 0.0f, 1.0f);
-	return n;
-}
-
-// =========================================================
 
 
 } // namespace pb
