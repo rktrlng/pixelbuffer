@@ -24,6 +24,7 @@ public:
 	T y = 0;
 
 	vec2_t<T>() : x(static_cast<T>(0)), y(static_cast<T>(0)) {}
+	vec2_t<T>(T n) : x(n), y(n) {}
 	vec2_t<T>(T x, T y) : x(x), y(y) {}
 	vec2_t<T>(const vec2_t<T>& v) : x(v.x), y(v.y) {}
 
@@ -50,8 +51,8 @@ public:
 
 	inline const bool operator< (const vec2_t<T>& rhs) const { return (this->magSQ() < rhs.magSQ()); }
 	inline const bool operator> (const vec2_t<T>& rhs) const { return rhs < *this; }
-	inline const bool operator<=(const vec2_t<T>& rhs) const { return !(*this > rhs); }
-	inline const bool operator>=(const vec2_t<T>& rhs) const { return !(*this < rhs); }
+	inline const bool operator<=(const vec2_t<T>& rhs) const { return (*this < rhs) || (this->magSQ() == rhs.magSQ()); }
+	inline const bool operator>=(const vec2_t<T>& rhs) const { return (*this > rhs) || (this->magSQ() == rhs.magSQ()); }
 
 	inline T& operator[](size_t index) { return index%2 ? y : x; }
 

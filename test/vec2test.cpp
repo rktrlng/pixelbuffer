@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string>
 #include <assert.h>
 
 #include <pixelbuffer/vec2.h>
@@ -6,9 +7,177 @@
 const double DEGREES = 180.0 / M_PI;
 const double RADIANS = M_PI / 180.0;
 
+// #####################
+int run_test(const std::string& name, int (*func)())
+{
+	int r = func();
+	if (r) {
+		std::cout << "test passed: " << name << std::endl;
+	}
+    return r;
+}
+// #####################
+
+int create_vec()
+{
+	pb::vec2 v;
+	assert(v.x == 0);
+	assert(v.y == 0);
+
+    return 1;
+}
+
+int create_vec_arg()
+{
+	pb::vec2 v = pb::vec2(5);
+	assert(v.x == 5);
+	assert(v.y == 5);
+
+    return 1;
+}
+
+int create_vec_args()
+{
+	pb::vec2 v = pb::vec2(4, 3);
+	assert(v.x == 4);
+	assert(v.y == 3);
+
+    return 1;
+}
+
+int create_vec_copy()
+{
+	pb::vec2 v0 = pb::vec2(4, 3);
+	pb::vec2 v1(v0);
+	assert(v1.x == 4);
+	assert(v1.y == 3);
+
+	// change original
+	v0.x = 5;
+	v0.y = 5;
+
+	// current should be unchanged
+	assert(v1.x == 4);
+	assert(v1.y == 3);
+
+    return 1;
+}
+
+int op_add_vec()
+{
+	pb::vec2 v = pb::vec2(2, 2);
+	v = v + pb::vec2(2, 1);
+	assert(v.x == 4);
+	assert(v.y == 3);
+
+    return 1;
+}
+
+int op_add_vec_eq()
+{
+	pb::vec2 v = pb::vec2(2, 2);
+	v += pb::vec2(2, 1);
+	assert(v.x == 4);
+	assert(v.y == 3);
+
+    return 1;
+}
+
+int op_minus_vec()
+{
+	pb::vec2 v = pb::vec2(5, 7);
+	v = v - pb::vec2(1, 4);
+	assert(v.x == 4);
+	assert(v.y == 3);
+
+    return 1;
+}
+
+int op_minus_vec_eq()
+{
+	pb::vec2 v = pb::vec2(5, 7);
+	v -= pb::vec2(1, 4);
+	assert(v.x == 4);
+	assert(v.y == 3);
+
+    return 1;
+}
+
+int op_mult_scalar()
+{
+	pb::vec2 v = pb::vec2(0.8f, 0.6f);
+	v = v * 5;
+	assert(v.x == 4);
+	assert(v.y == 3);
+
+    return 1;
+}
+
+int op_mult_scalar_eq()
+{
+	pb::vec2 v = pb::vec2(0.8f, 0.6f);
+	v *= 5.0f;
+	assert(v.x == 4.0f);
+	assert(v.y == 3.0f);
+
+    return 1;
+}
+
+int op_vec_eq()
+{
+	pb::vec2 v = pb::vec2(4, 3);
+	assert(v == pb::vec2(4, 3));
+
+    return 1;
+}
+
+int op_lt_gt()
+{
+	pb::vec2 v0 = pb::vec2(4, 3);
+	pb::vec2 v1 = pb::vec2(5, 5);
+	assert(v0 < v1);
+	assert(v1 > v0);
+
+    return 1;
+}
+
+int op_lt_gt_eq()
+{
+	pb::vec2 v0 = pb::vec2(4, 3);
+	pb::vec2 v1 = pb::vec2(5, 5);
+	assert(v0 <= v1);
+	assert(v1 >= v0);
+
+	pb::vec2 v2 = pb::vec2(-4, 3);
+	assert(v0 <= v2);
+	assert(v2 >= v0);
+
+	assert(v1 >= v2);
+	assert(v2 <= v1);
+
+    return 1;
+}
+
 int main(void)
 {
 	srand(time(nullptr));
+
+	run_test("create_vec", create_vec);
+	run_test("create_vec_arg", create_vec_arg);
+	run_test("create_vec_args", create_vec_args);
+	run_test("create_vec_copy", create_vec_copy);
+	run_test("op_add_vec", op_add_vec);
+	run_test("op_add_vec_eq", op_add_vec_eq);
+	run_test("op_minus_vec", op_minus_vec);
+	run_test("op_minus_vec_eq", op_minus_vec_eq);
+	run_test("op_mult_scalar", op_mult_scalar);
+	run_test("op_mult_scalar_eq", op_mult_scalar_eq);
+	run_test("op_vec_eq", op_vec_eq);
+	run_test("op_lt_gt", op_lt_gt);
+	run_test("op_lt_gt_eq", op_lt_gt_eq);
+
+
+/*
 	pb::vec2 v0 = pb::vec2(1, 1);
 	v0 *= 2;
 	v0 += pb::vec2(2, 1);
@@ -91,7 +260,7 @@ int main(void)
 	std::cout << "vec:  " << vec << std::endl;
 	std::cout << "n.dot(vec): " << n.dot(vec) << std::endl;
 	std::cout << "dot(n, vec): " << pb::vec2::dot(n, vec) << std::endl;
-
+*/
 
 #if 0
 	const int N = 25;
