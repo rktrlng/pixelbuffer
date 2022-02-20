@@ -55,8 +55,8 @@ int main(void)
 	assert(vec[1] == 3);
 	std::cout << "vec[0]:  " << vec[0] << std::endl;
 	std::cout << "vec[1]:  " << vec[1] << std::endl;
-	vec[0] = 5;
-	vec[1] = 7;
+	std::cout << "vec[2] = 5  (index%2)" << std::endl; vec[2] = 5;
+	std::cout << "vec[3] = 7  (index%2)" << std::endl; vec[3] = 7;
 	assert(vec == pb::vec2(5, 7));
 	std::cout << "vec:  " << vec << std::endl;
 

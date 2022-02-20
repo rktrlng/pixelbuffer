@@ -53,7 +53,7 @@ public:
 	inline const bool operator<=(const vec2_t<T>& rhs) const { return !(*this > rhs); }
 	inline const bool operator>=(const vec2_t<T>& rhs) const { return !(*this < rhs); }
 
-	inline T& operator[](size_t index) { return index == 1 ? y : x; }
+	inline T& operator[](size_t index) { return index%2 ? y : x; }
 
 	inline const T dot(const vec2_t<T>& b) const { return ((x*b.x) + (y*b.y)); }
 	inline static T dot(const vec2_t<T>& a, const vec2_t<T>& b) { return ((a.x*b.x) + (a.y*b.y)); }
