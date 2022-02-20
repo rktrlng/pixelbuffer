@@ -253,6 +253,113 @@ int vec_mag()
     return 1;
 }
 
+int vec_dot()
+{
+	pb::vec2 a = pb::vec2(2, 1);
+	pb::vec2 b = pb::vec2(3, 4);
+
+	// method
+	float d = a.dot(b);
+
+	assert(d == 10);
+	assert(a.x == 2);
+	assert(a.y == 1);
+	assert(b.x == 3);
+	assert(b.y == 4);
+
+	// static
+	d = 0;
+	d = pb::vec2::dot(a, b);
+
+	assert(d == 10);
+	assert(a.x == 2);
+	assert(a.y == 1);
+	assert(b.x == 3);
+	assert(b.y == 4);
+
+    return 1;
+}
+
+int vec_distance()
+{
+	pb::vec2 a = pb::vec2(2, 1);
+	pb::vec2 b = pb::vec2(2, 2);
+
+	// method
+	float d = a.distance(b);
+
+	assert(d == 1);
+	assert(a.x == 2);
+	assert(a.y == 1);
+	assert(b.x == 2);
+	assert(b.y == 2);
+
+	// static
+	d = 0;
+	d = pb::vec2::distance(a, b);
+
+	assert(d == 1);
+	assert(a.x == 2);
+	assert(a.y == 1);
+	assert(b.x == 2);
+	assert(b.y == 2);
+
+    return 1;
+}
+
+int vec_angle()
+{
+	pb::vec2 a = pb::vec2::unity(); // unity = (0, 1)
+
+	// M_PI/2 = 1.5708f
+	assert(a.angle() > 1.570f);
+	assert(a.angle() < 1.571f);
+
+	a.angle(0); // unitx = (1, 0)
+	assert(a.x == 1);
+	assert(a.y == 0);
+	assert(a == pb::vec2::unitx());
+
+	a.rotate(M_PI / 4);
+	// (M_PI / 4) radians = 45 degrees
+	assert(a.x == a.y); // (0.707107, 0.707107)
+	assert(a.x > 0.707f);
+	assert(a.x < 0.708f);
+
+	pb::vec2 b = pb::vec2::fromAngle(a.angle());
+	assert(b.x == b.y);
+	assert(b.x > 0.707f);
+	assert(b.x < 0.708f);
+
+    return 1;
+}
+
+int vec_random()
+{
+	for (size_t i = 0; i < 100; i++) {
+		pb::vec2 a = pb::vec2::random();
+		assert(a.x >= -M_PI);
+		assert(a.x <= M_PI);
+		assert(a.y >= -M_PI);
+		assert(a.y <= M_PI);
+		assert(a.mag() > 0.999f);
+		assert(a.mag() < 1.001f);
+	}
+
+    return 1;
+}
+
+int vec_static_defined()
+{
+	assert(pb::vec2::zero()  == pb::vec2(0, 0));
+	assert(pb::vec2::one()   == pb::vec2(1, 1));
+	assert(pb::vec2::unitx() == pb::vec2(1, 0));
+	assert(pb::vec2::unity() == pb::vec2(0, 1));
+
+    return 1;
+}
+
+
 int main(void)
 {
 	srand(time(nullptr));
@@ -276,92 +383,11 @@ int main(void)
 	run_test("vec_normalize", vec_normalize);
 	run_test("vec_normalized", vec_normalized);
 	run_test("vec_mag", vec_mag);
-
-
-/*
-	pb::vec2 a = pb::vec2(1, 1);
-	a *= 2;
-	a += pb::vec2(2, 1);
-	pb::vec2 v(a);
-
-	assert(a == pb::vec2(4, 3));
-	assert(v == a);
-	assert(v.mag() == 5);
-
-	std::cout << "vec2:  " << v << std::endl;
-	std::cout << "radians: " << v.angle() << std::endl;
-	std::cout << "degrees: " << v.angle() * DEGREES << std::endl;
-	std::cout << "mag:   " << v.mag() << std::endl;
-
-	pb::vec2 vf = pb::vec2::fromAngle(v.angle());
-	std::cout << "static vf:  " << vf << std::endl;
-	assert(vf == pb::vec2(0.8, 0.6));
-
-	pb::vec2 vec(-v.mag(), 0);
-	std::cout << "vec:  " << vec << std::endl;
-	assert(vec == pb::vec2(-5, 0));
-	std::cout << "radians:  " << vec.angle() << std::endl;
-	int degrees = vec.angle() * DEGREES;
-	std::cout << "degrees:  " << degrees << std::endl;
-	assert(degrees == 180);
-	vec.angle(v.angle());
-	std::cout << "vec:  " << vec << std::endl;
-	assert(vec == pb::vec2(4, 3));
-	assert(v == vec);
-	std::cout << "radians:  " << vec.angle() << std::endl;
-	std::cout << "degrees:  " << vec.angle() * DEGREES << std::endl;
-
-	assert(pb::vec2::zero()  == pb::vec2(0, 0));
-	std::cout << "zero():  " << pb::vec2::zero() << std::endl;
-	assert(pb::vec2::one()   == pb::vec2(1, 1));
-	std::cout << "one():   " << pb::vec2::one() << std::endl;
-	assert(pb::vec2::unitx() == pb::vec2(1, 0));
-	std::cout << "unitx(): " << pb::vec2::unitx() << std::endl;
-	assert(pb::vec2::unity() == pb::vec2(0, 1));
-	std::cout << "unity(): " << pb::vec2::unity() << std::endl;
-
-	std::cout << "vec:  " << vec << std::endl;
-	assert(vec[0] == 4);
-	assert(vec[1] == 3);
-	std::cout << "vec[0]:  " << vec[0] << std::endl;
-	std::cout << "vec[1]:  " << vec[1] << std::endl;
-	std::cout << "vec[2] = 5  (index%2)" << std::endl; vec[2] = 5;
-	std::cout << "vec[3] = 7  (index%2)" << std::endl; vec[3] = 7;
-	assert(vec == pb::vec2(5, 7));
-	std::cout << "vec:  " << vec << std::endl;
-
-	pb::vec2 n(4, 3);
-
-	std::cout << "####" << std::endl;
-	std::cout << "n:  " << n << std::endl;
-	std::cout << "n.normalized:  " << n.normalized() << std::endl;
-	std::cout << "n:  " << n << std::endl;
-	std::cout << "n.normalize:  " << n.normalize() << std::endl;
-	std::cout << "n:  " << n << std::endl;
-
-	pb::vec2 r = pb::vec2::random();
-	for (size_t i = 0; i < 10; i++) {
-		r = pb::vec2::random();
-		std::cout << "random:  " << r << " mag: " << r.magSQ() << " angle: " << r.angle() << " deg: " << r.angle() * 180 / 3.14159f << std::endl;
-	}
-
-	std::cout << "####" << std::endl;
-	std::cout << "n:  " << n << std::endl;
-	n.mag(0.5f);
-	std::cout << "n:  " << n << std::endl;
-	n.mag(5);
-	std::cout << "n:  " << n << std::endl;
-
-	pb::vec2 f = n-vec;
-	std::cout << "f:  " << f << std::endl;
-	std::cout << "f.mag:  " << f.mag() << std::endl;
-	std::cout << "distance:  " << pb::vec2::distance(vec, n) << std::endl;
-
-	std::cout << "n:  " << n << std::endl;
-	std::cout << "vec:  " << vec << std::endl;
-	std::cout << "n.dot(vec): " << n.dot(vec) << std::endl;
-	std::cout << "dot(n, vec): " << pb::vec2::dot(n, vec) << std::endl;
-*/
+	run_test("vec_dot", vec_dot);
+	run_test("vec_distance", vec_distance);
+	run_test("vec_angle", vec_angle);
+	run_test("vec_random", vec_random);
+	run_test("vec_static_defined", vec_static_defined);
 
 #if 0
 	const int N = 25;
