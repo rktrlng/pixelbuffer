@@ -26,23 +26,23 @@ if(UNIX)
 endif(UNIX)
 
 ########################################
-add_executable(asciiart
-	test/asciiart.cpp
-)
+# add_executable(asciiart
+# 	tests/asciiart.cpp
+# )
 ########################################
 
 add_executable(utiltest
-	test/utiltest.cpp
+	tests/utiltest.cpp
 )
 
 add_executable(vec2test
-	test/vec2test.cpp
+	tests/vec2test.cpp
 )
 
 add_executable(colortest
-	test/colortest.cpp
+	tests/colortest.cpp
 )
 
 add_executable(pixelbuffertest
-	test/pixelbuffertest.cpp
+	tests/pixelbuffertest.cpp
 )

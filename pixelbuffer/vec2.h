@@ -10,6 +10,7 @@
 #ifndef VEC2_H
 #define VEC2_H
 
+#include <ostream>
 #include <cmath>
 
 namespace pb {
@@ -93,7 +94,7 @@ typedef vec2f          vec2;
 
 // helper functions
 // =========================================================
-inline static vec2i wrap(const vec2i& pos, int cols, int rows) {
+inline vec2i wrap(const vec2i& pos, int cols, int rows) {
 	vec2i wrapped(pos);
 
 	if (pos.x < 0) { wrapped.x = cols-1; }
@@ -104,7 +105,7 @@ inline static vec2i wrap(const vec2i& pos, int cols, int rows) {
 	return wrapped;
 }
 
-inline static vec2i clamp(const vec2i& pos, int cols, int rows) {
+inline vec2i clamp(const vec2i& pos, int cols, int rows) {
 	vec2i clamped(pos);
 
 	if (pos.x < 0) { clamped.x = 0; }
