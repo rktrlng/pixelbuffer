@@ -84,6 +84,16 @@ int test_rand_bm()
 	return 1;
 }
 
+int test_deg_rad()
+{
+	assert(pb::RADIANS * 180 > 3.14158);
+	assert(pb::RADIANS * 180 < 3.14160);
+	assert(pb::DEGREES * M_PI > 179);
+	assert(pb::DEGREES * M_PI < 181);
+
+	return 1;
+}
+
 int main(void)
 {
 	srand(time(nullptr));
@@ -95,6 +105,7 @@ int main(void)
 	pb::run_unit_test("test_rand_float", test_rand_float);
 	pb::run_unit_test("test_rand_double", test_rand_double);
 	pb::run_unit_test("test_rand_bm", test_rand_bm);
+	pb::run_unit_test("test_deg_rad", test_deg_rad);
 
 	std::cout << "## finished ##" << std::endl;
 

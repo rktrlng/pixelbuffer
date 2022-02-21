@@ -14,12 +14,12 @@
 
 namespace pb {
 
+const double DEGREES = 180.0 / M_PI;
+const double RADIANS = M_PI / 180.0;
+
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-const double DEGREES = 180.0 / M_PI;
-const double RADIANS = M_PI / 180.0;
 
 /**
  * @brief returns the low byte of a word
