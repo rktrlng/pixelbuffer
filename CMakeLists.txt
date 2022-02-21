@@ -26,34 +26,23 @@ if(UNIX)
 endif(UNIX)
 
 ########################################
-add_executable(testpattern
-	test/testpattern.cpp
+add_executable(asciiart
+	test/asciiart.cpp
+)
+########################################
+
+add_executable(utiltest
+	test/utiltest.cpp
 )
 
 add_executable(vec2test
 	test/vec2test.cpp
 )
 
-add_executable(onebittest
-	test/onebittest.cpp
-)
-
-add_executable(tgatest
-	test/tgatest.cpp
-)
-
-add_executable(asciiart
-	test/asciiart.cpp
-)
-
-add_executable(floodfilltest
-	test/floodfilltest.cpp
-)
-
 add_executable(colortest
 	test/colortest.cpp
 )
 
-add_executable(utiltest
-	test/utiltest.cpp
+add_executable(pixelbuffertest
+	test/pixelbuffertest.cpp
 )

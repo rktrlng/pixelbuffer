@@ -28,7 +28,7 @@ private:
 		uint8_t typeb = 0x62;      // 1 byte: 0x62 = 'b'
 		uint16_t width = 0x0000;   // 2 bytes: 0-65535
 		uint16_t height = 0x0000;  // 2 bytes: 0-65535
-		uint8_t bitdepth = 0x00;   // 1 byte: 1, 8, 16, 24, 32
+		uint8_t bitdepth = 0x20;   // 1 byte: 1, 8, 16, 24, 32
 		uint8_t end = 0x3A;        // 1 byte: 0x3A = ':'
 	};                             // sizeof(PBHeader) = 8 bytes
 	// uint64_t header = 0x706208000400203A; // 8x4 pixels, bitdepth 32, Little Endian
@@ -52,9 +52,10 @@ public:
 	{
 		// default header
 		// empty list of pixels
+		// 32 bits per pixel
 	}
 
-	PixelBuffer(uint16_t width, uint16_t height, uint8_t bitdepth, pb::RGBAColor color = TRANSPARENT)
+	PixelBuffer(uint16_t width, uint16_t height, uint8_t bitdepth = 32, pb::RGBAColor color = TRANSPARENT)
 	{
 		_header.width = width;
 		_header.height = height;
@@ -123,11 +124,12 @@ public:
 		uint16_t height = _header.height;
 		uint8_t bitdepth = _header.bitdepth;
 
-		// std::cout << "sizeof(header): " << sizeof(_header) << " B" << std::endl;
+		std::cout << "sizeof(header): " << sizeof(_header) << " B" << std::endl;
 		std::cout << "width: " << width << " pixels" << std::endl;
 		std::cout << "height: " << height << " pixels" << std::endl;
 		std::cout << "bitdepth: " << (int) bitdepth << " b/pixel" << std::endl;
-		std::cout << "#number of pixels: " << (int) _pixels.size() << std::endl;
+		std::cout << "number of pixels: " << (int) _pixels.size() << std::endl;
+		std::cout << "memsize of pbf: " << (width * height * (bitdepth/8.0f)) + sizeof(_header) << " B" << std::endl;
 		std::cout << "memsize of pixels: " << (width * height * (bitdepth/8.0f)) << " B";
 		std::cout << " | " << (width * height * (bitdepth/8.0f)) / 1024.0f << " KiB";
 		std::cout << " | " << (width * height * (bitdepth/8.0f)) / 1024 / 1024.0f << " MiB" << std::endl;
@@ -552,9 +554,9 @@ public:
 
 		for (int x = x0; x <= x1; x++) {
 			if (steep) {
-				setPixel(y, x, color);
+				setPixel(y, x, color, true);
 			} else {
-				setPixel(x, y, color);
+				setPixel(x, y, color, true);
 			}
 			error2 += derror2;
 
@@ -617,7 +619,7 @@ public:
 		}
 
 		for (auto local : positions) {
-			setPixel(local.x + circlex, local.y + circley, color);
+			setPixel(local.x + circlex, local.y + circley, color, true);
 		}
 	}
 
@@ -667,7 +669,7 @@ public:
 				uint8_t b = totalb / (8 + sharpness);
 				uint8_t a = totala / (8 + sharpness);
 				RGBAColor avg = { r, g, b, a };
-				setPixel(x, y, avg);
+				setPixel(x, y, avg, true);
 			}
 		}
 	}
@@ -717,7 +719,7 @@ public:
 				pb::vec2i npos = pb::vec2i(x, y) + neighbours[i];
 				pb::RGBAColor back_color = getPixel(npos.x, npos.y);
 				if (back_color == check_color) {
-					setPixel(npos.x, npos.y, fill_color);
+					setPixel(npos.x, npos.y, fill_color, true);
 					floodFill(npos.x, npos.y, fill_color, check_color);
 				}
 			}
