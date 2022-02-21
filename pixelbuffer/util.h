@@ -12,11 +12,11 @@
 
 #include <cmath>
 
+namespace pb {
+
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-namespace pb {
 
 const double DEGREES = 180.0 / M_PI;
 const double RADIANS = M_PI / 180.0;
@@ -133,22 +133,24 @@ inline float rand_bm()
  * @brief run a unit test (function)
  * @param name name of the test
  * @param func function pointer, returns an int (pass/fail)
- * @return int 0 = fail (assert segfaults), 1 = pass (default)
+ * @return int 0 = fail (or assert Aborts), 1 = pass (default)
  */
 inline int run_unit_test(const char* name, int (*func)())
 {
 	int r = func();
 	if (r) {
 		printf("=> test passed: %s\n", name);
+	} else {
+		printf("### test failed: %s\n", name);
 	}
 	return r;
 }
 
 
-} // namespace pb
-
 #ifdef __cplusplus
 }
 #endif
+
+} // namespace pb
 
 #endif // UTIL_H_
