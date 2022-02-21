@@ -58,13 +58,15 @@ struct RGBAColor
 		b = gray;
 		a = alpha;
 	}
-	/// @brief int constructor
+	/// @brief fromInt static 'constructor'
 	/// @param color The color as a 32 bits int
-	RGBAColor(uint32_t color) {
-		r = color >> 24 & 0xFF;
-		g = color >> 16 & 0xFF;
-		b = color >> 8 & 0xFF;
-		a = color & 0xFF;
+	/// @return RGBAColor from int
+	static RGBAColor fromInt(uint32_t color) {
+		uint8_t r = color >> 24 & 0xFF;
+		uint8_t g = color >> 16 & 0xFF;
+		uint8_t b = color >> 8 & 0xFF;
+		uint8_t a = color & 0xFF;
+		return RGBAColor(r, g, b, a);
 	}
 	/// @brief get color as a uint32_t
 	/// @return uint32_t color as a 32 bits int
@@ -89,10 +91,11 @@ struct RGBAColor
 	/// @param index the index of the rgba color component
 	/// @return uint8_t& rgba color component
 	inline uint8_t& operator[](size_t index) {
-		if (index == 0) { return r; }
-		if (index == 1) { return g; }
-		if (index == 2) { return b; }
-		if (index == 3) { return a; }
+		int id = index % 4;
+		if (id == 0) { return r; }
+		if (id == 1) { return g; }
+		if (id == 2) { return b; }
+		if (id == 3) { return a; }
 		return r;
 	}
 };
@@ -136,10 +139,11 @@ struct HSVAColor
 	/// @param index the index of the hsva color component
 	/// @return float& hsva color component
 	inline float& operator[](size_t index) {
-		if (index == 0) { return h; }
-		if (index == 1) { return s; }
-		if (index == 2) { return v; }
-		if (index == 3) { return a; }
+		int id = index % 4;
+		if (id == 0) { return h; }
+		if (id == 1) { return s; }
+		if (id == 2) { return v; }
+		if (id == 3) { return a; }
 		return h;
 	}
 };

@@ -1,22 +1,8 @@
 #include <iostream>
-#include <string>
-#include <assert.h>
+#include <cassert>
 
 #include <pixelbuffer/vec2.h>
-
-const double DEGREES = 180.0 / M_PI;
-const double RADIANS = M_PI / 180.0;
-
-// #####################
-int run_test(const std::string& name, int (*func)())
-{
-	int r = func();
-	if (r) {
-		std::cout << "test passed: " << name << std::endl;
-	}
-    return r;
-}
-// #####################
+#include <pixelbuffer/util.h>
 
 int create_vec()
 {
@@ -364,30 +350,30 @@ int main(void)
 {
 	srand(time(nullptr));
 
-	run_test("create_vec", create_vec);
-	run_test("create_vec_arg", create_vec_arg);
-	run_test("create_vec_args", create_vec_args);
-	run_test("create_vec_copy", create_vec_copy);
-	run_test("op_add_vec", op_add_vec);
-	run_test("op_add_vec_eq", op_add_vec_eq);
-	run_test("op_minus_vec", op_minus_vec);
-	run_test("op_minus_vec_eq", op_minus_vec_eq);
-	run_test("op_mult_scalar", op_mult_scalar);
-	run_test("op_mult_scalar_eq", op_mult_scalar_eq);
-	run_test("op_div_scalar", op_div_scalar);
-	run_test("op_div_scalar_eq", op_div_scalar_eq);
-	run_test("op_vec_eq", op_vec_eq);
-	run_test("op_lt_gt", op_lt_gt);
-	run_test("op_lt_gt_eq", op_lt_gt_eq);
-	run_test("op_index", op_index);
-	run_test("vec_normalize", vec_normalize);
-	run_test("vec_normalized", vec_normalized);
-	run_test("vec_mag", vec_mag);
-	run_test("vec_dot", vec_dot);
-	run_test("vec_distance", vec_distance);
-	run_test("vec_angle", vec_angle);
-	run_test("vec_random", vec_random);
-	run_test("vec_static_defined", vec_static_defined);
+	pb::run_unit_test("create_vec", create_vec);
+	pb::run_unit_test("create_vec_arg", create_vec_arg);
+	pb::run_unit_test("create_vec_args", create_vec_args);
+	pb::run_unit_test("create_vec_copy", create_vec_copy);
+	pb::run_unit_test("op_add_vec", op_add_vec);
+	pb::run_unit_test("op_add_vec_eq", op_add_vec_eq);
+	pb::run_unit_test("op_minus_vec", op_minus_vec);
+	pb::run_unit_test("op_minus_vec_eq", op_minus_vec_eq);
+	pb::run_unit_test("op_mult_scalar", op_mult_scalar);
+	pb::run_unit_test("op_mult_scalar_eq", op_mult_scalar_eq);
+	pb::run_unit_test("op_div_scalar", op_div_scalar);
+	pb::run_unit_test("op_div_scalar_eq", op_div_scalar_eq);
+	pb::run_unit_test("op_vec_eq", op_vec_eq);
+	pb::run_unit_test("op_lt_gt", op_lt_gt);
+	pb::run_unit_test("op_lt_gt_eq", op_lt_gt_eq);
+	pb::run_unit_test("op_index", op_index);
+	pb::run_unit_test("vec_normalize", vec_normalize);
+	pb::run_unit_test("vec_normalized", vec_normalized);
+	pb::run_unit_test("vec_mag", vec_mag);
+	pb::run_unit_test("vec_dot", vec_dot);
+	pb::run_unit_test("vec_distance", vec_distance);
+	pb::run_unit_test("vec_angle", vec_angle);
+	pb::run_unit_test("vec_random", vec_random);
+	pb::run_unit_test("vec_static_defined", vec_static_defined);
 
 #if 0
 	const int N = 25;

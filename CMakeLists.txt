@@ -49,3 +49,11 @@ add_executable(asciiart
 add_executable(floodfilltest
 	test/floodfilltest.cpp
 )
+
+add_executable(colortest
+	test/colortest.cpp
+)
+
+add_executable(utiltest
+	test/utiltest.cpp
+)

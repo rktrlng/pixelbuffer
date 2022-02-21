@@ -10,13 +10,16 @@
 #ifndef UTIL_H_
 #define UTIL_H_
 
+#include <cmath>
+
 namespace pb {
+
+const double DEGREES = 180.0 / M_PI;
+const double RADIANS = M_PI / 180.0;
 
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-#include <cmath>
 
 /**
  * @brief returns the low byte of a word
@@ -115,19 +118,26 @@ inline double rand_double()
  */
 inline float rand_bm()
 {
-	const float PI = 3.14159265359f;
 	const float RANGE = 3.6f;
 	float u = 0.0f;
 	float v = 0.0f;
 	while (u == 0.0f) u = rand_float();
 	while (v == 0.0f) v = rand_float();
-	float n = sqrt(-2.0f * logf(u)) * cosf(2.0f * PI * v);
+	float n = sqrt(-2.0f * logf(u)) * cosf(2.0f * M_PI * v);
 	while (n < -RANGE || n > RANGE) n = rand_bm();
 	n = map(n, -RANGE, RANGE, 0.0f, 1.0f);
 	return n;
 }
 
-// =========================================================
+inline int run_unit_test(const char* name, int (*func)())
+{
+	int r = func();
+	if (r) {
+		printf("test passed: %s\n", name);
+	}
+	return r;
+}
+
 
 #ifdef __cplusplus
 }
