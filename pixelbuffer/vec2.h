@@ -45,30 +45,30 @@ public:
 	inline vec2_t<T>  operator/ (T rhs) const { if (rhs != 0) { return vec2_t<T>(x/rhs, y/rhs); } else { return *this; } }
 	inline vec2_t<T>& operator/=(T rhs) { if (rhs != 0) { *this = *this / rhs; } return *this; }
 
-	inline const bool operator==(const vec2_t<T>& rhs) const { return (x==rhs.x && y==rhs.y); }
-	inline const bool operator!=(const vec2_t<T>& rhs) const { return !(*this == rhs); }
+	inline bool operator==(const vec2_t<T>& rhs) const { return (x==rhs.x && y==rhs.y); }
+	inline bool operator!=(const vec2_t<T>& rhs) const { return !(*this == rhs); }
 
-	inline const bool operator< (const vec2_t<T>& rhs) const { return (this->magSQ() < rhs.magSQ()); }
-	inline const bool operator> (const vec2_t<T>& rhs) const { return rhs < *this; }
-	inline const bool operator<=(const vec2_t<T>& rhs) const { return (*this < rhs) || (this->magSQ() == rhs.magSQ()); }
-	inline const bool operator>=(const vec2_t<T>& rhs) const { return (*this > rhs) || (this->magSQ() == rhs.magSQ()); }
+	inline bool operator< (const vec2_t<T>& rhs) const { return (this->magSQ() < rhs.magSQ()); }
+	inline bool operator> (const vec2_t<T>& rhs) const { return rhs < *this; }
+	inline bool operator<=(const vec2_t<T>& rhs) const { return (*this < rhs) || (this->magSQ() == rhs.magSQ()); }
+	inline bool operator>=(const vec2_t<T>& rhs) const { return (*this > rhs) || (this->magSQ() == rhs.magSQ()); }
 
 	inline T& operator[](size_t index) { return index%2 ? y : x; }
 
-	inline const T dot(const vec2_t<T>& b) const { return ((x*b.x) + (y*b.y)); }
+	inline T dot(const vec2_t<T>& b) const { return ((x*b.x) + (y*b.y)); }
 	inline static T dot(const vec2_t<T>& a, const vec2_t<T>& b) { return ((a.x*b.x) + (a.y*b.y)); }
 
-	inline const T magSQ() const { return ((x*x) + (y*y)); }
-	inline const T mag() const { return sqrt(magSQ()); }
+	inline T magSQ() const { return ((x*x) + (y*y)); }
+	inline T mag() const { return sqrt(magSQ()); }
 	inline vec2_t<T> mag(T m) { *this /= mag(); return *this; }
 
-	inline const T distance(const vec2_t<T>& b) const { vec2_t<T> d(b.x-x, b.y-y); return d.mag(); }
-	inline static const T distance(const vec2_t<T>& a, const vec2_t<T>& b) { vec2_t<T> d=b-a; return d.mag(); }
+	inline T distance(const vec2_t<T>& b) const { vec2_t<T> d(b.x-x, b.y-y); return d.mag(); }
+	inline static T distance(const vec2_t<T>& a, const vec2_t<T>& b) { vec2_t<T> d=b-a; return d.mag(); }
 
 	inline vec2_t<T> normalize() { mag(1); return *this; }
 	inline vec2_t<T> normalized() const { return vec2_t<T>(*this / mag()); }
 
-	inline const T angle() const { return atan2(y, x); }
+	inline T angle() const { return atan2(y, x); }
 	inline vec2_t<T> angle(T a) { T m = mag(); x = cos(a) * m; y = sin(a) * m; return *this; }
 	inline vec2_t<T> rotate(T a) { angle(angle() + a); return *this; }
 
