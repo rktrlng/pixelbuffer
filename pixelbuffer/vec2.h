@@ -60,12 +60,12 @@ public:
 
 	inline T magSQ() const { return ((x*x) + (y*y)); }
 	inline T mag() const { return sqrt(magSQ()); }
-	inline const vec2_t<T>& mag(T m) { *this /= mag(); return *this; }
+	inline const vec2_t<T>& mag(T m) { this->normalize(); *this *= m; return *this; }
 
 	inline T distance(const vec2_t<T>& b) const { vec2_t<T> d(b.x-x, b.y-y); return d.mag(); }
 	inline static T distance(const vec2_t<T>& a, const vec2_t<T>& b) { vec2_t<T> d=b-a; return d.mag(); }
 
-	inline const vec2_t<T>& normalize() { mag(1); return *this; }
+	inline const vec2_t<T>& normalize() { *this /= mag(); return *this; }
 	inline vec2_t<T> normalized() const { return vec2_t<T>(*this / mag()); }
 
 	inline T angle() const { return atan2(y, x); }
