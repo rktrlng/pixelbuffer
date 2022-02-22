@@ -19,8 +19,8 @@ namespace pb {
 template <class T>
 class vec2_t {
 public:
-	T x = 0;
-	T y = 0;
+	union { T x, u, i; };
+	union { T y, v, j; };
 
 	vec2_t<T>() : x(static_cast<T>(0)), y(static_cast<T>(0)) {}
 	vec2_t<T>(T n) : x(n), y(n) {}

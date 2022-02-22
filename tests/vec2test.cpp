@@ -345,6 +345,18 @@ int vec_static_defined()
     return 1;
 }
 
+int vec_test_union()
+{
+	pb::vec2 a = pb::vec2(4, 3);
+
+	assert(a.x == a.u);
+	assert(a.y == a.v);
+	assert(a.x == a.i);
+	assert(a.y == a.j);
+
+    return 1;
+}
+
 
 int main(void)
 {
@@ -374,6 +386,7 @@ int main(void)
 	pb::run_unit_test("vec_angle", vec_angle);
 	pb::run_unit_test("vec_random", vec_random);
 	pb::run_unit_test("vec_static_defined", vec_static_defined);
+	pb::run_unit_test("vec_test_union", vec_test_union);
 
 #if 0
 	const int N = 25;
