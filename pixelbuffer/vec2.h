@@ -60,17 +60,17 @@ public:
 
 	inline T magSQ() const { return ((x*x) + (y*y)); }
 	inline T mag() const { return sqrt(magSQ()); }
-	inline vec2_t<T> mag(T m) { *this /= mag(); return *this; }
+	inline const vec2_t<T>& mag(T m) { *this /= mag(); return *this; }
 
 	inline T distance(const vec2_t<T>& b) const { vec2_t<T> d(b.x-x, b.y-y); return d.mag(); }
 	inline static T distance(const vec2_t<T>& a, const vec2_t<T>& b) { vec2_t<T> d=b-a; return d.mag(); }
 
-	inline vec2_t<T> normalize() { mag(1); return *this; }
+	inline const vec2_t<T>& normalize() { mag(1); return *this; }
 	inline vec2_t<T> normalized() const { return vec2_t<T>(*this / mag()); }
 
 	inline T angle() const { return atan2(y, x); }
-	inline vec2_t<T> angle(T a) { T m = mag(); x = cos(a) * m; y = sin(a) * m; return *this; }
-	inline vec2_t<T> rotate(T a) { angle(angle() + a); return *this; }
+	inline const vec2_t<T>& angle(T a) { T m = mag(); x = cos(a) * m; y = sin(a) * m; return *this; }
+	inline const vec2_t<T>& rotate(T a) { angle(angle() + a); return *this; }
 
 	inline static vec2_t<T> fromAngle(T a) { return vec2_t<T>(cos(a), sin(a)); }
 	inline static vec2_t<T> random() { return vec2_t<T>::fromAngle((rand()%628318)/100000.0); }
