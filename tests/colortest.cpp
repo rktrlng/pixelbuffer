@@ -31,6 +31,10 @@ int create_color()
 	assert(frm_int.b == 51);
 	assert(frm_int.a == 170);
 
+	pb::RGBAColor to_int = pb::RGBAColor(85, 204, 51, 170);
+	int fi = to_int.asInt();
+	assert(fi == 1439445930);
+
     return 1;
 }
 
