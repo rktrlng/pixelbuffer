@@ -92,31 +92,6 @@ typedef vec2_t<double> vec2d;
 typedef vec2f          vec2;
 
 
-// helper functions
-// =========================================================
-inline vec2i wrap(const vec2i& pos, int cols, int rows) {
-	vec2i wrapped(pos);
-
-	if (pos.x < 0) { wrapped.x = cols-1; }
-	if (pos.x > cols-1) { wrapped.x = 0; }
-	if (pos.y < 0) { wrapped.y = rows-1; }
-	if (pos.y > rows-1) { wrapped.y = 0; }
-
-	return wrapped;
-}
-
-inline vec2i clamp(const vec2i& pos, int cols, int rows) {
-	vec2i clamped(pos);
-
-	if (pos.x < 0) { clamped.x = 0; }
-	if (pos.x > cols-1) { clamped.x = cols-1; }
-	if (pos.y < 0) { clamped.y = 0; }
-	if (pos.y > rows-1) { clamped.y = rows-1; }
-
-	return clamped;
-}
-
-
 } // namespace pb
 
 #endif // VEC2_H
