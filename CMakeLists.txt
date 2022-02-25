@@ -26,10 +26,6 @@ if(UNIX)
 endif(UNIX)
 
 ########################################
-# add_executable(asciiart
-# 	tests/asciiart.cpp
-# )
-########################################
 
 add_executable(utiltest
 	tests/utiltest.cpp
