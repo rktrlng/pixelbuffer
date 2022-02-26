@@ -35,6 +35,18 @@ add_executable(vec2test
 	tests/vec2test.cpp
 )
 
+add_executable(vec3test
+	tests/vec3test.cpp
+)
+
+add_executable(vec4test
+	tests/vec4test.cpp
+)
+
+add_executable(mat4test
+	tests/mat4test.cpp
+)
+
 add_executable(colortest
 	tests/colortest.cpp
 )

@@ -16,7 +16,7 @@
 #include <vector>
 
 #include <pixelbuffer/color.h>
-#include <pixelbuffer/vec2.h>
+#include <pixelbuffer/math/vec2.h>
 #include <pixelbuffer/util.h>
 
 namespace pb {

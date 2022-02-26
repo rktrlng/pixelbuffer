@@ -1,7 +1,7 @@
 #include <iostream>
 #include <cassert>
 
-#include <pixelbuffer/vec2.h>
+#include <pixelbuffer/math/vec2.h>
 #include <pixelbuffer/util.h>
 
 int create_vec()
