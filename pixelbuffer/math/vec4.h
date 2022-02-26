@@ -28,9 +28,9 @@ public:
 
 	vec4_t<T>() : x(static_cast<T>(0)), y(static_cast<T>(0)), z(static_cast<T>(0)), w(static_cast<T>(1)) {}
 	vec4_t<T>(T n) : x(n), y(n), z(n), w(n) {}
-	vec4_t<T>(vec3_t<T> v) : x(v.x), y(v.y), z(v.z), w(static_cast<T>(1)) {}
-	vec4_t<T>(vec3_t<T> v, T w) : x(v.x), y(v.y), z(v.z), w(w) {}
 	vec4_t<T>(T x, T y, T z, T w) : x(x), y(y), z(z), w(w) {}
+	vec4_t<T>(const vec3_t<T>& v) : x(v.x), y(v.y), z(v.z), w(static_cast<T>(1)) {}
+	vec4_t<T>(const vec3_t<T>& v, T w) : x(v.x), y(v.y), z(v.z), w(w) {}
 	vec4_t<T>(const vec4_t<T>& v) : x(v.x), y(v.y), z(v.z), w(v.w) {}
 
 	inline bool operator==(const vec4_t<T>& rhs) const { return (x==rhs.x && y==rhs.y && z==rhs.z && w==rhs.w); }
