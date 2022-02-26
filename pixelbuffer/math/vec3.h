@@ -13,6 +13,8 @@
 #include <ostream>
 #include <cmath>
 
+#include <pixelbuffer/math/vec2.h>
+
 namespace pb {
 
 // vec3 definition
@@ -25,6 +27,8 @@ public:
 
 	vec3_t<T>() : x(static_cast<T>(0)), y(static_cast<T>(0)), z(static_cast<T>(0)) {}
 	vec3_t<T>(T n) : x(n), y(n), z(n){}
+	vec3_t<T>(vec2_t<T> v) : x(v.x), y(v.y), z(static_cast<T>(0)) {}
+	vec3_t<T>(vec2_t<T> v, T z) : x(v.x), y(v.y), z(z) {}
 	vec3_t<T>(T x, T y, T z) : x(x), y(y), z(z) {}
 	vec3_t<T>(const vec3_t<T>& v) : x(v.x), y(v.y), z(v.z) {}
 

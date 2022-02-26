@@ -12,6 +12,13 @@ int create_vec()
 	assert(v.z == 0);
 	// std::cout << v << std::endl;
 
+	pb::vec2 v2(4, 3);
+	pb::vec3 v3(v2, 1);
+	// std::cout << v3 << std::endl;
+	assert(v3.x == 4);
+	assert(v3.y == 3);
+	assert(v3.z == 1);
+
     return 1;
 }
 
