@@ -10,11 +10,7 @@
 #ifndef COLOR_H_
 #define COLOR_H_
 
-#include <ostream>
-#include <cstdint>
-#include <algorithm>
 #include <cmath>
-#include <vector>
 
 namespace pb {
 
