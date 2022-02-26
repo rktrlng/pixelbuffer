@@ -28,8 +28,31 @@ public:
 	vec3_t<T>(T x, T y, T z, T w) : x(x), y(y), z(z) {}
 	vec3_t<T>(const vec3_t<T>& v) : x(v.x), y(v.y), z(v.z) {}
 
+	inline vec3_t<T>  operator+ (const vec3_t<T>& rhs) const { return vec3_t<T>(x+rhs.x, y+rhs.y, z+rhs.z); }
+	inline vec3_t<T>& operator+=(const vec3_t<T>& rhs) { *this = *this + rhs; return *this; }
+	inline vec3_t<T>  operator- (const vec3_t<T>& rhs) const { return vec3_t<T>(x-rhs.x, y-rhs.y, z-rhs.z); }
+	inline vec3_t<T>& operator-=(const vec3_t<T>& rhs) { *this = *this - rhs; return *this; }
+	inline vec3_t<T>  operator* (const vec3_t<T>& rhs) const { return vec3_t<T>(x*rhs.x, y*rhs.y, z*rhs.z); }
+	inline vec3_t<T>& operator*=(const vec3_t<T>& rhs) { *this = *this * rhs; return *this; }
+	inline vec3_t<T>  operator/ (const vec3_t<T>& rhs) const { if (rhs.x != 0 && rhs.y != 0 && rhs.z != 0) { return vec3_t<T>(x/rhs.x, y/rhs.y, z/rhs.z); } return *this; }
+	inline vec3_t<T>& operator/=(const vec3_t<T>& rhs) { if (rhs.x != 0 && rhs.y != 0 && rhs.z != 0) { *this = *this / rhs; } return *this; }
+
+	inline vec3_t<T>  operator+ (T rhs) const { return vec3_t<T>(x+rhs, y+rhs, z+rhs); }
+	inline vec3_t<T>& operator+=(T rhs) { *this = *this + rhs; return *this; }
+	inline vec3_t<T>  operator- (T rhs) const { return vec3_t<T>(x-rhs, y-rhs, z-rhs); }
+	inline vec3_t<T>& operator-=(T rhs) { *this = *this - rhs; return *this; }
+	inline vec3_t<T>  operator* (T rhs) const { return vec3_t<T>(x*rhs, y*rhs, z*rhs); }
+	inline vec3_t<T>& operator*=(T rhs) { *this = *this * rhs; return *this; }
+	inline vec3_t<T>  operator/ (T rhs) const { if (rhs != 0) { return vec3_t<T>(x/rhs, y/rhs, z/rhs); } else { return *this; } }
+	inline vec3_t<T>& operator/=(T rhs) { if (rhs != 0) { *this = *this / rhs; } return *this; }
+
 	inline bool operator==(const vec3_t<T>& rhs) const { return (x==rhs.x && y==rhs.y && z==rhs.z); }
 	inline bool operator!=(const vec3_t<T>& rhs) const { return !(*this == rhs); }
+
+	inline bool operator< (const vec3_t<T>& rhs) const { return (this->magSQ() < rhs.magSQ()); }
+	inline bool operator> (const vec3_t<T>& rhs) const { return rhs < *this; }
+	inline bool operator<=(const vec3_t<T>& rhs) const { return (*this < rhs) || (this->magSQ() == rhs.magSQ()); }
+	inline bool operator>=(const vec3_t<T>& rhs) const { return (*this > rhs) || (this->magSQ() == rhs.magSQ()); }
 
 	inline T& operator[](size_t index) {
 		index %= 3;
@@ -38,6 +61,31 @@ public:
 		if (index == 2) { return z; }
 		return x;
 	}
+
+	inline T dot(const vec3_t<T>& b) const { return ((x*b.x) + (y*b.y) + (z*b.z)); }
+	inline static T dot(const vec3_t<T>& a, const vec3_t<T>& b) { return ((a.x*b.x) + (a.y*b.y) + (a.z*b.z)); }
+
+	inline vec3_t<T> cross(vec3_t<T> b) const {
+		return vec3_t<T>((y * b.z) - (z * b.y), (z * b.x) - (x * b.z), (x * b.y) - (y * b.x));
+	}
+	inline static vec3_t<T> cross(vec3_t<T> a, vec3_t<T> b) {
+		return vec3_t<T>((a.y * b.z) - (a.z * b.y), (a.z * b.x) - (a.x * b.z), (a.x * b.y) - (a.y * b.x));
+	}
+
+	inline T magSQ() const { return ((x*x) + (y*y) + (z*z)); }
+	inline T mag() const { return sqrt(magSQ()); }
+	inline const vec3_t<T>& mag(T m) { this->normalize(); *this *= m; return *this; }
+
+	inline T distance(const vec3_t<T>& b) const { vec3_t<T> d(b.x-x, b.y-y, b.z-z); return d.mag(); }
+	inline static T distance(const vec3_t<T>& a, const vec3_t<T>& b) { vec3_t<T> d=b-a; return d.mag(); }
+
+	inline const vec3_t<T>& normalize() { *this /= mag(); return *this; }
+	inline vec3_t<T> normalized() const { return vec3_t<T>(*this / mag()); }
+
+	inline static vec3_t<T> zero()  { return vec3_t<T>(static_cast<T>(0), static_cast<T>(0), static_cast<T>(0)); }
+	inline static vec3_t<T> one()   { return vec3_t<T>(static_cast<T>(1), static_cast<T>(1), static_cast<T>(1)); }
+	inline static vec3_t<T> unitx() { return vec3_t<T>(static_cast<T>(1), static_cast<T>(0), static_cast<T>(0)); }
+	inline static vec3_t<T> unity() { return vec3_t<T>(static_cast<T>(0), static_cast<T>(1), static_cast<T>(0)); }
 
 };
 // implementations
