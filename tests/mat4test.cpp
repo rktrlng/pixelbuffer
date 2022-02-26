@@ -40,6 +40,21 @@ int matmulMV_test()
 	assert(mv.z == 0);
 	assert(mv.w == 1);
 
+	pb::mat4 im;
+	im *= m;
+	// std::cout << im << std::endl;
+	assert(im[0][3] == 5);
+	assert(im[1][3] == 7);
+
+	v = im * mv;
+	// std::cout << v << std::endl;
+	assert(v.x == 14);
+	assert(v.y == 17);
+
+	im.identity();
+	// std::cout << im << std::endl;
+	assert(im == pb::mat4());
+
 	return 1;
 }
 

@@ -28,6 +28,13 @@ public:
 
 	mat4_t<T>() : v0({1,0,0,0}), v1({0,1,0,0}), v2({0,0,1,0}), v3({0,0,0,1}) {}
 
+	const mat4_t<T>& identity() { *this = mat4_t<T>(); return *this; }
+
+	inline mat4_t<T>  operator* (const mat4_t<T>& rhs) const { return matmulMM(*this, rhs); }
+	inline mat4_t<T>& operator*=(const mat4_t<T>& rhs) { *this = *this * rhs; return *this; }
+
+	inline vec4_t<T>  operator* (vec4_t<T> rhs) const { return matmulMV(*this, rhs); }
+
 	inline bool operator==(const mat4_t<T>& rhs) const { return (v0==rhs.v0 && v1==rhs.v1 && v2==rhs.v2 && v3==rhs.v3); }
 	inline bool operator!=(const mat4_t<T>& rhs) const { return !(*this == rhs); }
 
@@ -43,7 +50,7 @@ public:
 };
 // implementations
 template <class T>
-inline std::ostream& operator<<(std::ostream& os, const mat4_t<T>& obj) { return os << "" << obj.v0 << "\n" << obj.v1 << "\n" << obj.v2 << "\n" << obj.v3; }
+inline std::ostream& operator<<(std::ostream& os, const mat4_t<T>& obj) { return os << "{ " << obj.v0 << "\n  " << obj.v1 << "\n  " << obj.v2 << "\n  " << obj.v3 << " }"; }
 
 
 // #################### Basic Functions ####################
