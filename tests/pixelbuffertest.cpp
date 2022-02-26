@@ -17,7 +17,7 @@ int floodfill()
 		pixelbuffer.drawCircleFilled(x, y, pb::rand_bm() * 32, color);
 		// pixelbuffer.drawSquare(x, y, pb::rand_bm() * 64, pb::rand_bm() * 64, color);
 		// pixelbuffer.drawSquareFilled(x, y, pb::rand_bm() * 64, pb::rand_bm() * 64, color);
-		color = pb::Color::rotate(color, 0.006f);
+		color = pb::rotate(color, 0.006f);
 	}
 
 	// writing

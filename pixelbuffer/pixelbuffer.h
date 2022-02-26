@@ -60,7 +60,7 @@ public:
 		// 32 bits per pixel
 	}
 
-	PixelBuffer(uint16_t width, uint16_t height, uint8_t bitdepth = 32, pb::RGBAColor color = TRANSPARENT)
+	PixelBuffer(uint16_t width, uint16_t height, uint8_t bitdepth = 32, RGBAColor color = TRANSPARENT)
 	{
 		_header.width = width;
 		_header.height = height;
@@ -169,7 +169,7 @@ public:
 		if (_header.bitdepth == 1) {
 			for (size_t i = 0; i < numpixels / 8; i++) {
 				uint8_t val = memblock[start+0];
-				std::vector<pb::RGBAColor> vec = byte2vec(val);
+				std::vector<RGBAColor> vec = byte2vec(val);
 				for (size_t i = 0; i < vec.size(); i++) {
 					_pixels.emplace_back(vec[i]);
 				}
@@ -247,7 +247,7 @@ public:
 		} else {
 			for (auto& pixel : _pixels) {
 				if (_header.bitdepth == 8 || _header.bitdepth == 16) {
-					pb::RGBAColor gray = pb::Color::luminance(pixel);
+					RGBAColor gray = pb::luminance(pixel);
 					char value = (char) gray.r;
 					file.write(&value, 1);
 				}
@@ -358,13 +358,13 @@ public:
 		_pixels.clear();
 		_pixels.reserve(width*height);
 		for (size_t i = 0; i < numpixels; i++) {
-			_pixels.emplace_back(pb::RGBAColor(0, 0, 0, 255));
+			_pixels.emplace_back(RGBAColor(0, 0, 0, 255));
 		}
 
 		// Place the pixels
 		size_t start = headersize;
 		for (size_t i = 0; i < numpixels; i++) {
-			pb::RGBAColor color;
+			RGBAColor color;
 			if (bitdepth == 8) {
 				color.r = memblock[start+0];
 				color.g = memblock[start+0];
@@ -431,10 +431,10 @@ public:
 		for (int y = 0; y < height(); y++) {
 			for (int x = 0; x < width(); x++) {
 				size_t index = pb::index(x, y, width());
-				pb::RGBAColor pixel = _pixels[index];
+				RGBAColor pixel = _pixels[index];
 
 				if (bd == 24 || bd == 32) {
-					pb::RGBAColor gray = pb::Color::luminance(_pixels[index]);
+					RGBAColor gray = pb::luminance(_pixels[index]);
 					if (bitdepth() == 8 || bitdepth() == 16) {
 						file.write((char*)&gray.b, 1);
 						file.write((char*)&gray.g, 1);
@@ -466,7 +466,7 @@ public:
 
 		for (size_t y = 0; y < rows; y++) {
 			for (size_t x = 0; x < cols; x++) {
-				pb::RGBAColor color = duplicate->getPixel(x, rows-y-1);
+				RGBAColor color = duplicate->getPixel(x, rows-y-1);
 				setPixel(x, y, color);
 			}
 		}
@@ -517,7 +517,7 @@ public:
 		}
 
 		if (color.a < 255 && blend) {
-			color = pb::Color::alphaBlend(color, getPixel(x, y));
+			color = pb::alphaBlend(color, getPixel(x, y));
 		}
 		_pixels[index] = color;
 
@@ -582,7 +582,7 @@ public:
 
 	void drawSquareFilled(int x, int y, int width, int height, RGBAColor color)
 	{
-		pb::PixelBuffer pb = pb::PixelBuffer(width, height, _header.bitdepth);
+		PixelBuffer pb = PixelBuffer(width, height, _header.bitdepth);
 		pb.fill(color);
 		paste(pb, x, y);
 	}
@@ -632,7 +632,7 @@ public:
 	{
 		// drawCircle(circlex, circley, radius, color);
 		int size = radius*2;
-		pb::PixelBuffer pb = pb::PixelBuffer(size, size, _header.bitdepth);
+		PixelBuffer pb = PixelBuffer(size, size, _header.bitdepth);
 		pb.drawCircle(size/2, size/2, radius, color);
 		pb.floodFill(size/2, size/2, color);
 		paste(pb, circlex-radius, circley-radius);
@@ -705,24 +705,24 @@ public:
 		}
 	}
 
-	void floodFill(pb::vec2i pos, pb::RGBAColor fill_color)
+	void floodFill(vec2i pos, RGBAColor fill_color)
 	{
 		floodFill(pos.x, pos.y, fill_color);
 	}
 
 	// Warning: hardcoded crazy color in 2 places
-	void floodFill(int x, int y, pb::RGBAColor fill_color, pb::RGBAColor check_color = {242, 13, 248, 1})
+	void floodFill(int x, int y, RGBAColor fill_color, RGBAColor check_color = {242, 13, 248, 1})
 	{
 		int height = _header.height;
 		int width = _header.width;
 
-		if (check_color == pb::RGBAColor(242, 13, 248, 1)) { check_color = getPixel(x, y); }
-		std::vector<pb::vec2i> neighbours = { {0,-1}, {1,0}, {0,1}, {-1,0} };
+		if (check_color == RGBAColor(242, 13, 248, 1)) { check_color = getPixel(x, y); }
+		std::vector<vec2i> neighbours = { {0,-1}, {1,0}, {0,1}, {-1,0} };
 
 		if ((x > 0 && x < width-1) && (y > 0 && y < height-1)) {
 			for (size_t i = 0; i < neighbours.size(); i++) {
-				pb::vec2i npos = pb::vec2i(x, y) + neighbours[i];
-				pb::RGBAColor back_color = getPixel(npos.x, npos.y);
+				vec2i npos = vec2i(x, y) + neighbours[i];
+				RGBAColor back_color = getPixel(npos.x, npos.y);
 				if (back_color == check_color) {
 					setPixel(npos.x, npos.y, fill_color, true);
 					floodFill(npos.x, npos.y, fill_color, check_color);

@@ -76,21 +76,21 @@ int color_index()
 int color_rotate()
 {
 	pb::RGBAColor rgb = pb::RGBAColor(255, 0, 0, 255);
-	rgb = pb::Color::rotate(rgb, 0.25f);
+	rgb = pb::rotate(rgb, 0.25f);
 	assert(rgb.r == 127);
 	assert(rgb.g == 255);
 	assert(rgb.b == 0);
 	assert(rgb.a == 255);
 
 	rgb = pb::RGBAColor(255, 0, 0, 255);
-	rgb = pb::Color::rotate(rgb, 0.5f);
+	rgb = pb::rotate(rgb, 0.5f);
 	assert(rgb.r == 0);
 	assert(rgb.g == 255);
 	assert(rgb.b == 255);
 	assert(rgb.a == 255);
 	
 	rgb = pb::RGBAColor(255, 0, 0, 127);
-	rgb = pb::Color::rotate(rgb, 1.0f);
+	rgb = pb::rotate(rgb, 1.0f);
 	assert(rgb.r == 255);
 	assert(rgb.g == 0);
 	assert(rgb.b == 0);
