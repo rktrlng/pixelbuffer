@@ -97,18 +97,18 @@ inline size_t index(int x, int y, int cols)
  * @brief random uniformly distributed float
  * @return random float between 0.0f - 1.0f
  */
-inline float rand_float()
+inline float rand_float(float a = 0.0f, float b = 1.0f)
 {
-	return (float) rand() / (float) RAND_MAX;
+	return (float) rand() / (float) RAND_MAX * (b - a) + a;
 }
 
 /**
  * @brief random uniformly distributed double
  * @return random double between 0.0 - 1.0
  */
-inline double rand_double()
+inline double rand_double(double a = 0.0, double b = 1.0)
 {
-	return (double) rand() / (double) RAND_MAX;
+	return (double) rand() / (double) RAND_MAX * (b - a) + a;
 }
 
 /**

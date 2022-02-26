@@ -62,12 +62,34 @@ int test_rand_float()
 	return 1;
 }
 
+int test_rand_float_args()
+{
+	for (size_t i = 0; i < 100; i++) {
+		float r = pb::rand_float(0.25f, 0.75f);
+		assert(r >= 0.25f);
+		assert(r <= 0.75f);
+	}
+
+	return 1;
+}
+
 int test_rand_double()
 {
 	for (size_t i = 0; i < 100; i++) {
 		double r = pb::rand_double();
 		assert(r >= 0.0);
 		assert(r <= 1.0);
+	}
+
+	return 1;
+}
+
+int test_rand_double_args()
+{
+	for (size_t i = 0; i < 100; i++) {
+		double r = pb::rand_double(0.25, 0.75);
+		assert(r >= 0.25);
+		assert(r <= 0.75);
 	}
 
 	return 1;
@@ -103,7 +125,9 @@ int main(void)
 	pb::run_unit_test("test_constrain", test_constrain);
 	pb::run_unit_test("test_field_index", test_field_index);
 	pb::run_unit_test("test_rand_float", test_rand_float);
+	pb::run_unit_test("test_rand_float_args", test_rand_float_args);
 	pb::run_unit_test("test_rand_double", test_rand_double);
+	pb::run_unit_test("test_rand_double_args", test_rand_double_args);
 	pb::run_unit_test("test_rand_bm", test_rand_bm);
 	pb::run_unit_test("test_deg_rad", test_deg_rad);
 
