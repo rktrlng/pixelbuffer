@@ -1,7 +1,7 @@
 /**
  * @file mat4.h
  *
- * @brief Matrix4x4 Template: pb::mat4_t<T>
+ * @brief mat4_t<T>x4 Template: pb::mat4_t<T>
  *
  * Copyright 2015-2022 @rktrlng
  * https://github.com/rktrlng/pixelbuffer
@@ -62,7 +62,7 @@ inline mat4_t<T> matmulMM(mat4_t<T> a, mat4_t<T> b) {
     mat4_t<T> result = mat4_t<T>();
     for (size_t i = 0; i < 4; i++) {
         for (size_t j = 0; j < 4; j++) {
-            double sum = 0;
+            T sum = 0;
             for (size_t k = 0; k < 4; k++) {
                 sum += a[i][k] * b[k][j];
             }
@@ -72,7 +72,146 @@ inline mat4_t<T> matmulMM(mat4_t<T> a, mat4_t<T> b) {
     return result;
 }
 
+// ######################## Helpers ########################
+template <class T>
+inline mat4_t<T> rotationZMatrix(T angle) {
+    mat4_t<T> rm = mat4_t<T>();
+    rm[0][0] = cos(angle);
+    rm[0][1] = -sin(angle);
+    rm[1][0] = sin(angle);
+    rm[1][1] = cos(angle);
 
+    // rm[0][0] = cos(angle); rm[0][1] = -sin(angle); rm[0][2] = 0.0; rm[0][3] = 0.0;
+    // rm[1][0] = sin(angle); rm[1][1] = cos(angle);  rm[1][2] = 0.0; rm[1][3] = 0.0;
+    // rm[2][0] = 0.0;        rm[2][1] = 0.0;         rm[2][2] = 1.0; rm[2][3] = 0.0;
+    // rm[3][0] = 0.0;        rm[3][1] = 0.0;         rm[3][2] = 0.0; rm[3][3] = 1.0;
+    return rm;
+}
+
+template <class T>
+inline mat4_t<T> rotationYMatrix(T angle) {
+    mat4_t<T> rm = mat4_t<T>();
+    rm[0][0] = cos(angle);
+    rm[0][2] = sin(angle);
+    rm[2][0] = -sin(angle);
+    rm[2][2] = cos(angle);
+
+    // rm[0][0] = cos(angle);  rm[0][1] = 0.0; rm[0][2] = sin(angle); rm[0][3] = 0.0;
+    // rm[1][0] = 0.0;         rm[1][1] = 1.0; rm[1][2] = 0.0;        rm[1][3] = 0.0;
+    // rm[2][0] = -sin(angle); rm[2][1] = 0.0; rm[2][2] = cos(angle); rm[2][3] = 0.0;
+    // rm[3][0] = 0.0;         rm[3][1] = 0.0; rm[3][2] = 0.0;        rm[3][3] = 1.0;
+    return rm;
+}
+
+template <class T>
+inline mat4_t<T> rotationXMatrix(T angle) {
+    mat4_t<T> rm = mat4_t<T>();
+    rm[1][1] = cos(angle);
+    rm[1][2] = -sin(angle);
+    rm[2][1] = sin(angle);
+    rm[2][2] = cos(angle);
+
+    // rm[0][0] = 1.0; rm[0][1] = 0.0;        rm[0][2] = 0.0;         rm[0][3] = 0.0;
+    // rm[1][0] = 0.0; rm[1][1] = cos(angle); rm[1][2] = -sin(angle); rm[1][3] = 0.0;
+    // rm[2][0] = 0.0; rm[2][1] = sin(angle); rm[2][2] = cos(angle);  rm[2][3] = 0.0;
+    // rm[3][0] = 0.0; rm[3][1] = 0.0;        rm[3][2] = 0.0;         rm[3][3] = 1.0;
+    return rm;
+}
+
+// #################### Matrices ####################
+template <class T>
+inline mat4_t<T> scaleMatrix(vec4_t<T> scale) {
+    mat4_t<T> sm = mat4_t<T>();
+    sm[0][0] = scale.x;
+    sm[1][1] = scale.y;
+    sm[2][2] = scale.z;
+
+    // sm[0][0] = scale.x; sm[0][1] = 0.0;     sm[0][2] = 0.0;     sm[0][3] = 0.0;
+    // sm[1][0] = 0.0;     sm[1][1] = scale.y; sm[1][2] = 0.0;     sm[1][3] = 0.0;
+    // sm[2][0] = 0.0;     sm[2][1] = 0.0;     sm[2][2] = scale.z; sm[2][3] = 0.0;
+    // sm[3][0] = 0.0;     sm[3][1] = 0.0;     sm[3][2] = 0.0;     sm[3][3] = 1.0;
+    return sm;
+}
+
+template <class T>
+inline mat4_t<T> rotationMatrix(vec4_t<T> angles) {
+    mat4_t<T> rz = rotationZMatrix(angles.z);
+    mat4_t<T> ry = rotationYMatrix(angles.y);
+    mat4_t<T> rx = rotationXMatrix(angles.x);
+
+    mat4_t<T> result = mat4_t<T>();
+    result = matmulMM(result, rz);
+    result = matmulMM(result, ry);
+    result = matmulMM(result, rx);
+
+    return result;
+}
+
+template <class T>
+inline mat4_t<T> translationMatrix(vec4_t<T> delta) {
+    mat4_t<T> tm = mat4_t<T>();
+    tm[0][3] = delta.x;
+    tm[1][3] = delta.y;
+    tm[2][3] = delta.z;
+
+    // tm[0][0] = 1.0; tm[0][1] = 0.0; tm[0][2] = 0.0; tm[0][3] = delta.x;
+    // tm[1][0] = 0.0; tm[1][1] = 1.0; tm[1][2] = 0.0; tm[1][3] = delta.y;
+    // tm[2][0] = 0.0; tm[2][1] = 0.0; tm[2][2] = 1.0; tm[2][3] = delta.z;
+    // tm[3][0] = 0.0; tm[3][1] = 0.0; tm[3][2] = 0.0; tm[3][3] = 1.0;
+    return tm;
+}
+
+template <class T>
+inline mat4_t<T> modelMatrix(vec4_t<T> position, vec4_t<T> rotation, vec4_t<T> scale) {
+    // get corresponding matrices
+    mat4_t<T> scalematrix = scaleMatrix(scale);
+    mat4_t<T> rotmatrix = rotationMatrix(rotation);
+    mat4_t<T> transmatrix = translationMatrix(position);
+
+    // create modelmatrix. order is important (first scale, then rotate, finally translate).
+    mat4_t<T> modelmatrix;
+    modelmatrix = matmulMM(scalematrix, modelmatrix);
+    modelmatrix = matmulMM(rotmatrix, modelmatrix);
+    modelmatrix = matmulMM(transmatrix, modelmatrix);
+    return modelmatrix;
+}
+
+// #################### Scale ####################
+template <class T>
+inline vec4_t<T> scale(vec4_t<T> origin, vec4_t<T> scale) {
+    return matmulMV(scaleMatrix(scale), origin);
+}
+
+// #################### Rotation ####################
+template <class T>
+inline vec4_t<T> rotateZ(vec4_t<T> vec, T angle) {
+    return matmulMV(rotationZMatrix(angle), vec);
+}
+
+template <class T>
+inline vec4_t<T> rotateY(vec4_t<T> vec, T angle) {
+    return matmulMV(rotationYMatrix(angle), vec);
+}
+
+template <class T>
+inline vec4_t<T> rotateX(vec4_t<T> vec, T angle) {
+    return matmulMV(rotationXMatrix(angle), vec);
+}
+
+template <class T>
+inline vec4_t<T> rotate(vec4_t<T> vec, vec4_t<T> angles) {
+    vec4_t<T> ret = vec4_t<T>(vec.x, vec.y, vec.z, vec.w);
+    ret = rotateZ(ret, angles.z);
+    ret = rotateY(ret, angles.y);
+    ret = rotateX(ret, angles.x);
+    return ret;
+}
+
+// #################### Translation ####################
+template <class T>
+inline vec4_t<T> translate(vec4_t<T> origin, vec4_t<T> delta) {
+    return matmulMV(translationMatrix(delta), origin);
+}
 
 // typedefs
 typedef mat4_t<float>  mat4f;
