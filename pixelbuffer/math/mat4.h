@@ -183,6 +183,24 @@ inline mat4_t<T> modelMatrix(vec4_t<T> position, vec4_t<T> rotation, vec4_t<T> s
 	return modelmatrix;
 }
 
+
+template <class T>
+inline mat4_t<T> perspectiveMatrix(T fov, T aspect, T near, T far)
+{
+	mat4_t<T> m;
+    T RADIANS = M_PI / 180.0;
+    T yScale = 1.0 / tan(RADIANS * fov / 2);
+    T xScale = yScale / aspect;
+
+	m[0][0] = xScale;
+	m[1][1] = yScale;
+	m[2][2] = (far + near) / (near - far);
+	m[2][3] = -1;
+	m[3][2] = 2*far*near / (near - far);
+	m[3][3] = 0;
+	return m;
+}
+
 // #################### Scale ####################
 template <class T>
 inline vec4_t<T> scale(vec4_t<T> origin, vec4_t<T> scale) {
