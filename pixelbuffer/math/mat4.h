@@ -146,10 +146,7 @@ inline mat4_t<T> rotationMatrix(vec4_t<T> angles) {
 	mat4_t<T> ry = rotationYMatrix(angles.y);
 	mat4_t<T> rx = rotationXMatrix(angles.x);
 
-	mat4_t<T> result = mat4_t<T>();
-	result = matmulMM(result, rz);
-	result = matmulMM(result, ry);
-	result = matmulMM(result, rx);
+	mat4_t<T> result = rz * ry * rx;
 
 	return result;
 }
@@ -201,11 +198,11 @@ inline mat4_t<T> perspectiveMatrix(T fov, T aspect, T near, T far)
 // #################### Scale ####################
 template <class T>
 inline vec4_t<T> scale(vec4_t<T> origin, vec4_t<T> scale) {
-	return matmulMV(scaleMatrix(scale), origin);
+	return scaleMatrix(scale) * origin;
 }
 template <class T>
 inline vec3_t<T> scale(vec3_t<T> origin, vec3_t<T> scale) {
-	vec4_t<T> v = matmulMV(scaleMatrix(vec4_t<T>(scale)), vec4_t<T>(origin));
+	vec4_t<T> v = scaleMatrix(vec4_t<T>(scale)) * vec4_t<T>(origin);
 	return vec3_t<T>(v.x, v.y, v.z);
 }
 
@@ -213,33 +210,33 @@ inline vec3_t<T> scale(vec3_t<T> origin, vec3_t<T> scale) {
 // Z
 template <class T>
 inline vec4_t<T> rotateZ(vec4_t<T> vec, T angle) {
-	return matmulMV(rotationZMatrix(angle), vec);
+	return rotationZMatrix(angle) * vec;
 }
 template <class T>
 inline vec3_t<T> rotateZ(vec3_t<T> vec, T angle) {
-	vec4_t<T> v = matmulMV(rotationZMatrix(angle), vec4_t<T>(vec));
+	vec4_t<T> v = rotationZMatrix(angle) * vec4_t<T>(vec);
 	return vec3_t<T>(v.x, v.y, v.z);
 }
 
 // Y
 template <class T>
 inline vec4_t<T> rotateY(vec4_t<T> vec, T angle) {
-	return matmulMV(rotationYMatrix(angle), vec);
+	return rotationYMatrix(angle) * vec;
 }
 template <class T>
 inline vec3_t<T> rotateY(vec3_t<T> vec, T angle) {
-	vec4_t<T> v = matmulMV(rotationYMatrix(angle), vec4_t<T>(vec));
+	vec4_t<T> v = rotationYMatrix(angle) * vec4_t<T>(vec);
 	return vec3_t<T>(v.x, v.y, v.z);
 }
 
 // X
 template <class T>
 inline vec4_t<T> rotateX(vec4_t<T> vec, T angle) {
-	return matmulMV(rotationXMatrix(angle), vec);
+	return rotationXMatrix(angle) * vec;
 }
 template <class T>
 inline vec3_t<T> rotateX(vec3_t<T> vec, T angle) {
-	vec4_t<T> v = matmulMV(rotationXMatrix(angle), vec4_t<T>(vec));
+	vec4_t<T> v = rotationXMatrix(angle) * vec4_t<T>(vec);
 	return vec3_t<T>(v.x, v.y, v.z);
 }
 
@@ -264,11 +261,11 @@ inline vec3_t<T> rotate(vec3_t<T> vec, vec3_t<T> angles) {
 // #################### Translation ####################
 template <class T>
 inline vec4_t<T> translate(vec4_t<T> origin, vec4_t<T> delta) {
-	return matmulMV(translationMatrix(delta), origin);
+	return translationMatrix(delta) * origin;
 }
 template <class T>
 inline vec3_t<T> translate(vec3_t<T> origin, vec3_t<T> delta) {
-	vec4_t<T> v = matmulMV(translationMatrix(vec4_t<T>(delta)), vec4_t<T>(origin));
+	vec4_t<T> v = translationMatrix(vec4_t<T>(delta)) * vec4_t<T>(origin);
 	return vec3_t<T>(v.x, v.y, v.z);
 }
 
