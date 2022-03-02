@@ -176,10 +176,7 @@ inline mat4_t<T> modelMatrix(vec4_t<T> position, vec4_t<T> rotation, vec4_t<T> s
 	mat4_t<T> transmatrix = translationMatrix(position);
 
 	// create modelmatrix. order is important (first scale, then rotate, finally translate).
-	mat4_t<T> modelmatrix;
-	modelmatrix = matmulMM(scalematrix, modelmatrix);
-	modelmatrix = matmulMM(rotmatrix, modelmatrix);
-	modelmatrix = matmulMM(transmatrix, modelmatrix);
+	mat4_t<T> modelmatrix = transmatrix * rotmatrix * scalematrix;
 	return modelmatrix;
 }
 
