@@ -33,7 +33,7 @@ public:
 	inline mat4_t<T>  operator* (const mat4_t<T>& rhs) const { return matmulMM(*this, rhs); }
 	inline mat4_t<T>& operator*=(const mat4_t<T>& rhs) { *this = *this * rhs; return *this; }
 
-	inline vec4_t<T>  operator* (vec4_t<T> rhs) const { return matmulMV(*this, rhs); }
+	inline vec4_t<T>  operator* (const vec4_t<T>& rhs) const { return matmulMV(*this, rhs); }
 
 	inline bool operator==(const mat4_t<T>& rhs) const { return (v0==rhs.v0 && v1==rhs.v1 && v2==rhs.v2 && v3==rhs.v3); }
 	inline bool operator!=(const mat4_t<T>& rhs) const { return !(*this == rhs); }
@@ -53,9 +53,11 @@ template <class T>
 inline std::ostream& operator<<(std::ostream& os, const mat4_t<T>& obj) { return os << "{ " << obj.v0 << "\n  " << obj.v1 << "\n  " << obj.v2 << "\n  " << obj.v3 << " }"; }
 
 
-// #################### Basic Functions ####################
+// ###############################################
+// # Basic Functions                             #
+// ############################################### 
 template <class T>
-inline vec4_t<T> matmulMV(mat4_t<T> m, vec4_t<T> v) {
+inline vec4_t<T> matmulMV(mat4_t<T> m, const vec4_t<T>& v) {
 	vec4_t<T> result = vec4_t<T>();
 	result.x = (m[0][0] * v.x) + (m[0][1] * v.y) + (m[0][2] * v.z) + (m[0][3] * v.w);
 	result.y = (m[1][0] * v.x) + (m[1][1] * v.y) + (m[1][2] * v.z) + (m[1][3] * v.w);
@@ -79,7 +81,10 @@ inline mat4_t<T> matmulMM(mat4_t<T> a, mat4_t<T> b) {
 	return result;
 }
 
-// ######################## Helpers ########################
+
+// ###############################################
+// # Helpers                                     #
+// ############################################### 
 template <class T>
 inline mat4_t<T> rotationZMatrix(T angle) {
 	mat4_t<T> rm = mat4_t<T>();
@@ -125,9 +130,12 @@ inline mat4_t<T> rotationXMatrix(T angle) {
 	return rm;
 }
 
-// #################### Matrices ####################
+
+// ###############################################
+// # Matrices                                    #
+// ############################################### 
 template <class T>
-inline mat4_t<T> scaleMatrix(vec4_t<T> scale) {
+inline mat4_t<T> scaleMatrix(const vec4_t<T>& scale) {
 	mat4_t<T> sm = mat4_t<T>();
 	sm[0][0] = scale.x;
 	sm[1][1] = scale.y;
@@ -141,7 +149,7 @@ inline mat4_t<T> scaleMatrix(vec4_t<T> scale) {
 }
 
 template <class T>
-inline mat4_t<T> rotationMatrix(vec4_t<T> angles) {
+inline mat4_t<T> rotationMatrix(const vec4_t<T>& angles) {
 	mat4_t<T> rz = rotationZMatrix(angles.z);
 	mat4_t<T> ry = rotationYMatrix(angles.y);
 	mat4_t<T> rx = rotationXMatrix(angles.x);
@@ -152,7 +160,7 @@ inline mat4_t<T> rotationMatrix(vec4_t<T> angles) {
 }
 
 template <class T>
-inline mat4_t<T> translationMatrix(vec4_t<T> delta) {
+inline mat4_t<T> translationMatrix(const vec4_t<T>& delta) {
 	mat4_t<T> tm = mat4_t<T>();
 	tm[0][3] = delta.x;
 	tm[1][3] = delta.y;
@@ -166,7 +174,7 @@ inline mat4_t<T> translationMatrix(vec4_t<T> delta) {
 }
 
 template <class T>
-inline mat4_t<T> modelMatrix(vec4_t<T> position, vec4_t<T> rotation, vec4_t<T> scale) {
+inline mat4_t<T> modelMatrix(const vec4_t<T>& position, const vec4_t<T>& rotation, const vec4_t<T>& scale) {
 	// get corresponding matrices
 	mat4_t<T> scalematrix = scaleMatrix(scale);
 	mat4_t<T> rotmatrix = rotationMatrix(rotation);
@@ -195,9 +203,13 @@ inline mat4_t<T> perspectiveMatrix(T fov, T aspect, T near, T far)
 	return m;
 }
 
+// ###############################################
+// # Vector Transforms                           #
+// ###############################################
+
 // #################### Scale ####################
 template <class T>
-inline vec4_t<T> scale(vec4_t<T> origin, vec4_t<T> scale) {
+inline vec4_t<T> scale(const vec4_t<T>& origin, const vec4_t<T>& scale) {
 	return scaleMatrix(scale) * origin;
 }
 template <class T>
@@ -209,40 +221,40 @@ inline vec3_t<T> scale(vec3_t<T> origin, vec3_t<T> scale) {
 // #################### Rotation ####################
 // Z
 template <class T>
-inline vec4_t<T> rotateZ(vec4_t<T> vec, T angle) {
+inline vec4_t<T> rotateZ(const vec4_t<T>& vec, T angle) {
 	return rotationZMatrix(angle) * vec;
 }
 template <class T>
-inline vec3_t<T> rotateZ(vec3_t<T> vec, T angle) {
+inline vec3_t<T> rotateZ(const vec3_t<T>& vec, T angle) {
 	vec4_t<T> v = rotationZMatrix(angle) * vec4_t<T>(vec);
 	return vec3_t<T>(v.x, v.y, v.z);
 }
 
 // Y
 template <class T>
-inline vec4_t<T> rotateY(vec4_t<T> vec, T angle) {
+inline vec4_t<T> rotateY(const vec4_t<T>& vec, T angle) {
 	return rotationYMatrix(angle) * vec;
 }
 template <class T>
-inline vec3_t<T> rotateY(vec3_t<T> vec, T angle) {
+inline vec3_t<T> rotateY(const vec3_t<T>& vec, T angle) {
 	vec4_t<T> v = rotationYMatrix(angle) * vec4_t<T>(vec);
 	return vec3_t<T>(v.x, v.y, v.z);
 }
 
 // X
 template <class T>
-inline vec4_t<T> rotateX(vec4_t<T> vec, T angle) {
+inline vec4_t<T> rotateX(const vec4_t<T>& vec, T angle) {
 	return rotationXMatrix(angle) * vec;
 }
 template <class T>
-inline vec3_t<T> rotateX(vec3_t<T> vec, T angle) {
+inline vec3_t<T> rotateX(const vec3_t<T>& vec, T angle) {
 	vec4_t<T> v = rotationXMatrix(angle) * vec4_t<T>(vec);
 	return vec3_t<T>(v.x, v.y, v.z);
 }
 
 // all
 template <class T>
-inline vec4_t<T> rotate(vec4_t<T> vec, vec4_t<T> angles) {
+inline vec4_t<T> rotate(const vec4_t<T>& vec, const vec4_t<T>& angles) {
 	vec4_t<T> ret = vec4_t<T>(vec.x, vec.y, vec.z, vec.w);
 	ret = rotateZ(ret, angles.z);
 	ret = rotateY(ret, angles.y);
@@ -250,7 +262,7 @@ inline vec4_t<T> rotate(vec4_t<T> vec, vec4_t<T> angles) {
 	return ret;
 }
 template <class T>
-inline vec3_t<T> rotate(vec3_t<T> vec, vec3_t<T> angles) {
+inline vec3_t<T> rotate(const vec3_t<T>& vec, const vec3_t<T>& angles) {
 	vec3_t<T> ret = vec3_t<T>(vec.x, vec.y, vec.z);
 	ret = rotateZ(ret, angles.z);
 	ret = rotateY(ret, angles.y);
@@ -260,17 +272,19 @@ inline vec3_t<T> rotate(vec3_t<T> vec, vec3_t<T> angles) {
 
 // #################### Translation ####################
 template <class T>
-inline vec4_t<T> translate(vec4_t<T> origin, vec4_t<T> delta) {
+inline vec4_t<T> translate(const vec4_t<T>& origin, const vec4_t<T>& delta) {
 	return translationMatrix(delta) * origin;
 }
 template <class T>
-inline vec3_t<T> translate(vec3_t<T> origin, vec3_t<T> delta) {
+inline vec3_t<T> translate(const vec3_t<T>& origin, const vec3_t<T>& delta) {
 	vec4_t<T> v = translationMatrix(vec4_t<T>(delta)) * vec4_t<T>(origin);
 	return vec3_t<T>(v.x, v.y, v.z);
 }
 
 
-// typedefs
+// ###############################################
+// # typedefs                                    #
+// ############################################### 
 typedef mat4_t<float>  mat4f;
 typedef mat4_t<double> mat4d;
 typedef mat4f          mat4;
