@@ -86,6 +86,8 @@ public:
 	inline const vec3_t<T>& normalize() { *this /= mag(); return *this; }
 	inline vec3_t<T> normalized() const { return vec3_t<T>(*this / mag()); }
 
+	inline static vec3_t<T> lerp(vec3_t<T> a, vec3_t<T> b, vec3_t<T> t) { return a + (b-a) * t; }
+
 	inline static vec3_t<T> zero()  { return vec3_t<T>(static_cast<T>(0), static_cast<T>(0), static_cast<T>(0)); }
 	inline static vec3_t<T> one()   { return vec3_t<T>(static_cast<T>(1), static_cast<T>(1), static_cast<T>(1)); }
 	inline static vec3_t<T> unitx() { return vec3_t<T>(static_cast<T>(1), static_cast<T>(0), static_cast<T>(0)); }

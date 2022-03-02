@@ -12,6 +12,9 @@
 
 #include <cmath>
 
+#include <pixelbuffer/math/vec2.h>
+#include <pixelbuffer/math/vec3.h>
+
 namespace pb {
 
 const double DEGREES = 180.0 / M_PI;
@@ -65,6 +68,19 @@ inline uint16_t make_word(uint8_t high, uint8_t low)
 inline double map(double x, double in_min, double in_max, double out_min, double out_max)
 {
 	return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+}
+
+/**
+ * @brief Linearly interpolates between two values.
+ * Interpolates between the values a and b by the interpolant t.
+ * @param a first value
+ * @param b second value
+ * @param t interpolant t
+ * @return interpolated value
+ */
+inline double lerp(double a, double b, double t)
+{
+	return a + (b-a) * t;
 }
 
 /**

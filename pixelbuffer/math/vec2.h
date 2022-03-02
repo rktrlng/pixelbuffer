@@ -75,6 +75,21 @@ public:
 	inline static vec2_t<T> fromAngle(T a) { return vec2_t<T>(cos(a), sin(a)); }
 	inline static vec2_t<T> random() { return vec2_t<T>::fromAngle((rand()%628318)/100000.0); }
 
+	inline static vec2_t<T> lerp(vec2_t<T> a, vec2_t<T> b, vec2_t<T> t) { return a + (b-a) * t; }
+	inline static vec2_t<T> bezier_cubic(vec2_t<T> p0, vec2_t<T> p1, vec2_t<T> p2, vec2_t<T> p3, float t) {
+		float x =
+			pow(1 - t, 3) * p0.x +
+			3 * pow(1 - t, 2) * p1.x +
+			3 * pow(1 - t, 2) * pow(t, 2) * p2.x +
+			pow(t, 3) * p3.x;
+		float y =
+			pow(1 - t, 3) * p0.y +
+			3 * pow(1 - t, 2) * p1.y +
+			3 * pow(1 - t, 2) * pow(t, 2) * p2.y +
+			pow(t, 3) * p3.x;
+		return pb::vec2_t<T>(x, y);
+	}
+
 	inline static vec2_t<T> zero()  { return vec2_t<T>(static_cast<T>(0), static_cast<T>(0)); }
 	inline static vec2_t<T> one()   { return vec2_t<T>(static_cast<T>(1), static_cast<T>(1)); }
 	inline static vec2_t<T> unitx() { return vec2_t<T>(static_cast<T>(1), static_cast<T>(0)); }

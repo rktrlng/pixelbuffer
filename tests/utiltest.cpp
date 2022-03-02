@@ -116,6 +116,25 @@ int test_deg_rad()
 	return 1;
 }
 
+int test_lerp()
+{
+	float l;
+	l = pb::lerp(2, 5, 0.0f);
+	assert(l == 2.0f);
+	l = pb::lerp(2, 5, 0.4f);
+	assert(l == 3.2f);
+	l = pb::lerp(2, 5, 0.8f);
+	assert(l == 4.4f);
+	l = pb::lerp(2, 5, 1.0f);
+	assert(l == 5.0f);
+
+	// pb::vec2f v2 = pb::vec2();
+	// v2 = pb::vec2f::lerp(pb::vec2f(-4, 3), pb::vec2f(4, 3), 0.75f);
+	// std::cout << v2 << std::endl;
+
+	return 1;
+}
+
 int main(void)
 {
 	srand(time(nullptr));
@@ -130,6 +149,7 @@ int main(void)
 	pb::run_unit_test("test_rand_double_args", test_rand_double_args);
 	pb::run_unit_test("test_rand_bm", test_rand_bm);
 	pb::run_unit_test("test_deg_rad", test_deg_rad);
+	pb::run_unit_test("test_lerp", test_lerp);
 
 	std::cout << "## finished ##" << std::endl;
 
