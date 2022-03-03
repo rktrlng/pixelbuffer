@@ -507,7 +507,7 @@ public:
 	int setPixel(int x, int y, RGBAColor color, bool blend = false)
 	{
 		// Sanity check
-		if ( (x < 0) || (x >_header.width) || (y < 0) || (y > _header.height) ) {
+		if ( (x < 0) || (x >=_header.width) || (y < 0) || (y >= _header.height) ) {
 			return 0;
 		}
 
@@ -527,7 +527,7 @@ public:
 	RGBAColor getPixel(int x, int y) const
 	{
 		// Sanity check
-		if ( (x < 0) || (x >_header.width) || (y < 0) || (y > _header.height) ) {
+		if ( (x < 0) || (x >=_header.width) || (y < 0) || (y >= _header.height) ) {
 			return { 0, 0, 0, 0 };
 		}
 
