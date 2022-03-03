@@ -47,6 +47,10 @@ add_executable(mat4test
 	tests/mat4test.cpp
 )
 
+add_executable(geomtest
+	tests/geomtest.cpp
+)
+
 add_executable(colortest
 	tests/colortest.cpp
 )
