@@ -75,13 +75,13 @@ public:
 	inline static vec2_t<T> fromAngle(T a) { return vec2_t<T>(cos(a), sin(a)); }
 	inline static vec2_t<T> random() { return vec2_t<T>::fromAngle((rand()%628318)/100000.0); }
 
-	inline static vec2_t<T> lerp(vec2_t<T> a, vec2_t<T> b, vec2_t<T> t) { return a + (b-a) * t; }
-	inline static vec2_t<T> lerp_quadratic(vec2_t<T> a, vec2_t<T> b, vec2_t<T> c, vec2_t<T> t) {
+	inline static vec2_t<T> lerp(vec2_t<T> a, vec2_t<T> b, T t) { return a + (b-a) * t; }
+	inline static vec2_t<T> lerp_quadratic(vec2_t<T> a, vec2_t<T> b, vec2_t<T> c, T t) {
 		vec2_t<T> A = lerp(a, b, t);
 		vec2_t<T> B = lerp(b, c, t);
 		return lerp(A, B, t);
 	}
-	inline static vec2_t<T> lerp_cubic(vec2_t<T> a, vec2_t<T> b, vec2_t<T> c, vec2_t<T> d, float t) {
+	inline static vec2_t<T> lerp_cubic(vec2_t<T> a, vec2_t<T> b, vec2_t<T> c, vec2_t<T> d, T t) {
 		vec2_t<T> A = lerp_quadratic(a, b, c, t);
 		vec2_t<T> B = lerp_quadratic(b, c, d, t);
 		return lerp(A, B, t);

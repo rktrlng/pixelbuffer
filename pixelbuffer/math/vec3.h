@@ -86,13 +86,13 @@ public:
 	inline const vec3_t<T>& normalize() { *this /= mag(); return *this; }
 	inline vec3_t<T> normalized() const { return vec3_t<T>(*this / mag()); }
 
-	inline static vec3_t<T> lerp(vec3_t<T> a, vec3_t<T> b, vec3_t<T> t) { return a + (b-a) * t; }
-	inline static vec3_t<T> lerp_quadratic(vec3_t<T> a, vec3_t<T> b, vec3_t<T> c, vec3_t<T> t) {
+	inline static vec3_t<T> lerp(vec3_t<T> a, vec3_t<T> b, T t) { return a + (b-a) * t; }
+	inline static vec3_t<T> lerp_quadratic(vec3_t<T> a, vec3_t<T> b, vec3_t<T> c, T t) {
 		vec3_t<T> A = lerp(a, b, t);
 		vec3_t<T> B = lerp(b, c, t);
 		return lerp(A, B, t);
 	}
-	inline static vec3_t<T> lerp_cubic(vec3_t<T> a, vec3_t<T> b, vec3_t<T> c, vec3_t<T> d, float t) {
+	inline static vec3_t<T> lerp_cubic(vec3_t<T> a, vec3_t<T> b, vec3_t<T> c, vec3_t<T> d, T t) {
 		vec3_t<T> A = lerp_quadratic(a, b, c, t);
 		vec3_t<T> B = lerp_quadratic(b, c, d, t);
 		return lerp(A, B, t);
