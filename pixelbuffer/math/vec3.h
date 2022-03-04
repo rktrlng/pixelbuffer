@@ -27,6 +27,7 @@ public:
 
 	vec3_t<T>() : x(static_cast<T>(0)), y(static_cast<T>(0)), z(static_cast<T>(0)) {}
 	vec3_t<T>(T n) : x(n), y(n), z(n){}
+	vec3_t<T>(T x, T y) : x(x), y(y), z(static_cast<T>(0)) {}
 	vec3_t<T>(T x, T y, T z) : x(x), y(y), z(z) {}
 	vec3_t<T>(const vec2_t<T>& v) : x(v.x), y(v.y), z(static_cast<T>(0)) {}
 	vec3_t<T>(const vec2_t<T>& v, T z) : x(v.x), y(v.y), z(z) {}
@@ -86,6 +87,9 @@ public:
 	inline const vec3_t<T>& normalize() { *this /= mag(); return *this; }
 	inline vec3_t<T> normalized() const { return vec3_t<T>(*this / mag()); }
 	inline const vec3_t<T>& limit(T m) { if (magSQ()>m*m) { normalize(); *this *= m; } return *this;  }
+
+	inline T angle(const vec3_t<T>& b) const { return acos((*this).dot(b) / ((*this).mag() * b.mag())); }
+	inline static T angle(const vec3_t<T>& a, const vec3_t<T>& b) { return acos(a.dot(b) / (a.mag() * b.mag())); }
 
 	inline static vec3_t<T> lerp(vec3_t<T> a, vec3_t<T> b, T t) { return a + (b-a) * t; }
 	inline static vec3_t<T> lerp_quadratic(vec3_t<T> a, vec3_t<T> b, vec3_t<T> c, T t) {

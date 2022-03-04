@@ -73,6 +73,9 @@ public:
 	inline const vec2_t<T>& angle(T a) { T m = mag(); x = cos(a) * m; y = sin(a) * m; return *this; }
 	inline const vec2_t<T>& rotate(T a) { angle(angle() + a); return *this; }
 
+	inline T angle(const vec2_t<T>& b) const { return acos((*this).dot(b) / ((*this).mag() * b.mag())); }
+	inline static T angle(const vec2_t<T>& a, const vec2_t<T>& b) { return acos(a.dot(b) / (a.mag() * b.mag())); }
+
 	inline static vec2_t<T> fromAngle(T a) { return vec2_t<T>(cos(a), sin(a)); }
 	inline static vec2_t<T> random() { return vec2_t<T>::fromAngle((rand()%628318)/100000.0); }
 
