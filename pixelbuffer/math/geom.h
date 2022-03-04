@@ -29,7 +29,7 @@ public:
 
 	Circle_t<T>() : x(static_cast<T>(0)), y(static_cast<T>(0)), r(static_cast<T>(0)) {}
 	Circle_t<T>(T x, T y, T r) : x(x), y(y), r(r) {}
-	Circle_t<T>(pb::vec2_t<T> p, T r) : x(p.x), y(p.y), r(r) {}
+	Circle_t<T>(vec2_t<T> p, T r) : x(p.x), y(p.y), r(r) {}
 
 };
 // implementations
@@ -72,15 +72,15 @@ typedef Rectanglef          Rectangle;
 // ###############################################
 template <class T>
 struct BezierCubic_t {
-	pb::vec2_t<T> start;
-	pb::vec2_t<T> control_start;
-	pb::vec2_t<T> control_end;
-	pb::vec2_t<T> end;
+	vec2_t<T> start;
+	vec2_t<T> control_start;
+	vec2_t<T> control_end;
+	vec2_t<T> end;
 
 	BezierCubic_t<T>() : start(static_cast<T>(0)), control_start(static_cast<T>(0)), control_end(static_cast<T>(0)), end(static_cast<T>(0)) {}
 
-	pb::vec2_t<T> point(T t) const {
-		return pb::vec2_t<T>::lerp_cubic(start, control_start, control_end, end, t);
+	vec2_t<T> point(T t) const {
+		return vec2_t<T>::lerp_cubic(start, control_start, control_end, end, t);
 	}
 };
 
@@ -95,14 +95,14 @@ typedef BezierCubicf          BezierCubic;
 // ###############################################
 template <class T>
 struct BezierQuadratic_t {
-	pb::vec2_t<T> start;
-	pb::vec2_t<T> control;
-	pb::vec2_t<T> end;
+	vec2_t<T> start;
+	vec2_t<T> control;
+	vec2_t<T> end;
 
 	BezierQuadratic_t<T>() : start(static_cast<T>(0)), control(static_cast<T>(0)), end(static_cast<T>(0)) {}
 
-	pb::vec2_t<T> point(T t) const {
-		return pb::vec2_t<T>::lerp_quadratic(start, control, end, t);
+	vec2_t<T> point(T t) const {
+		return vec2_t<T>::lerp_quadratic(start, control, end, t);
 	}
 };
 
@@ -116,14 +116,14 @@ typedef BezierQuadraticf          BezierQuadratic;
 // # Collisions                                  #
 // ###############################################
 template <class T>
-inline bool point2circle(const pb::vec2_t<T>& point, const Circle_t<T>& circle) {
+inline bool point2circle(const vec2_t<T>& point, const Circle_t<T>& circle) {
 	float dx = circle.x - point.x;
 	float dy = circle.y - point.y;
 	return (dx * dx + dy * dy) < (circle.r * circle.r);
 }
 
 template <class T>
-inline bool point2rectangle(const pb::vec2_t<T>& point, const Rectangle_t<T>& rect) {
+inline bool point2rectangle(const vec2_t<T>& point, const Rectangle_t<T>& rect) {
 	bool colx = point.x > rect.x && point.x < rect.x + rect.width;
 	bool coly = point.y > rect.y && point.y < rect.y + rect.height;
 	return colx && coly;
