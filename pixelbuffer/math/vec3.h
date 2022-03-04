@@ -85,6 +85,7 @@ public:
 
 	inline const vec3_t<T>& normalize() { *this /= mag(); return *this; }
 	inline vec3_t<T> normalized() const { return vec3_t<T>(*this / mag()); }
+	inline const vec3_t<T>& limit(T m) { if (magSQ()>m*m) { normalize(); *this *= m; } return *this;  }
 
 	inline static vec3_t<T> lerp(vec3_t<T> a, vec3_t<T> b, T t) { return a + (b-a) * t; }
 	inline static vec3_t<T> lerp_quadratic(vec3_t<T> a, vec3_t<T> b, vec3_t<T> c, T t) {

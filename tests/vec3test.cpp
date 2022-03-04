@@ -19,6 +19,11 @@ int create_vec()
 	assert(v3.y == 3);
 	assert(v3.z == 1);
 
+	v2.limit(2);
+	assert(v2.x == 1.6f);
+	assert(v2.y == 1.2f);
+
+
     return 1;
 }
 

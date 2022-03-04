@@ -67,6 +67,7 @@ public:
 
 	inline const vec2_t<T>& normalize() { *this /= mag(); return *this; }
 	inline vec2_t<T> normalized() const { return vec2_t<T>(*this / mag()); }
+	inline const vec2_t<T>& limit(T m) { if (magSQ()>m*m) { normalize(); *this *= m; } return *this; }
 
 	inline T angle() const { return atan2(y, x); }
 	inline const vec2_t<T>& angle(T a) { T m = mag(); x = cos(a) * m; y = sin(a) * m; return *this; }
