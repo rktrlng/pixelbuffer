@@ -26,11 +26,9 @@ public:
 	union { T z, k, w, b; };
 
 	vec3_t<T>() : x(static_cast<T>(0)), y(static_cast<T>(0)), z(static_cast<T>(0)) {}
-	vec3_t<T>(T n) : x(n), y(n), z(n){}
-	vec3_t<T>(T x, T y) : x(x), y(y), z(static_cast<T>(0)) {}
-	vec3_t<T>(T x, T y, T z) : x(x), y(y), z(z) {}
-	vec3_t<T>(const vec2_t<T>& v) : x(v.x), y(v.y), z(static_cast<T>(0)) {}
-	vec3_t<T>(const vec2_t<T>& v, T z) : x(v.x), y(v.y), z(z) {}
+	vec3_t<T>(T n) : x(n), y(n), z(n) {}
+	vec3_t<T>(T x, T y, T z = static_cast<T>(0)) : x(x), y(y), z(z) {}
+	vec3_t<T>(const vec2_t<T>& v, T z = static_cast<T>(0)) : x(v.x), y(v.y), z(z) {}
 	vec3_t<T>(const vec3_t<T>& v) : x(v.x), y(v.y), z(v.z) {}
 
 	inline vec3_t<T>  operator+ (const vec3_t<T>& rhs) const { return vec3_t<T>(x+rhs.x, y+rhs.y, z+rhs.z); }

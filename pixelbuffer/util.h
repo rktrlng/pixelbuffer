@@ -12,9 +12,6 @@
 
 #include <cmath>
 
-#include <pixelbuffer/math/vec2.h>
-#include <pixelbuffer/math/vec3.h>
-
 namespace pb {
 
 const double DEGREES = 180.0 / M_PI;
