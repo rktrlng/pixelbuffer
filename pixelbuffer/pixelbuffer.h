@@ -39,12 +39,12 @@ private:
 	// uint64_t header = 0x706208000400203A; // 8x4 pixels, bitdepth 32, Little Endian
 	// uint64_t header = 0x706200080004203A; // 8x4 pixels, bitdepth 32, Big Endian
 
-	PBHeader _header;
-	std::vector<RGBAColor> _pixels;
+	PBHeader m_header;
+	std::vector<RGBAColor> m_pixels;
 
 	bool _validBitdepth(uint8_t b) const {
 		return (
-			(b == 1 && _header.width%8 == 0) ||
+			(b == 1 && m_header.width%8 == 0) ||
 			b == 8 ||
 			b == 16 ||
 			b == 24 ||
@@ -62,13 +62,13 @@ public:
 
 	PixelBuffer(uint16_t width, uint16_t height, uint8_t bitdepth = 32, RGBAColor color = TRANSPARENT)
 	{
-		_header.width = width;
-		_header.height = height;
-		_header.bitdepth = bitdepth;
+		m_header.width = width;
+		m_header.height = height;
+		m_header.bitdepth = bitdepth;
 		const size_t numpixels = width * height;
-		_pixels.reserve(width*height);
+		m_pixels.reserve(width*height);
 		for (size_t i = 0; i < numpixels; i++) {
-			_pixels.emplace_back(color);
+			m_pixels.emplace_back(color);
 		}
 	}
 
@@ -79,62 +79,62 @@ public:
 
 	PixelBuffer(const PixelBuffer& other)
 	{
-		_header.width = other._header.width;
-		_header.height = other._header.height;
-		_header.bitdepth = other._header.bitdepth;
+		m_header.width = other.m_header.width;
+		m_header.height = other.m_header.height;
+		m_header.bitdepth = other.m_header.bitdepth;
 
-		size_t numpixels = _header.width * _header.height;
+		size_t numpixels = m_header.width * m_header.height;
 		for (size_t i = 0; i < numpixels; i++) {
-			_pixels.push_back(other._pixels[i]);
+			m_pixels.push_back(other.m_pixels[i]);
 		}
 	}
 
 	~PixelBuffer()
 	{
-		_header.width = 0;
-		_header.height = 0;
-		_pixels.clear();
+		m_header.width = 0;
+		m_header.height = 0;
+		m_pixels.clear();
 	}
 
-	const PBHeader header() const { return _header; }
-	std::vector<RGBAColor>& pixels() { return _pixels; }
-	const std::vector<RGBAColor>& pixels() const { return _pixels; }
+	const PBHeader header() const { return m_header; }
+	std::vector<RGBAColor>& pixels() { return m_pixels; }
+	const std::vector<RGBAColor>& pixels() const { return m_pixels; }
 	inline RGBAColor& operator[](size_t index) {
-		if (index < _pixels.size()) { return _pixels[index]; }
-		return _pixels[0];
+		if (index < m_pixels.size()) { return m_pixels[index]; }
+		return m_pixels[0];
 	}
 
-	uint16_t width() const { return _header.width; }
-	uint16_t height() const { return _header.height; }
-	uint8_t bitdepth() const { return _header.bitdepth; }
+	uint16_t width() const { return m_header.width; }
+	uint16_t height() const { return m_header.height; }
+	uint8_t bitdepth() const { return m_header.bitdepth; }
 	uint8_t bitdepth(uint8_t b) {
 		if ( _validBitdepth(b) ) {
-			_header.bitdepth = b;
+			m_header.bitdepth = b;
 		}
-		return _header.bitdepth;
+		return m_header.bitdepth;
 	}
 
 	bool valid() const
 	{
-		return _header.typep == 0x70 &&
-			_header.typeb == 0x62 &&
-			( _validBitdepth(_header.bitdepth) ) &&
-			_header.end == 0x3A &&
-			_header.width * _header.height == _pixels.size();
+		return m_header.typep == 0x70 &&
+			m_header.typeb == 0x62 &&
+			( _validBitdepth(m_header.bitdepth) ) &&
+			m_header.end == 0x3A &&
+			m_header.width * m_header.height == m_pixels.size();
 	}
 
 	void printInfo() const
 	{
-		uint16_t width = _header.width;
-		uint16_t height = _header.height;
-		uint8_t bitdepth = _header.bitdepth;
+		uint16_t width = m_header.width;
+		uint16_t height = m_header.height;
+		uint8_t bitdepth = m_header.bitdepth;
 
-		std::cout << "sizeof(header): " << sizeof(_header) << " B" << std::endl;
+		std::cout << "sizeof(header): " << sizeof(m_header) << " B" << std::endl;
 		std::cout << "width: " << width << " pixels" << std::endl;
 		std::cout << "height: " << height << " pixels" << std::endl;
 		std::cout << "bitdepth: " << (int) bitdepth << " b/pixel" << std::endl;
-		std::cout << "number of pixels: " << (int) _pixels.size() << std::endl;
-		std::cout << "memsize of pbf: " << (width * height * (bitdepth/8.0f)) + sizeof(_header) << " B" << std::endl;
+		std::cout << "number of pixels: " << (int) m_pixels.size() << std::endl;
+		std::cout << "memsize of pbf: " << (width * height * (bitdepth/8.0f)) + sizeof(m_header) << " B" << std::endl;
 		std::cout << "memsize of pixels: " << (width * height * (bitdepth/8.0f)) << " B";
 		std::cout << " | " << (width * height * (bitdepth/8.0f)) / 1024.0f << " KiB";
 		std::cout << " | " << (width * height * (bitdepth/8.0f)) / 1024 / 1024.0f << " MiB" << std::endl;
@@ -158,20 +158,20 @@ public:
 		file.close();
 
 		// Build header
-		_header = *(PBHeader*)&memblock[0];
+		m_header = *(PBHeader*)&memblock[0];
 
 		// Build list of pixels
-		size_t numpixels = _header.width * _header.height;
-		_pixels.clear();
-		_pixels.reserve(numpixels);
-		size_t start = sizeof(_header);
+		size_t numpixels = m_header.width * m_header.height;
+		m_pixels.clear();
+		m_pixels.reserve(numpixels);
+		size_t start = sizeof(m_header);
 
-		if (_header.bitdepth == 1) {
+		if (m_header.bitdepth == 1) {
 			for (size_t i = 0; i < numpixels / 8; i++) {
 				uint8_t val = memblock[start+0];
 				std::vector<RGBAColor> vec = byte2vec(val);
 				for (size_t i = 0; i < vec.size(); i++) {
-					_pixels.emplace_back(vec[i]);
+					m_pixels.emplace_back(vec[i]);
 				}
 				vec.clear();
 				start++; // next byte
@@ -179,7 +179,7 @@ public:
 		} else {
 			for (size_t i = 0; i < numpixels; i++) {
 				RGBAColor pixel;
-				if (_header.bitdepth == 8 || _header.bitdepth == 16) {
+				if (m_header.bitdepth == 8 || m_header.bitdepth == 16) {
 					uint8_t val = memblock[start+0];
 					pixel.r = val;
 					pixel.g = val;
@@ -187,23 +187,23 @@ public:
 					pixel.a = 255;
 				}
 
-				if (_header.bitdepth == 16) {
+				if (m_header.bitdepth == 16) {
 					pixel.a = memblock[start+1];
 				}
-				else if (_header.bitdepth == 24 || _header.bitdepth == 32) {
+				else if (m_header.bitdepth == 24 || m_header.bitdepth == 32) {
 					pixel.r = memblock[start+0];
 					pixel.g = memblock[start+1];
 					pixel.b = memblock[start+2];
 					pixel.a = 255;
 				}
 
-				if (_header.bitdepth == 32) {
+				if (m_header.bitdepth == 32) {
 					pixel.a = memblock[start+3];
 				}
 
-				_pixels.emplace_back(pixel);
+				m_pixels.emplace_back(pixel);
 
-				start += _header.bitdepth / 8;
+				start += m_header.bitdepth / 8;
 			}
 		}
 
@@ -222,22 +222,22 @@ public:
 		}
 
 		// Write header
-		file.write((char*)&_header, sizeof(_header));
+		file.write((char*)&m_header, sizeof(m_header));
 
 		// Write pixeldata
 		// This would work if we only needed to write 4 bytes/pixel files:
-		// file.write((char*)&_pixels[0], _pixels.size()*_header.bitdepth);
+		// file.write((char*)&m_pixels[0], m_pixels.size()*m_header.bitdepth);
 
 		// But we also need to handle the bitdepth
-		if (_header.bitdepth == 1) {
+		if (m_header.bitdepth == 1) {
 			size_t start = 0;
 
 			char value = 0;
 			// width must be a multiple of 8 pixels
 			std::vector<RGBAColor> vec;
-			for (size_t i = 0; i < _pixels.size(); i += 8) { // set of 8 pixels
+			for (size_t i = 0; i < m_pixels.size(); i += 8) { // set of 8 pixels
 				for (size_t v = 0; v < 8; v++) {
-					vec.push_back(_pixels[v+start]);
+					vec.push_back(m_pixels[v+start]);
 				}
 				value = (char) vec2byte(vec);
 				file.write(&value, 1);
@@ -245,23 +245,23 @@ public:
 				start += 8;
 			}
 		} else {
-			for (auto& pixel : _pixels) {
-				if (_header.bitdepth == 8 || _header.bitdepth == 16) {
+			for (auto& pixel : m_pixels) {
+				if (m_header.bitdepth == 8 || m_header.bitdepth == 16) {
 					RGBAColor gray = rt::luminance(pixel);
 					char value = (char) gray.r;
 					file.write(&value, 1);
 				}
 
-				if (_header.bitdepth == 16) {
+				if (m_header.bitdepth == 16) {
 					file.write((char*)&pixel.a, 1);
 				}
-				else if (_header.bitdepth == 24 || _header.bitdepth == 32) {
+				else if (m_header.bitdepth == 24 || m_header.bitdepth == 32) {
 					file.write((char*)&pixel.r, 1);
 					file.write((char*)&pixel.g, 1);
 					file.write((char*)&pixel.b, 1);
 				}
 
-				if (_header.bitdepth == 32) {
+				if (m_header.bitdepth == 32) {
 					file.write((char*)&pixel.a, 1);
 				}
 			}
@@ -350,15 +350,15 @@ public:
 		// std::cout << "bitdepth " << (int) bitdepth << std::endl;
 
 		// Create and build the pixelbuffer
-		_header.width = width;
-		_header.height = height;
-		_header.bitdepth = bitdepth;
+		m_header.width = width;
+		m_header.height = height;
+		m_header.bitdepth = bitdepth;
 
 		const size_t numpixels = width * height;
-		_pixels.clear();
-		_pixels.reserve(width*height);
+		m_pixels.clear();
+		m_pixels.reserve(width*height);
 		for (size_t i = 0; i < numpixels; i++) {
-			_pixels.emplace_back(RGBAColor(0, 0, 0, 255));
+			m_pixels.emplace_back(RGBAColor(0, 0, 0, 255));
 		}
 
 		// Place the pixels
@@ -383,7 +383,7 @@ public:
 				color.b = memblock[start+0];
 				color.a = memblock[start+3];
 			}
-			_pixels[i] = color;
+			m_pixels[i] = color;
 			start += bitdepth / 8;
 		}
 
@@ -431,10 +431,10 @@ public:
 		for (int y = 0; y < height(); y++) {
 			for (int x = 0; x < width(); x++) {
 				size_t index = rt::index(x, y, width());
-				RGBAColor pixel = _pixels[index];
+				RGBAColor pixel = m_pixels[index];
 
 				if (bd == 24 || bd == 32) {
-					RGBAColor gray = rt::luminance(_pixels[index]);
+					RGBAColor gray = rt::luminance(m_pixels[index]);
 					if (bitdepth() == 8 || bitdepth() == 16) {
 						file.write((char*)&gray.b, 1);
 						file.write((char*)&gray.g, 1);
@@ -461,8 +461,8 @@ public:
 		PixelBuffer* duplicate = new PixelBuffer(*this);
 		fill(TRANSPARENT);
 
-		uint16_t rows = header().height;
-		uint16_t cols = header().width;
+		uint16_t rows = height();
+		uint16_t cols = width();
 
 		for (size_t y = 0; y < rows; y++) {
 			for (size_t x = 0; x < cols; x++) {
@@ -475,7 +475,7 @@ public:
 
 	PixelBuffer copy(uint16_t x, uint16_t y, uint16_t width, uint16_t height) const
 	{
-		PixelBuffer buffer = PixelBuffer(width, height, header().bitdepth);
+		PixelBuffer buffer = PixelBuffer(width, height, bitdepth());
 
 		size_t maxheight = height + y;
 		size_t maxwidth = width + x;
@@ -507,19 +507,19 @@ public:
 	int setPixel(int x, int y, RGBAColor color, bool blend = false)
 	{
 		// Sanity check
-		if ( (x < 0) || (x >=_header.width) || (y < 0) || (y >= _header.height) ) {
+		if ( (x < 0) || (x >=m_header.width) || (y < 0) || (y >= m_header.height) ) {
 			return 0;
 		}
 
-		size_t index = (y * _header.width) + x;
-		if (index >= _pixels.size()) { // invalid pixels!
+		size_t index = (y * m_header.width) + x;
+		if (index >= m_pixels.size()) { // invalid pixels!
 			return 0;
 		}
 
 		if (color.a < 255 && blend) {
 			color = rt::alphaBlend(color, getPixel(x, y));
 		}
-		_pixels[index] = color;
+		m_pixels[index] = color;
 
 		return 1;
 	}
@@ -527,16 +527,16 @@ public:
 	RGBAColor getPixel(int x, int y) const
 	{
 		// Sanity check
-		if ( (x < 0) || (x >=_header.width) || (y < 0) || (y >= _header.height) ) {
+		if ( (x < 0) || (x >=m_header.width) || (y < 0) || (y >= m_header.height) ) {
 			return { 0, 0, 0, 0 };
 		}
 
-		size_t index = (y * _header.width) + x;
-		if (index >= _pixels.size()) { // invalid pixels!
+		size_t index = (y * m_header.width) + x;
+		if (index >= m_pixels.size()) { // invalid pixels!
 			return { 0, 0, 0, 0 };
 		}
 
-		return _pixels[index];
+		return m_pixels[index];
 	}
 
 	void drawLine(int x0, int y0, int x1, int y1, RGBAColor color)
@@ -582,16 +582,16 @@ public:
 
 	void drawSquareFilled(int x, int y, int width, int height, RGBAColor color)
 	{
-		PixelBuffer pb = PixelBuffer(width, height, _header.bitdepth);
+		PixelBuffer pb = PixelBuffer(width, height, m_header.bitdepth);
 		pb.fill(color);
 		paste(pb, x, y);
 	}
 
 	void fill(RGBAColor color)
 	{
-		size_t numpixels = _header.width * _header.height;
+		size_t numpixels = m_header.width * m_header.height;
 		for (size_t i = 0; i < numpixels; i++) {
-			_pixels[i] = color;
+			m_pixels[i] = color;
 		}
 	}
 
@@ -632,7 +632,7 @@ public:
 	{
 		// drawCircle(circlex, circley, radius, color);
 		int size = radius*2;
-		PixelBuffer pb = PixelBuffer(size, size, _header.bitdepth);
+		PixelBuffer pb = PixelBuffer(size, size, m_header.bitdepth);
 		pb.drawCircle(size/2, size/2, radius, color);
 		pb.floodFill(size/2, size/2, color);
 		paste(pb, circlex-radius, circley-radius);
@@ -642,8 +642,8 @@ public:
 	// sharpness ..50+ = less blurred
 	void blur(int sharpness = 1)
 	{
-		size_t rows = _header.height;
-		size_t cols = _header.width;
+		size_t rows = m_header.height;
+		size_t cols = m_header.width;
 
 		for (size_t y = 0; y < rows; y++) {
 			for (size_t x = 0; x < cols; x++) {
@@ -683,25 +683,25 @@ public:
 		// find min + max
 		uint8_t min = 255;
 		uint8_t max = 0;
-		for (size_t i = 0; i < _pixels.size(); i++) {
-			if (_pixels[i].r < min) min = _pixels[i].r;
-			if (_pixels[i].r > max) max = _pixels[i].r;
+		for (size_t i = 0; i < m_pixels.size(); i++) {
+			if (m_pixels[i].r < min) min = m_pixels[i].r;
+			if (m_pixels[i].r > max) max = m_pixels[i].r;
 		}
 
 		// map values
-		for (size_t i = 0; i < _pixels.size(); i++) {
-			uint8_t readvalue = _pixels[i].r;
+		for (size_t i = 0; i < m_pixels.size(); i++) {
+			uint8_t readvalue = m_pixels[i].r;
 			uint8_t writevalue = rt::map(readvalue, min, max, 0, 255);
-			_pixels[i] = {writevalue, writevalue, writevalue, 255};
+			m_pixels[i] = {writevalue, writevalue, writevalue, 255};
 		}
 	}
 
 	void posterize_8(uint8_t levels) {
-		for (size_t i = 0; i < _pixels.size(); i++) {
-			uint8_t readvalue = _pixels[i].r;
+		for (size_t i = 0; i < m_pixels.size(); i++) {
+			uint8_t readvalue = m_pixels[i].r;
 			uint8_t writevalue = rt::map(readvalue, 0, 255, 0, levels);
 			writevalue = rt::map(writevalue, 0, levels, 0, 255);
-			_pixels[i] = {writevalue, writevalue, writevalue, 255};
+			m_pixels[i] = {writevalue, writevalue, writevalue, 255};
 		}
 	}
 
@@ -713,8 +713,8 @@ public:
 	// Warning: hardcoded crazy color in 2 places
 	void floodFill(int x, int y, RGBAColor fill_color, RGBAColor check_color = {242, 13, 248, 1})
 	{
-		int height = _header.height;
-		int width = _header.width;
+		int height = m_header.height;
+		int width = m_header.width;
 
 		if (check_color == RGBAColor(242, 13, 248, 1)) { check_color = getPixel(x, y); }
 		std::vector<vec2i> neighbours = { {0,-1}, {1,0}, {0,1}, {-1,0} };
