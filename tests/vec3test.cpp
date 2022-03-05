@@ -6,14 +6,14 @@
 
 int create_vec()
 {
-	pb::vec3 v;
+	rt::vec3 v;
 	assert(v.x == 0);
 	assert(v.y == 0);
 	assert(v.z == 0);
 	// std::cout << v << std::endl;
 
-	pb::vec2 v2(4, 3);
-	pb::vec3 v3(v2, 1);
+	rt::vec2 v2(4, 3);
+	rt::vec3 v3(v2, 1);
 	// std::cout << v3 << std::endl;
 	assert(v3.x == 4);
 	assert(v3.y == 3);
@@ -29,10 +29,10 @@ int create_vec()
 
 int anglewith_vec()
 {
-	pb::vec3 v1(0, 1, 0);
-	pb::vec3 v2(0, 0, 1);
+	rt::vec3 v1(0, 1, 0);
+	rt::vec3 v2(0, 0, 1);
 
-	float a = pb::vec3::angle(v1, v2);
+	float a = rt::vec3::angle(v1, v2);
 	assert(a > 1.570f && a < 1.571f); // 90 degrees
 
     return 1;
@@ -43,8 +43,8 @@ int main(void)
 {
 	srand(time(nullptr));
 
-	pb::run_unit_test("create_vec", create_vec);
-	pb::run_unit_test("anglewith_vec", anglewith_vec);
+	rt::run_unit_test("create_vec", create_vec);
+	rt::run_unit_test("anglewith_vec", anglewith_vec);
 
 	std::cout << "## finished ##" << std::endl;
 

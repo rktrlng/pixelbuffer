@@ -1,7 +1,7 @@
 /**
  * @file pixelbuffer.h
  *
- * @brief PixelBuffer of RGBA Colors: pb::PixelBuffer
+ * @brief PixelBuffer of RGBA Colors: rt::PixelBuffer
  *
  * Copyright 2015-2022 @rktrlng
  * https://github.com/rktrlng/pixelbuffer
@@ -19,7 +19,7 @@
 #include <pixelbuffer/math/vec2.h>
 #include <pixelbuffer/util.h>
 
-namespace pb {
+namespace rt {
 
 // =========================================================
 inline vec2i wrap (const vec2i& pos, int cols, int rows);
@@ -247,7 +247,7 @@ public:
 		} else {
 			for (auto& pixel : _pixels) {
 				if (_header.bitdepth == 8 || _header.bitdepth == 16) {
-					RGBAColor gray = pb::luminance(pixel);
+					RGBAColor gray = rt::luminance(pixel);
 					char value = (char) gray.r;
 					file.write(&value, 1);
 				}
@@ -430,11 +430,11 @@ public:
 
 		for (int y = 0; y < height(); y++) {
 			for (int x = 0; x < width(); x++) {
-				size_t index = pb::index(x, y, width());
+				size_t index = rt::index(x, y, width());
 				RGBAColor pixel = _pixels[index];
 
 				if (bd == 24 || bd == 32) {
-					RGBAColor gray = pb::luminance(_pixels[index]);
+					RGBAColor gray = rt::luminance(_pixels[index]);
 					if (bitdepth() == 8 || bitdepth() == 16) {
 						file.write((char*)&gray.b, 1);
 						file.write((char*)&gray.g, 1);
@@ -517,7 +517,7 @@ public:
 		}
 
 		if (color.a < 255 && blend) {
-			color = pb::alphaBlend(color, getPixel(x, y));
+			color = rt::alphaBlend(color, getPixel(x, y));
 		}
 		_pixels[index] = color;
 
@@ -691,7 +691,7 @@ public:
 		// map values
 		for (size_t i = 0; i < _pixels.size(); i++) {
 			uint8_t readvalue = _pixels[i].r;
-			uint8_t writevalue = pb::map(readvalue, min, max, 0, 255);
+			uint8_t writevalue = rt::map(readvalue, min, max, 0, 255);
 			_pixels[i] = {writevalue, writevalue, writevalue, 255};
 		}
 	}
@@ -699,8 +699,8 @@ public:
 	void posterize_8(uint8_t levels) {
 		for (size_t i = 0; i < _pixels.size(); i++) {
 			uint8_t readvalue = _pixels[i].r;
-			uint8_t writevalue = pb::map(readvalue, 0, 255, 0, levels);
-			writevalue = pb::map(writevalue, 0, levels, 0, 255);
+			uint8_t writevalue = rt::map(readvalue, 0, 255, 0, levels);
+			writevalue = rt::map(writevalue, 0, levels, 0, 255);
 			_pixels[i] = {writevalue, writevalue, writevalue, 255};
 		}
 	}
@@ -760,6 +760,6 @@ inline vec2i clamp(const vec2i& pos, int cols, int rows) {
 }
 
 
-} // namespace pb
+} // namespace rt
 
 #endif // PIXELBUFFER_H

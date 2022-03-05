@@ -6,7 +6,7 @@
 
 int create_vec()
 {
-	pb::vec2 v;
+	rt::vec2 v;
 	assert(v.x == 0);
 	assert(v.y == 0);
 
@@ -15,7 +15,7 @@ int create_vec()
 
 int create_vec_arg()
 {
-	pb::vec2 v = pb::vec2(5);
+	rt::vec2 v = rt::vec2(5);
 	assert(v.x == 5);
 	assert(v.y == 5);
 
@@ -24,7 +24,7 @@ int create_vec_arg()
 
 int create_vec_args()
 {
-	pb::vec2 v = pb::vec2(4, 3);
+	rt::vec2 v = rt::vec2(4, 3);
 	assert(v.x == 4);
 	assert(v.y == 3);
 
@@ -33,8 +33,8 @@ int create_vec_args()
 
 int create_vec_copy()
 {
-	pb::vec2 a = pb::vec2(4, 3);
-	pb::vec2 b(a);
+	rt::vec2 a = rt::vec2(4, 3);
+	rt::vec2 b(a);
 	assert(b.x == 4);
 	assert(b.y == 3);
 
@@ -51,8 +51,8 @@ int create_vec_copy()
 
 int op_add_vec()
 {
-	pb::vec2 v = pb::vec2(2, 2);
-	v = v + pb::vec2(2, 1);
+	rt::vec2 v = rt::vec2(2, 2);
+	v = v + rt::vec2(2, 1);
 	assert(v.x == 4);
 	assert(v.y == 3);
 
@@ -61,8 +61,8 @@ int op_add_vec()
 
 int op_add_vec_eq()
 {
-	pb::vec2 v = pb::vec2(2, 2);
-	v += pb::vec2(2, 1);
+	rt::vec2 v = rt::vec2(2, 2);
+	v += rt::vec2(2, 1);
 	assert(v.x == 4);
 	assert(v.y == 3);
 
@@ -71,8 +71,8 @@ int op_add_vec_eq()
 
 int op_minus_vec()
 {
-	pb::vec2 v = pb::vec2(5, 7);
-	v = v - pb::vec2(1, 4);
+	rt::vec2 v = rt::vec2(5, 7);
+	v = v - rt::vec2(1, 4);
 	assert(v.x == 4);
 	assert(v.y == 3);
 
@@ -81,8 +81,8 @@ int op_minus_vec()
 
 int op_minus_vec_eq()
 {
-	pb::vec2 v = pb::vec2(5, 7);
-	v -= pb::vec2(1, 4);
+	rt::vec2 v = rt::vec2(5, 7);
+	v -= rt::vec2(1, 4);
 	assert(v.x == 4);
 	assert(v.y == 3);
 
@@ -91,7 +91,7 @@ int op_minus_vec_eq()
 
 int op_mult_scalar()
 {
-	pb::vec2 v = pb::vec2(0.8f, 0.6f);
+	rt::vec2 v = rt::vec2(0.8f, 0.6f);
 	v = v * 5;
 	assert(v.x == 4);
 	assert(v.y == 3);
@@ -101,7 +101,7 @@ int op_mult_scalar()
 
 int op_mult_scalar_eq()
 {
-	pb::vec2 v = pb::vec2(0.8f, 0.6f);
+	rt::vec2 v = rt::vec2(0.8f, 0.6f);
 	v *= 5.0f;
 	assert(v.x == 4.0f);
 	assert(v.y == 3.0f);
@@ -111,13 +111,13 @@ int op_mult_scalar_eq()
 
 int op_div_scalar()
 {
-	pb::vec2 v = pb::vec2(4, 3);
+	rt::vec2 v = rt::vec2(4, 3);
 	v = v / 5;
 	assert(v.x == 0.8f);
 	assert(v.y == 0.6f);
 
 	// divide by zero
-	v = pb::vec2(4, 3);
+	v = rt::vec2(4, 3);
 	v = v / 0;
 	assert(v.x == 4);
 	assert(v.y == 3);
@@ -127,13 +127,13 @@ int op_div_scalar()
 
 int op_div_scalar_eq()
 {
-	pb::vec2 v = pb::vec2(4, 3);
+	rt::vec2 v = rt::vec2(4, 3);
 	v /= 5;
 	assert(v.x == 0.8f);
 	assert(v.y == 0.6f);
 
 	// divide by zero
-	v = pb::vec2(4, 3);
+	v = rt::vec2(4, 3);
 	v /= 0;
 	assert(v.x == 4);
 	assert(v.y == 3);
@@ -143,16 +143,16 @@ int op_div_scalar_eq()
 
 int op_vec_eq()
 {
-	pb::vec2 v = pb::vec2(4, 3);
-	assert(v == pb::vec2(4, 3));
+	rt::vec2 v = rt::vec2(4, 3);
+	assert(v == rt::vec2(4, 3));
 
     return 1;
 }
 
 int op_lt_gt()
 {
-	pb::vec2 a = pb::vec2(4, 3);
-	pb::vec2 b = pb::vec2(5, 5);
+	rt::vec2 a = rt::vec2(4, 3);
+	rt::vec2 b = rt::vec2(5, 5);
 	assert(a < b);
 	assert(b > a);
 
@@ -161,12 +161,12 @@ int op_lt_gt()
 
 int op_lt_gt_eq()
 {
-	pb::vec2 a = pb::vec2(4, 3);
-	pb::vec2 b = pb::vec2(5, 5);
+	rt::vec2 a = rt::vec2(4, 3);
+	rt::vec2 b = rt::vec2(5, 5);
 	assert(a <= b);
 	assert(b >= a);
 
-	pb::vec2 c = pb::vec2(-4, 3);
+	rt::vec2 c = rt::vec2(-4, 3);
 	assert(a <= c);
 	assert(c >= a);
 	assert(a >= c);
@@ -180,7 +180,7 @@ int op_lt_gt_eq()
 
 int op_index()
 {
-	pb::vec2 v = pb::vec2(4, 3);
+	rt::vec2 v = rt::vec2(4, 3);
 	float x = v[0];
 	float y = v[1];
 	assert(x == 4);
@@ -201,7 +201,7 @@ int op_index()
 
 int vec_normalize()
 {
-	pb::vec2 v = pb::vec2(4, 3);
+	rt::vec2 v = rt::vec2(4, 3);
 	v.normalize();
 	
 	assert(v.x == 0.8f);
@@ -212,8 +212,8 @@ int vec_normalize()
 
 int vec_normalized()
 {
-	pb::vec2 a = pb::vec2(4, 3);
-	pb::vec2 b = a.normalized();
+	rt::vec2 a = rt::vec2(4, 3);
+	rt::vec2 b = a.normalized();
 	
 	assert(a.x == 4);
 	assert(a.y == 3);
@@ -225,12 +225,12 @@ int vec_normalized()
 
 int vec_mag()
 {
-	pb::vec2 a = pb::vec2(4, 3);
+	rt::vec2 a = rt::vec2(4, 3);
 	
 	assert(a.mag() == 5);
 	assert(a.magSQ() == 25);
 
-	pb::vec2 b = a.mag(1);
+	rt::vec2 b = a.mag(1);
 	assert(a.x == 0.8f);
 	assert(a.y == 0.6f);
 	assert(b.x == 0.8f);
@@ -241,8 +241,8 @@ int vec_mag()
 
 int vec_dot()
 {
-	pb::vec2 a = pb::vec2(2, 1);
-	pb::vec2 b = pb::vec2(3, 4);
+	rt::vec2 a = rt::vec2(2, 1);
+	rt::vec2 b = rt::vec2(3, 4);
 
 	// method
 	float d = a.dot(b);
@@ -255,7 +255,7 @@ int vec_dot()
 
 	// static
 	d = 0;
-	d = pb::vec2::dot(a, b);
+	d = rt::vec2::dot(a, b);
 
 	assert(d == 10);
 	assert(a.x == 2);
@@ -268,8 +268,8 @@ int vec_dot()
 
 int vec_distance()
 {
-	pb::vec2 a = pb::vec2(2, 1);
-	pb::vec2 b = pb::vec2(2, 2);
+	rt::vec2 a = rt::vec2(2, 1);
+	rt::vec2 b = rt::vec2(2, 2);
 
 	// method
 	float d = a.distance(b);
@@ -282,7 +282,7 @@ int vec_distance()
 
 	// static
 	d = 0;
-	d = pb::vec2::distance(a, b);
+	d = rt::vec2::distance(a, b);
 
 	assert(d == 1);
 	assert(a.x == 2);
@@ -295,7 +295,7 @@ int vec_distance()
 
 int vec_angle()
 {
-	pb::vec2 a = pb::vec2::unity(); // unity = (0, 1)
+	rt::vec2 a = rt::vec2::unity(); // unity = (0, 1)
 
 	// M_PI/2 = 1.5708f
 	assert(a.angle() > 1.570f);
@@ -304,7 +304,7 @@ int vec_angle()
 	a.angle(0); // unitx = (1, 0)
 	assert(a.x == 1);
 	assert(a.y == 0);
-	assert(a == pb::vec2::unitx());
+	assert(a == rt::vec2::unitx());
 
 	a.rotate(M_PI / 4);
 	// (M_PI / 4) radians = 45 degrees
@@ -312,7 +312,7 @@ int vec_angle()
 	assert(a.x > 0.707f);
 	assert(a.x < 0.708f);
 
-	pb::vec2 b = pb::vec2::fromAngle(a.angle());
+	rt::vec2 b = rt::vec2::fromAngle(a.angle());
 	assert(b.x == b.y);
 	assert(b.x > 0.707f);
 	assert(b.x < 0.708f);
@@ -323,7 +323,7 @@ int vec_angle()
 int vec_random()
 {
 	for (size_t i = 0; i < 100; i++) {
-		pb::vec2 a = pb::vec2::random();
+		rt::vec2 a = rt::vec2::random();
 		assert(a.x >= -M_PI);
 		assert(a.x <= M_PI);
 		assert(a.y >= -M_PI);
@@ -337,17 +337,17 @@ int vec_random()
 
 int vec_static_defined()
 {
-	assert(pb::vec2::zero()  == pb::vec2(0, 0));
-	assert(pb::vec2::one()   == pb::vec2(1, 1));
-	assert(pb::vec2::unitx() == pb::vec2(1, 0));
-	assert(pb::vec2::unity() == pb::vec2(0, 1));
+	assert(rt::vec2::zero()  == rt::vec2(0, 0));
+	assert(rt::vec2::one()   == rt::vec2(1, 1));
+	assert(rt::vec2::unitx() == rt::vec2(1, 0));
+	assert(rt::vec2::unity() == rt::vec2(0, 1));
 
     return 1;
 }
 
 int vec_test_union()
 {
-	pb::vec2 a = pb::vec2(4, 3);
+	rt::vec2 a = rt::vec2(4, 3);
 
 	assert(a.x == a.u);
 	assert(a.y == a.v);
@@ -362,31 +362,31 @@ int main(void)
 {
 	srand(time(nullptr));
 
-	pb::run_unit_test("create_vec", create_vec);
-	pb::run_unit_test("create_vec_arg", create_vec_arg);
-	pb::run_unit_test("create_vec_args", create_vec_args);
-	pb::run_unit_test("create_vec_copy", create_vec_copy);
-	pb::run_unit_test("op_add_vec", op_add_vec);
-	pb::run_unit_test("op_add_vec_eq", op_add_vec_eq);
-	pb::run_unit_test("op_minus_vec", op_minus_vec);
-	pb::run_unit_test("op_minus_vec_eq", op_minus_vec_eq);
-	pb::run_unit_test("op_mult_scalar", op_mult_scalar);
-	pb::run_unit_test("op_mult_scalar_eq", op_mult_scalar_eq);
-	pb::run_unit_test("op_div_scalar", op_div_scalar);
-	pb::run_unit_test("op_div_scalar_eq", op_div_scalar_eq);
-	pb::run_unit_test("op_vec_eq", op_vec_eq);
-	pb::run_unit_test("op_lt_gt", op_lt_gt);
-	pb::run_unit_test("op_lt_gt_eq", op_lt_gt_eq);
-	pb::run_unit_test("op_index", op_index);
-	pb::run_unit_test("vec_normalize", vec_normalize);
-	pb::run_unit_test("vec_normalized", vec_normalized);
-	pb::run_unit_test("vec_mag", vec_mag);
-	pb::run_unit_test("vec_dot", vec_dot);
-	pb::run_unit_test("vec_distance", vec_distance);
-	pb::run_unit_test("vec_angle", vec_angle);
-	pb::run_unit_test("vec_random", vec_random);
-	pb::run_unit_test("vec_static_defined", vec_static_defined);
-	pb::run_unit_test("vec_test_union", vec_test_union);
+	rt::run_unit_test("create_vec", create_vec);
+	rt::run_unit_test("create_vec_arg", create_vec_arg);
+	rt::run_unit_test("create_vec_args", create_vec_args);
+	rt::run_unit_test("create_vec_copy", create_vec_copy);
+	rt::run_unit_test("op_add_vec", op_add_vec);
+	rt::run_unit_test("op_add_vec_eq", op_add_vec_eq);
+	rt::run_unit_test("op_minus_vec", op_minus_vec);
+	rt::run_unit_test("op_minus_vec_eq", op_minus_vec_eq);
+	rt::run_unit_test("op_mult_scalar", op_mult_scalar);
+	rt::run_unit_test("op_mult_scalar_eq", op_mult_scalar_eq);
+	rt::run_unit_test("op_div_scalar", op_div_scalar);
+	rt::run_unit_test("op_div_scalar_eq", op_div_scalar_eq);
+	rt::run_unit_test("op_vec_eq", op_vec_eq);
+	rt::run_unit_test("op_lt_gt", op_lt_gt);
+	rt::run_unit_test("op_lt_gt_eq", op_lt_gt_eq);
+	rt::run_unit_test("op_index", op_index);
+	rt::run_unit_test("vec_normalize", vec_normalize);
+	rt::run_unit_test("vec_normalized", vec_normalized);
+	rt::run_unit_test("vec_mag", vec_mag);
+	rt::run_unit_test("vec_dot", vec_dot);
+	rt::run_unit_test("vec_distance", vec_distance);
+	rt::run_unit_test("vec_angle", vec_angle);
+	rt::run_unit_test("vec_random", vec_random);
+	rt::run_unit_test("vec_static_defined", vec_static_defined);
+	rt::run_unit_test("vec_test_union", vec_test_union);
 
 #if 0
 	const int N = 25;
@@ -395,7 +395,7 @@ int main(void)
 	std::cout << "Uniform distributed random floats:" << std::endl;
 	int uvalues[N] = {0};
 	for (size_t i = 0; i < AMOUNT; i++) {
-		float v = pb::rand_float();
+		float v = rt::rand_float();
 		int index = (int) (v*N);
 		uvalues[index]++;
 	}
@@ -411,7 +411,7 @@ int main(void)
 	std::cout << "Normal distributed random floats:" << std::endl;
 	int nvalues[N] = {0};
 	for (size_t i = 0; i < AMOUNT; i++) {
-		float v = pb::rand_bm();
+		float v = rt::rand_bm();
 		int index = (int) (v*N);
 		nvalues[index]++;
 	}

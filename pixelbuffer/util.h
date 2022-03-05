@@ -12,7 +12,7 @@
 
 #include <cmath>
 
-namespace pb {
+namespace rt {
 
 const double DEGREES = 180.0 / M_PI;
 const double RADIANS = M_PI / 180.0;
@@ -164,6 +164,6 @@ inline int run_unit_test(const char* name, int (*func)())
 }
 #endif
 
-} // namespace pb
+} // namespace rt
 
 #endif // UTIL_H_

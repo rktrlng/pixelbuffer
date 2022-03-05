@@ -6,8 +6,8 @@
 int test_words()
 {
 	uint16_t word = 0xABCD;
-	uint8_t high = pb::high_byte(word);
-	uint8_t low = pb::low_byte(word);
+	uint8_t high = rt::high_byte(word);
+	uint8_t low = rt::low_byte(word);
 
 	assert(high == 0xAB);
 	assert(low == 0xCD);
@@ -15,7 +15,7 @@ int test_words()
 	high = 0x7A;
 	low = 0x42;
 
-	word = pb::make_word(high, low);
+	word = rt::make_word(high, low);
 	assert(word == 0x7A42);
 
     return 1;
@@ -23,7 +23,7 @@ int test_words()
 
 int test_map()
 {
-	int val = pb::map(973, 0, 1023, 0, 255); // returns: 242
+	int val = rt::map(973, 0, 1023, 0, 255); // returns: 242
 	assert(val == 242);
 
 	return 1;
@@ -31,13 +31,13 @@ int test_map()
 
 int test_constrain()
 {
-	int val = pb::constrain(12, 42, 48);
+	int val = rt::constrain(12, 42, 48);
 	assert(val == 42);
 
-	val = pb::constrain(56, 42, 48);
+	val = rt::constrain(56, 42, 48);
 	assert(val == 48);
 
-	val = pb::constrain(45, 42, 48);
+	val = rt::constrain(45, 42, 48);
 	assert(val == 45);
 
 	return 1;
@@ -45,7 +45,7 @@ int test_constrain()
 
 int test_field_index()
 {
-	int index = pb::index(3, 2, 5);
+	int index = rt::index(3, 2, 5);
 	assert(index == 13);
 
 	return 1;
@@ -54,7 +54,7 @@ int test_field_index()
 int test_rand_float()
 {
 	for (size_t i = 0; i < 100; i++) {
-		float r = pb::rand_float();
+		float r = rt::rand_float();
 		assert(r >= 0.0f);
 		assert(r <= 1.0f);
 	}
@@ -65,7 +65,7 @@ int test_rand_float()
 int test_rand_float_args()
 {
 	for (size_t i = 0; i < 100; i++) {
-		float r = pb::rand_float(0.25f, 0.75f);
+		float r = rt::rand_float(0.25f, 0.75f);
 		assert(r >= 0.25f);
 		assert(r <= 0.75f);
 	}
@@ -76,7 +76,7 @@ int test_rand_float_args()
 int test_rand_double()
 {
 	for (size_t i = 0; i < 100; i++) {
-		double r = pb::rand_double();
+		double r = rt::rand_double();
 		assert(r >= 0.0);
 		assert(r <= 1.0);
 	}
@@ -87,7 +87,7 @@ int test_rand_double()
 int test_rand_double_args()
 {
 	for (size_t i = 0; i < 100; i++) {
-		double r = pb::rand_double(0.25, 0.75);
+		double r = rt::rand_double(0.25, 0.75);
 		assert(r >= 0.25);
 		assert(r <= 0.75);
 	}
@@ -98,7 +98,7 @@ int test_rand_double_args()
 int test_rand_bm()
 {
 	for (size_t i = 0; i < 100; i++) {
-		float r = pb::rand_bm();
+		float r = rt::rand_bm();
 		assert(r >= 0.0f);
 		assert(r <= 1.0f);
 	}
@@ -108,10 +108,10 @@ int test_rand_bm()
 
 int test_deg_rad()
 {
-	assert(pb::RADIANS * 180 > 3.14158);
-	assert(pb::RADIANS * 180 < 3.14160);
-	assert(pb::DEGREES * M_PI > 179);
-	assert(pb::DEGREES * M_PI < 181);
+	assert(rt::RADIANS * 180 > 3.14158);
+	assert(rt::RADIANS * 180 < 3.14160);
+	assert(rt::DEGREES * M_PI > 179);
+	assert(rt::DEGREES * M_PI < 181);
 
 	return 1;
 }
@@ -119,17 +119,17 @@ int test_deg_rad()
 int test_lerp()
 {
 	float l;
-	l = pb::lerp(2, 5, 0.0f);
+	l = rt::lerp(2, 5, 0.0f);
 	assert(l == 2.0f);
-	l = pb::lerp(2, 5, 0.4f);
+	l = rt::lerp(2, 5, 0.4f);
 	assert(l == 3.2f);
-	l = pb::lerp(2, 5, 0.8f);
+	l = rt::lerp(2, 5, 0.8f);
 	assert(l == 4.4f);
-	l = pb::lerp(2, 5, 1.0f);
+	l = rt::lerp(2, 5, 1.0f);
 	assert(l == 5.0f);
 
-	// pb::vec2f v2 = pb::vec2();
-	// v2 = pb::vec2f::lerp(pb::vec2f(-4, 3), pb::vec2f(4, 3), 0.75f);
+	// rt::vec2f v2 = rt::vec2();
+	// v2 = rt::vec2f::lerp(rt::vec2f(-4, 3), rt::vec2f(4, 3), 0.75f);
 	// std::cout << v2 << std::endl;
 
 	return 1;
@@ -139,17 +139,17 @@ int main(void)
 {
 	srand(time(nullptr));
 
-	pb::run_unit_test("test_words", test_words);
-	pb::run_unit_test("test_map", test_map);
-	pb::run_unit_test("test_constrain", test_constrain);
-	pb::run_unit_test("test_field_index", test_field_index);
-	pb::run_unit_test("test_rand_float", test_rand_float);
-	pb::run_unit_test("test_rand_float_args", test_rand_float_args);
-	pb::run_unit_test("test_rand_double", test_rand_double);
-	pb::run_unit_test("test_rand_double_args", test_rand_double_args);
-	pb::run_unit_test("test_rand_bm", test_rand_bm);
-	pb::run_unit_test("test_deg_rad", test_deg_rad);
-	pb::run_unit_test("test_lerp", test_lerp);
+	rt::run_unit_test("test_words", test_words);
+	rt::run_unit_test("test_map", test_map);
+	rt::run_unit_test("test_constrain", test_constrain);
+	rt::run_unit_test("test_field_index", test_field_index);
+	rt::run_unit_test("test_rand_float", test_rand_float);
+	rt::run_unit_test("test_rand_float_args", test_rand_float_args);
+	rt::run_unit_test("test_rand_double", test_rand_double);
+	rt::run_unit_test("test_rand_double_args", test_rand_double_args);
+	rt::run_unit_test("test_rand_bm", test_rand_bm);
+	rt::run_unit_test("test_deg_rad", test_deg_rad);
+	rt::run_unit_test("test_lerp", test_lerp);
 
 	std::cout << "## finished ##" << std::endl;
 

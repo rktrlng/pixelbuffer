@@ -13,7 +13,7 @@
 #include <ostream>
 #include <cmath>
 
-namespace pb {
+namespace rt {
 
 // vec2 definition
 template <class T>
@@ -108,6 +108,6 @@ typedef vec2_t<double> vec2d;
 typedef vec2f          vec2;
 
 
-} // namespace pb
+} // namespace rt
 
 #endif // VEC2_H

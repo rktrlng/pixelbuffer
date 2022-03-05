@@ -7,17 +7,17 @@
 // ########################################################
 int floodfill()
 {
-	pb::PixelBuffer pixelbuffer(256, 256, 32);
+	rt::PixelBuffer pixelbuffer(256, 256, 32);
 
 	srand(time(nullptr));
-	pb::RGBAColor color = RED;
+	rt::RGBAColor color = RED;
 	for (size_t i = 0; i < 25; i++) {
-		float x = pb::rand_bm() * 256;
-		float y = pb::rand_bm() * 256;
-		pixelbuffer.drawCircleFilled(x, y, pb::rand_bm() * 32, color);
-		// pixelbuffer.drawSquare(x, y, pb::rand_bm() * 64, pb::rand_bm() * 64, color);
-		// pixelbuffer.drawSquareFilled(x, y, pb::rand_bm() * 64, pb::rand_bm() * 64, color);
-		color = pb::rotate(color, 0.006f);
+		float x = rt::rand_bm() * 256;
+		float y = rt::rand_bm() * 256;
+		pixelbuffer.drawCircleFilled(x, y, rt::rand_bm() * 32, color);
+		// pixelbuffer.drawSquare(x, y, rt::rand_bm() * 64, rt::rand_bm() * 64, color);
+		// pixelbuffer.drawSquareFilled(x, y, rt::rand_bm() * 64, rt::rand_bm() * 64, color);
+		color = rt::rotate(color, 0.006f);
 	}
 
 	// writing
@@ -40,7 +40,7 @@ int pattern()
 	int width = 160;
 	int height = 90;
 	int step = 10;
-	pb::PixelBuffer pb(width, height, 24);
+	rt::PixelBuffer pb(width, height, 24);
 	pb.fill(BLACK);
 
 	// gray grid
@@ -59,12 +59,12 @@ int pattern()
 	}
 
 	// transparent blue cross
-	pb.drawLine(0, 0, width, height-1, pb::RGBAColor(0, 0, 255, 128));
-	pb.drawLine(0, height-1, width, 0, pb::RGBAColor(0, 0, 255, 128));
+	pb.drawLine(0, 0, width, height-1, rt::RGBAColor(0, 0, 255, 128));
+	pb.drawLine(0, height-1, width, 0, rt::RGBAColor(0, 0, 255, 128));
 
 	// white outline and transparent yellow circle
 	pb.drawSquare(0, 0, width-1, height-1, WHITE);
-	pb.drawCircle(width/2, height/2, 31, pb::RGBAColor(255, 255, 0, 128));
+	pb.drawCircle(width/2, height/2, 31, rt::RGBAColor(255, 255, 0, 128));
 
 	// write pixelbuffer to file
 	std::cout << "Writing testpattern.pbf" << std::endl;
@@ -78,14 +78,14 @@ int pattern()
 int onebit()
 {
 	size_t height = 256;
-	pb::PixelBuffer pixelbuffer(8, height, 1);
+	rt::PixelBuffer pixelbuffer(8, height, 1);
 	pixelbuffer.pixels().clear();
 
 	uint8_t value = 0x55; // 0x55 is (dec) 85
 
 	std::cout << "value: " << (int) value << std::endl;
 
-	std::vector<pb::RGBAColor> colors;
+	std::vector<rt::RGBAColor> colors;
 	colors = pixelbuffer.byte2vec(value);
 
 	std::string colorstring = "";
@@ -107,7 +107,7 @@ int onebit()
 
 	// generate and write binarycounter.pbf
 	for (size_t row = 0; row < height; row++) {
-		std::vector<pb::RGBAColor> colorvec = pixelbuffer.byte2vec(row);
+		std::vector<rt::RGBAColor> colorvec = pixelbuffer.byte2vec(row);
 		for (size_t i = 0; i < 8; i++) {
 			pixelbuffer.pixels().push_back(colorvec[i]);
 		}
@@ -117,7 +117,7 @@ int onebit()
 	// pixelbuffer.printInfo();
 
 	// reading
-	pb::PixelBuffer pbr("binarycounter.pbf");
+	rt::PixelBuffer pbr("binarycounter.pbf");
 	// pbr.printInfo();
 
 	return 1;
@@ -128,7 +128,7 @@ int tga_read_write()
 	std::cout << "read testpattern.tga" << std::endl;
 	std::cout << "write fromTGA.pbf" << std::endl;
 
-	pb::PixelBuffer pixelbuffer;
+	rt::PixelBuffer pixelbuffer;
 	pixelbuffer.fromTGA("testpattern.tga");
 	pixelbuffer.write("fromTGA.pbf");
 
@@ -138,28 +138,28 @@ int tga_read_write()
 
 int test_create()
 {
-	pb::PixelBuffer pb;
+	rt::PixelBuffer pb;
 
 	assert((int)pb.valid() == 1);
 	assert(pb.width() == 0);
 	assert(pb.height() == 0);
 	assert(pb.bitdepth() == 32);
 
-	pb = pb::PixelBuffer(8, 8, 32);
+	pb = rt::PixelBuffer(8, 8, 32);
 	assert((int)pb.valid() == 1);
 	assert(pb.width() == 8);
 	assert(pb.height() == 8);
 	assert(pb.bitdepth() == 32);
 
-	assert(pb.getPixel(0, 0) == pb::RGBAColor(0, 0, 0, 0));
+	assert(pb.getPixel(0, 0) == rt::RGBAColor(0, 0, 0, 0));
 
 	return 1;
 }
 
 int test_drawline()
 {
-	pb::PixelBuffer pb = pb::PixelBuffer(8, 8, 32);
-	pb::RGBAColor color = pb::RGBAColor(255, 0, 0);
+	rt::PixelBuffer pb = rt::PixelBuffer(8, 8, 32);
+	rt::RGBAColor color = rt::RGBAColor(255, 0, 0);
 	pb.drawLine(0, 0, 8, 8, color);
 	assert(pb.getPixel(0, 0) == color);
 	assert(pb.getPixel(1, 1) == color);
@@ -173,7 +173,7 @@ int test_drawline()
 	assert(pb.getPixel(1, 3) != color);
 	assert(pb.getPixel(4, 2) != color);
 
-	assert(pb.getPixel(4, 2) == pb::RGBAColor(0, 0, 0, 0));
+	assert(pb.getPixel(4, 2) == rt::RGBAColor(0, 0, 0, 0));
 
 	return 1;
 }
@@ -187,8 +187,8 @@ int main(void)
 	// onebit();
 	// tga_read_write();
 
-	pb::run_unit_test("test_create", test_create);
-	pb::run_unit_test("test_drawline", test_drawline);
+	rt::run_unit_test("test_create", test_create);
+	rt::run_unit_test("test_drawline", test_drawline);
 
 	return 0;
 }

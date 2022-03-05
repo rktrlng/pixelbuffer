@@ -15,7 +15,7 @@
 
 #include <pixelbuffer/math/vec2.h>
 
-namespace pb {
+namespace rt {
 
 // ###############################################
 // # Circle definition                           #
@@ -157,6 +157,6 @@ inline bool rectangle2rectangle(const Rectangle_t<T>& rect1, const Rectangle_t<T
 }
 
 
-} // namespace pb
+} // namespace rt
 
 #endif // GEOM_H

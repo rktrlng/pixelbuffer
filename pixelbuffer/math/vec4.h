@@ -15,7 +15,7 @@
 
 #include <pixelbuffer/math/vec3.h>
 
-namespace pb {
+namespace rt {
 
 // vec4 definition
 template <class T>
@@ -55,6 +55,6 @@ typedef vec4_t<double> vec4d;
 typedef vec4f          vec4;
 
 
-} // namespace pb
+} // namespace rt
 
 #endif // VEC4_H
