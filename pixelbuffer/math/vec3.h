@@ -89,6 +89,17 @@ public:
 	inline T angle(const vec3_t<T>& b) const { return acos((*this).dot(b) / ((*this).mag() * b.mag())); }
 	inline static T angle(const vec3_t<T>& a, const vec3_t<T>& b) { return acos(a.dot(b) / (a.mag() * b.mag())); }
 
+	inline static vec3_t<T> random() {
+		T a = -1.0f;
+		T b = 1.0f;
+		T x_ = (T)rand() / (T)RAND_MAX * (b - a) + a;
+		T y_ = (T)rand() / (T)RAND_MAX * (b - a) + a;
+		T z_ = (T)rand() / (T)RAND_MAX * (b - a) + a;
+		vec3_t<T> v = vec3_t<T>(x_, y_, z_);
+		v.normalize();
+		return v;
+	}
+
 	inline static vec3_t<T> lerp(vec3_t<T> a, vec3_t<T> b, T t) { return a + (b-a) * t; }
 	inline static vec3_t<T> lerp_quadratic(vec3_t<T> a, vec3_t<T> b, vec3_t<T> c, T t) {
 		vec3_t<T> A = lerp(a, b, t);
