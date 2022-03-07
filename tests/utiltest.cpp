@@ -2,6 +2,7 @@
 #include <cassert>
 
 #include <pixelbuffer/util.h>
+#include <pixelbuffer/math/vec2.h>
 
 int test_words()
 {
@@ -108,10 +109,10 @@ int test_rand_bm()
 
 int test_deg_rad()
 {
-	assert(rt::RADIANS * 180 > 3.14158);
-	assert(rt::RADIANS * 180 < 3.14160);
-	assert(rt::DEGREES * M_PI > 179);
-	assert(rt::DEGREES * M_PI < 181);
+	assert(DEG_TO_RAD * 180 > 3.14158);
+	assert(DEG_TO_RAD * 180 < 3.142);
+	assert(RAD_TO_DEG * M_PI > 179);
+	assert(RAD_TO_DEG * M_PI < 181);
 
 	return 1;
 }

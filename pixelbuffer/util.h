@@ -10,15 +10,10 @@
 #ifndef UTIL_H_
 #define UTIL_H_
 
-#define  _USE_MATH_DEFINES
 #include <cmath>
 #include <cstdio>
 
 namespace rt {
-
-const double DEGREES = 180.0 / M_PI;
-const double RADIANS = M_PI / 180.0;
-
 
 /**
  * @brief returns the low byte of a word
