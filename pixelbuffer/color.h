@@ -11,6 +11,7 @@
 #define COLOR_H_
 
 #include <cmath>
+#include <algorithm>
 
 namespace rt {
 
