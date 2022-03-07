@@ -10,16 +10,15 @@
 #ifndef UTIL_H_
 #define UTIL_H_
 
+#define  _USE_MATH_DEFINES
 #include <cmath>
+#include <cstdio>
 
 namespace rt {
 
 const double DEGREES = 180.0 / M_PI;
 const double RADIANS = M_PI / 180.0;
 
-#ifdef __cplusplus
-extern "C" {
-#endif
 
 /**
  * @brief returns the low byte of a word
@@ -159,10 +158,6 @@ inline int run_unit_test(const char* name, int (*func)())
 	return r;
 }
 
-
-#ifdef __cplusplus
-}
-#endif
 
 } // namespace rt
 

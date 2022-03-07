@@ -148,9 +148,6 @@ inline std::ostream& operator<<(std::ostream& os, const HSVAColor& color) {
 	return os << "(" << color.h << ", " << color.s << ", " << color.v << ", " << color.a << ")";
 }
 
-#ifdef __cplusplus
-extern "C" {
-#endif
 
 /// @brief HSV <-> RGBA conversion
 // http://www.easyrgb.com/index.php?X=MATH&H=20#text20
@@ -334,11 +331,6 @@ inline RGBAColor luminance(RGBAColor rgba) {
 	uint8_t lum = rgba.r * 0.3f + rgba.g * 0.59f + rgba.b * 0.11f;
 	return RGBAColor(lum, rgba.a);
 }
-
-
-#ifdef __cplusplus
-}
-#endif
 
 
 #define BLACK       rt::RGBAColor(0,   0,   0,   255) ///< @brief color black
