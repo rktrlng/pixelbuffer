@@ -10,8 +10,9 @@
 #ifndef UTIL_H_
 #define UTIL_H_
 
+#include <iostream>
 #include <cmath>
-#include <cstdio>
+#include <chrono>
 
 namespace rt {
 
@@ -146,12 +147,30 @@ inline int run_unit_test(const char* name, int (*func)())
 {
 	int r = func();
 	if (r) {
-		printf("=> test passed: %s\n", name);
+		std::cout << "=> test passed: " << name << std::endl;
 	} else {
-		printf("### test failed: %s\n", name);
+		std::cout << "### test failed: " << name << std::endl;
 	}
 	return r;
 }
+
+
+struct AppTimer
+{
+	std::chrono::time_point<std::chrono::high_resolution_clock> start, end;
+	std::chrono::duration<double> duration;
+
+	AppTimer() {
+		start = std::chrono::high_resolution_clock::now();
+	}
+
+	~AppTimer() {
+		end = std::chrono::high_resolution_clock::now();
+		duration = end - start;
+		double ms = duration.count() * 1000;
+		std:: cout << "Timer took: " << ms << "ms" << std::endl;
+	}
+};
 
 
 } // namespace rt

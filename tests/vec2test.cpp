@@ -360,6 +360,8 @@ int vec_test_union()
 
 int main(void)
 {
+	rt::AppTimer timer;
+
 	srand(time(nullptr));
 
 	rt::run_unit_test("create_vec", create_vec);
