@@ -44,10 +44,9 @@ public:
 		return x;
 	}
 
+	friend std::ostream& operator<<(std::ostream& os, const vec4_t<T>& obj) { return os << "(" << obj.x << ", " << obj.y << ", " << obj.z << ", " << obj.w << ")"; }
+
 };
-// implementations
-template <class T>
-inline std::ostream& operator<<(std::ostream& os, const vec4_t<T>& obj) { return os << "(" << obj.x << ", " << obj.y << ", " << obj.z << ", " << obj.w << ")"; }
 
 // typedefs
 typedef vec4_t<float>  vec4f;

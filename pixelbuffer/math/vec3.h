@@ -117,10 +117,8 @@ public:
 	inline static vec3_t<T> unitx() { return vec3_t<T>(static_cast<T>(1), static_cast<T>(0), static_cast<T>(0)); }
 	inline static vec3_t<T> unity() { return vec3_t<T>(static_cast<T>(0), static_cast<T>(1), static_cast<T>(0)); }
 
+	friend std::ostream& operator<<(std::ostream& os, const vec3_t<T>& obj) { return os << "(" << obj.x << ", " << obj.y << ", " << obj.z << ")"; }
 };
-// implementations
-template <class T>
-inline std::ostream& operator<<(std::ostream& os, const vec3_t<T>& obj) { return os << "(" << obj.x << ", " << obj.y << ", " << obj.z << ")"; }
 
 // typedefs
 typedef vec3_t<float>  vec3f;

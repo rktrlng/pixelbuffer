@@ -50,10 +50,9 @@ public:
 		return v0;
 	}
 
+	friend std::ostream& operator<<(std::ostream& os, const mat4_t<T>& obj) { return os << "{ " << obj.v0 << "\n  " << obj.v1 << "\n  " << obj.v2 << "\n  " << obj.v3 << " }"; }
+
 };
-// implementations
-template <class T>
-inline std::ostream& operator<<(std::ostream& os, const mat4_t<T>& obj) { return os << "{ " << obj.v0 << "\n  " << obj.v1 << "\n  " << obj.v2 << "\n  " << obj.v3 << " }"; }
 
 
 // ###############################################
