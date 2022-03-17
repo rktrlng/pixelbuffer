@@ -73,24 +73,6 @@ public:
 	HSVAColor(float hue, float sat, float val, float alpha = 1.0f) : vec4_t<float>(hue, sat, val, alpha)  { }
 };
 
-/// @brief A normalized 32 bit RGBA color (Red, Green, Blue, Alpha). Each value is a float between 0.0f and 1.0f.
-class NColor : public vec4_t<float>
-{
-public:
-	/// @brief constructor
-	NColor() : vec4_t<float>(1.0f, 1.0f, 1.0f, 1.0f) { }
-	/// @brief constructor
-	/// @param red The red component of the color
-	/// @param green The green component of the color
-	/// @param blue The blue component of the color
-	/// @param alpha The alpha component of the color
-	NColor(float red, float green, float blue, float alpha = 1.0f) : vec4_t<float>(red, green, blue, alpha)  { }
-	/// @brief grayscale constructor
-	/// @param gray The grayscale component of the color
-	/// @param alpha The alpha component of the color
-	NColor(float gray, float alpha = 1.0f) : vec4_t<float>(gray, gray, gray, alpha)  { }
-};
-
 
 // ###############################################
 // # Converters                                  #
@@ -100,7 +82,7 @@ public:
 /// @brief RGBA to HSVA conversion
 /// @param rgba the RGBAColor to convert
 /// @return return converted HSVAColor color
-inline HSVAColor RGBA2HSVA(RGBAColor rgba) {
+inline HSVAColor RGBA2HSVA(const RGBAColor& rgba) {
 	float var_R = (float) rgba.r / 255; //RGB from 0 to 255
 	float var_G = (float) rgba.g / 255;
 	float var_B = (float) rgba.b / 255;
@@ -139,7 +121,7 @@ inline HSVAColor RGBA2HSVA(RGBAColor rgba) {
 /// @brief HSVA to RGBA conversion
 /// @param hsva the HSVAColor to convert
 /// @return return converted RGBAColor color
-inline RGBAColor HSVA2RGBA(HSVAColor hsva) {
+inline RGBAColor HSVA2RGBA(const HSVAColor& hsva) {
 	uint8_t R = 0;
 	uint8_t G = 0;
 	uint8_t B = 0;
@@ -172,28 +154,6 @@ inline RGBAColor HSVA2RGBA(HSVAColor hsva) {
 	return RGBAColor(R, G, B, A);
 }
 
-/// @brief RGBAColor <-> NColor conversion
-/// @param rgba the RGBAColor to convert
-/// @return return converted NColor color
-inline NColor RGBA2N(RGBAColor rgba) {
-	float r = rgba.r / 255.0f;
-	float g = rgba.g / 255.0f;
-	float b = rgba.b / 255.0f;
-	float a = rgba.a / 255.0f;
-	return {r, g, b, a};
-}
-
-/// @brief NColor <-> RGBAColor conversion
-/// @param rgba the NColor to convert
-/// @return return converted RGBAColor color
-inline RGBAColor N2RGBA(NColor rgba) {
-	uint8_t r = rgba.r * 255;
-	uint8_t g = rgba.g * 255;
-	uint8_t b = rgba.b * 255;
-	uint8_t a = rgba.a * 255;
-	return {r, g, b, a};
-}
-
 
 // ###############################################
 // # Helpers                                     #
@@ -203,29 +163,12 @@ inline RGBAColor N2RGBA(NColor rgba) {
 /// @param rgba the RGBAColor to rotate
 /// @param step amount to rotate
 /// @return return RGBAColor rotated color
-inline RGBAColor rotate(RGBAColor rgba, float step) {
+inline RGBAColor rotate(const RGBAColor& rgba, float step) {
 	HSVAColor hsva = RGBA2HSVA(rgba);
 	hsva.h += step;
 	if (hsva.h > 1.0f) { hsva.h -= 1.0f; }
 	if (hsva.h < 0.0f) { hsva.h += 1.0f; }
 	return HSVA2RGBA(hsva);
-}
-
-/// @brief lerp from color to another color
-/// @param c1 first RGBAColor
-/// @param c2 second RGBAColor
-/// @param t between 0 and 1
-/// @return return RGBAColor lerped color
-inline RGBAColor lerpColor(RGBAColor c1, RGBAColor c2, float t) {
-	if (t < 0) { t = 0; }
-	if (t > 1) { t = 1; }
-
-	uint8_t r = floor(c1.r + (c2.r-c1.r) * t);
-	uint8_t g = floor(c1.g + (c2.g-c1.g) * t);
-	uint8_t b = floor(c1.b + (c2.b-c1.b) * t);
-	uint8_t a = floor(c1.a + (c2.a-c1.a) * t);
-
-	return RGBAColor(r, g, b, a);
 }
 
 // https://stackoverflow.com/questions/28900598/how-to-combine-two-colors-with-varying-alpha-values
@@ -234,7 +177,7 @@ inline RGBAColor lerpColor(RGBAColor c1, RGBAColor c2, float t) {
 /// @param top top RGBAColor
 /// @param bottom bottom RGBAColor
 /// @return return RGBAColor blended color
-inline RGBAColor alphaBlend(RGBAColor top, RGBAColor bottom) {
+inline RGBAColor alphaBlend(const RGBAColor& top, const RGBAColor& bottom) {
 	// if we want to overlay top(0) over bottom(1) both with some alpha then:
 
 	// uint8_t 0-255 to float 0.0-1.0
@@ -266,7 +209,7 @@ inline RGBAColor alphaBlend(RGBAColor top, RGBAColor bottom) {
 /// @param rgba the color to quantize
 /// @param factor number of palette colors. default 1 for 2 colors (eg. black/white)
 /// @return return RGBAColor quatized color
-inline RGBAColor quantize(RGBAColor rgba, int factor = 1) {
+inline RGBAColor quantize(const RGBAColor& rgba, int factor = 1) {
 	float r = (float)rgba.r;
 	float g = (float)rgba.g;
 	float b = (float)rgba.b;
@@ -281,14 +224,14 @@ inline RGBAColor quantize(RGBAColor rgba, int factor = 1) {
 /// @brief returns negative version of rgba color
 /// @param rgba the color to invert
 /// @return return RGBAColor negative color
-inline RGBAColor negative(RGBAColor rgba) {
+inline RGBAColor negative(const RGBAColor& rgba) {
 	return RGBAColor(255-rgba.r, 255-rgba.g, 255-rgba.b, rgba.a);
 }
 
 /// @brief convert rgba color to average grayscale
 /// @param rgba the color to convert
 /// @return return RGBAColor average grayscale color
-inline RGBAColor average(RGBAColor rgba) {
+inline RGBAColor average(const RGBAColor& rgba) {
 	uint8_t avg = (rgba.r + rgba.g + rgba.b) / 3;
 	return RGBAColor(avg, rgba.a);
 }
@@ -296,7 +239,7 @@ inline RGBAColor average(RGBAColor rgba) {
 /// @brief convert rgba color to luminance value
 /// @param rgba the color to convert
 /// @return return RGBAColor luminance color
-inline RGBAColor luminance(RGBAColor rgba) {
+inline RGBAColor luminance(const RGBAColor& rgba) {
 	uint8_t lum = rgba.r * 0.3f + rgba.g * 0.59f + rgba.b * 0.11f;
 	return RGBAColor(lum, rgba.a);
 }
