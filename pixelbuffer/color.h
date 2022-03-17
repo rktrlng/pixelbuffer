@@ -13,49 +13,33 @@
 #include <cmath>
 #include <algorithm>
 
+#include <pixelbuffer/math/vec4.h>
+
 namespace rt {
 
-/// @brief A 32 bit RGBA color.
-///
-/// A struct that defines an RGBA Color. Each value is a uint8_t (0-255).
-struct RGBAColor
-{
-	/// @brief The red component of the color
-	uint8_t r = 255;
-	/// @brief The green component of the color
-	uint8_t g = 255;
-	/// @brief The blue component of the color
-	uint8_t b = 255;
-	/// @brief The alpha component of the color
-	uint8_t a = 255;
+// ###############################################
+// # Data Types                                  #
+// ###############################################
 
+/// @brief A 32 bit RGBA color (Red, Green, Blue, Alpha). Each value is a uint8_t (0-255).
+class RGBAColor : public vec4_t<uint8_t>
+{
+public:
 	/// @brief constructor
-	RGBAColor() {
-		r = 255;
-		g = 255;
-		b = 255;
-		a = 255;
-	}
+	RGBAColor() : vec4_t<uint8_t>(255, 255, 255, 255) { }
+
 	/// @brief 24/32 bit constructor
 	/// @param red The red component of the color
 	/// @param green The green component of the color
 	/// @param blue The blue component of the color
 	/// @param alpha The alpha component of the color
-	RGBAColor(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha = 255) {
-		r = red;
-		g = green;
-		b = blue;
-		a = alpha;
-	}
+	RGBAColor(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha = 255) : vec4_t<uint8_t>(red, green, blue, alpha) { }
+
 	/// @brief 8/16 bit constructor
 	/// @param gray The gray component of the color
 	/// @param alpha The alpha component of the color
-	RGBAColor(uint8_t gray, uint8_t alpha = 255) {
-		r = gray;
-		g = gray;
-		b = gray;
-		a = alpha;
-	}
+	RGBAColor(uint8_t gray, uint8_t alpha = 255) : vec4_t<uint8_t>(gray, gray, gray, alpha) { }
+
 	/// @brief fromInt static 'constructor'
 	/// @param color The color as a 32 bits int
 	/// @return RGBAColor from int
@@ -66,93 +50,54 @@ struct RGBAColor
 		uint8_t a = color & 0xFF;
 		return RGBAColor(r, g, b, a);
 	}
+
 	/// @brief get color as a uint32_t
 	/// @return uint32_t color as a 32 bits int
 	uint32_t asInt() const {
 		uint32_t color = (r << 24) + (g << 16) + (b << 8) + (a);
 		return color;
 	}
-	/// @brief == operator overloader
-	/// @param rhs the color to compare against
-	/// @return bool equal or not
-	inline bool operator==(const RGBAColor& rhs) const {
-		return ( r == rhs.r && g == rhs.g && b == rhs.b && a == rhs.a );
-	}
-	/// @brief != operator overloader
-	/// @param rhs the color to compare against
-	/// @return bool equal or not
-	inline bool operator!=(const RGBAColor& rhs) const {
-		return !(*this == rhs);
-	}
-
-	/// @brief [] operator overloader
-	/// @param index the index of the rgba color component
-	/// @return uint8_t& rgba color component
-	inline uint8_t& operator[](size_t index) {
-		int id = index % 4;
-		if (id == 0) { return r; }
-		if (id == 1) { return g; }
-		if (id == 2) { return b; }
-		if (id == 3) { return a; }
-		return r;
-	}
 };
-inline std::ostream& operator<<(std::ostream& os, const RGBAColor& color) {
-	return os << "(" << (int)color.r << ", " << (int)color.g << ", " << (int)color.b << ", " << (int)color.a << ")";
-}
 
-
-/// @brief A 24 bit HSV color.
-///
-/// A struct that defines an HSV Color (Hue, Saturation, Brightness). Each value is a float between 0.0f and 1.0f.
-struct HSVAColor
+/// @brief A 32 bit HSV color (Hue, Saturation, Brightness, Alpha). Each value is a float between 0.0f and 1.0f.
+class HSVAColor : public vec4_t<float>
 {
-	/// @brief The Hue component of the color
-	float h = 0.0f;
-	/// @brief The Saturation component of the color
-	float s = 0.0f;
-	/// @brief The Lightness/Brightness/Value component of the color
-	float v = 1.0f;
-	/// @brief The Alpha component of the color
-	float a = 1.0f;
-
+public:
 	/// @brief constructor
-	HSVAColor() {
-		h = 0.0f;
-		s = 0.0f;
-		v = 1.0f;
-		a = 1.0f;
-	}
+	HSVAColor() : vec4_t<float>(0.0f, 0.0f, 1.0f, 1.0f) { }
 	/// @brief constructor
 	/// @param hue The hue component of the color
 	/// @param sat The saturation component of the color
 	/// @param val The brightness/lightness/value component of the color
-	HSVAColor(float hue, float sat, float val, float alpha = 1.0f) {
-		h = hue;
-		s = sat;
-		v = val;
-		a = alpha;
-	}
-	/// @brief [] operator overloader
-	/// @param index the index of the hsva color component
-	/// @return float& hsva color component
-	inline float& operator[](size_t index) {
-		int id = index % 4;
-		if (id == 0) { return h; }
-		if (id == 1) { return s; }
-		if (id == 2) { return v; }
-		if (id == 3) { return a; }
-		return h;
-	}
+	/// @param alpha The alpha component of the color
+	HSVAColor(float hue, float sat, float val, float alpha = 1.0f) : vec4_t<float>(hue, sat, val, alpha)  { }
 };
-inline std::ostream& operator<<(std::ostream& os, const HSVAColor& color) {
-	return os << "(" << color.h << ", " << color.s << ", " << color.v << ", " << color.a << ")";
-}
+
+/// @brief A normalized 32 bit RGBA color (Red, Green, Blue, Alpha). Each value is a float between 0.0f and 1.0f.
+class NColor : public vec4_t<float>
+{
+public:
+	/// @brief constructor
+	NColor() : vec4_t<float>(1.0f, 1.0f, 1.0f, 1.0f) { }
+	/// @brief constructor
+	/// @param red The red component of the color
+	/// @param green The green component of the color
+	/// @param blue The blue component of the color
+	/// @param alpha The alpha component of the color
+	NColor(float red, float green, float blue, float alpha = 1.0f) : vec4_t<float>(red, green, blue, alpha)  { }
+	/// @brief grayscale constructor
+	/// @param gray The grayscale component of the color
+	/// @param alpha The alpha component of the color
+	NColor(float gray, float alpha = 1.0f) : vec4_t<float>(gray, gray, gray, alpha)  { }
+};
 
 
-/// @brief HSV <-> RGBA conversion
+// ###############################################
+// # Converters                                  #
+// ###############################################
+
 // http://www.easyrgb.com/index.php?X=MATH&H=20#text20
-/// @brief RGBA to HSV conversion
+/// @brief RGBA to HSVA conversion
 /// @param rgba the RGBAColor to convert
 /// @return return converted HSVAColor color
 inline HSVAColor RGBA2HSVA(RGBAColor rgba) {
@@ -189,7 +134,6 @@ inline HSVAColor RGBA2HSVA(RGBAColor rgba) {
 	}
 	return HSVAColor(H, S, V, A);
 }
-
 
 // http://www.easyrgb.com/index.php?X=MATH&H=21#text21
 /// @brief HSVA to RGBA conversion
@@ -228,6 +172,32 @@ inline RGBAColor HSVA2RGBA(HSVAColor hsva) {
 	return RGBAColor(R, G, B, A);
 }
 
+/// @brief RGBAColor <-> NColor conversion
+/// @param rgba the RGBAColor to convert
+/// @return return converted NColor color
+inline NColor RGBA2N(RGBAColor rgba) {
+	float r = rgba.r / 255.0f;
+	float g = rgba.g / 255.0f;
+	float b = rgba.b / 255.0f;
+	float a = rgba.a / 255.0f;
+	return {r, g, b, a};
+}
+
+/// @brief NColor <-> RGBAColor conversion
+/// @param rgba the NColor to convert
+/// @return return converted RGBAColor color
+inline RGBAColor N2RGBA(NColor rgba) {
+	uint8_t r = rgba.r * 255;
+	uint8_t g = rgba.g * 255;
+	uint8_t b = rgba.b * 255;
+	uint8_t a = rgba.a * 255;
+	return {r, g, b, a};
+}
+
+
+// ###############################################
+// # Helpers                                     #
+// ###############################################
 
 /// @brief Rotate RGBA color (use HSV)
 /// @param rgba the RGBAColor to rotate
@@ -241,24 +211,22 @@ inline RGBAColor rotate(RGBAColor rgba, float step) {
 	return HSVA2RGBA(hsva);
 }
 
-
 /// @brief lerp from color to another color
 /// @param c1 first RGBAColor
 /// @param c2 second RGBAColor
-/// @param amount between 0 and 1
+/// @param t between 0 and 1
 /// @return return RGBAColor lerped color
-inline RGBAColor lerpColor(RGBAColor c1, RGBAColor c2, float amount) {
-	if (amount < 0) { amount = 0; }
-	if (amount > 1) { amount = 1; }
+inline RGBAColor lerpColor(RGBAColor c1, RGBAColor c2, float t) {
+	if (t < 0) { t = 0; }
+	if (t > 1) { t = 1; }
 
-	uint8_t r = floor(c1.r + (c2.r-c1.r)*amount);
-	uint8_t g = floor(c1.g + (c2.g-c1.g)*amount);
-	uint8_t b = floor(c1.b + (c2.b-c1.b)*amount);
-	uint8_t a = floor(c1.a + (c2.a-c1.a)*amount);
+	uint8_t r = floor(c1.r + (c2.r-c1.r) * t);
+	uint8_t g = floor(c1.g + (c2.g-c1.g) * t);
+	uint8_t b = floor(c1.b + (c2.b-c1.b) * t);
+	uint8_t a = floor(c1.a + (c2.a-c1.a) * t);
 
 	return RGBAColor(r, g, b, a);
 }
-
 
 // https://stackoverflow.com/questions/28900598/how-to-combine-two-colors-with-varying-alpha-values
 // https://en.wikipedia.org/wiki/Alpha_compositing#Alpha_blending

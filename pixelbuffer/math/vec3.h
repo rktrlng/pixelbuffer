@@ -21,9 +21,9 @@ namespace rt {
 template <class T>
 class vec3_t {
 public:
-	union { T x, i, u, r; };
-	union { T y, j, v, g; };
-	union { T z, k, w, b; };
+	union { T x, u, r; };
+	union { T y, v, g; };
+	union { T z, w, b; };
 
 	vec3_t<T>() : x(static_cast<T>(0)), y(static_cast<T>(0)), z(static_cast<T>(0)) {}
 	vec3_t<T>(T n) : x(n), y(n), z(n) {}

@@ -31,11 +31,9 @@ public:
 	Line_t<T>(const vec2_t<T>& a) : begin(a), end(a + vec2_t<T>::unitx()) {}
 	Line_t<T>(const vec2_t<T>& a, const vec2_t<T>& b) : begin(a), end(b) {}
 	Line_t<T>(const Line_t<T>& l) : begin(l.begin), end(l.end) {}
-};
-// implementations
-template <class T>
-inline std::ostream& operator<<(std::ostream& os, const Line_t<T>& obj) { return os << "Line begin: " << obj.begin << " end: " << obj.end; }
 
+	friend std::ostream& operator<<(std::ostream& os, const Line_t<T>& obj) { return os << "Line begin: " << obj.begin << " end: " << obj.end; }
+};
 // typedefs
 typedef Line_t<float>  Linef;
 typedef Line_t<double> lined;
@@ -55,11 +53,9 @@ public:
 	Circle_t<T>(T x, T y, T r = static_cast<T>(1)) : pos(vec2_t<T>(x,y)), radius(r) {}
 	Circle_t<T>(const vec2_t<T>& p, T r = static_cast<T>(1)) : pos(p), radius(r) {}
 	Circle_t<T>(const Circle_t<T>& c) : pos(c.pos), radius(c.radius) {}
-};
-// implementations
-template <class T>
-inline std::ostream& operator<<(std::ostream& os, const Circle_t<T>& obj) { return os << "Circle pos: " << obj.pos << " radius: " << obj.radius; }
 
+	friend std::ostream& operator<<(std::ostream& os, const Circle_t<T>& obj) { return os << "Circle pos: " << obj.pos << " radius: " << obj.radius; }
+};
 // typedefs
 typedef Circle_t<float>  Circlef;
 typedef Circle_t<double> Circled;
@@ -79,14 +75,9 @@ struct Rectangle_t {
 	Rectangle_t<T>(const vec2_t<T>& p) : pos(p), size(vec2_t<T>::one()) {}
 	Rectangle_t<T>(const vec2_t<T>& p, const vec2_t<T>& d) : pos(p), size(d) {}
 	Rectangle_t<T>(const Rectangle_t<T>& r) : pos(r.pos), size(r.size) {}
-	
-};
-// implementations
-template <class T>
-inline std::ostream& operator<<(std::ostream& os, const Rectangle_t<T>& obj) {
-	return os << "Rectangle pos: " << obj.pos << " size: " << obj.size; 
-}
 
+	friend std::ostream& operator<<(std::ostream& os, const Rectangle_t<T>& obj) { return os << "Rectangle pos: " << obj.pos << " size: " << obj.size; }
+};
 // typedefs
 typedef Rectangle_t<float>  Rectanglef;
 typedef Rectangle_t<double> Rectangled;
@@ -105,11 +96,8 @@ struct BezierCubic_t {
 
 	BezierCubic_t<T>() : begin(static_cast<T>(0)), control_begin(static_cast<T>(0)), control_end(static_cast<T>(0)), end(static_cast<T>(0)) {}
 
-	vec2_t<T> point(T t) const {
-		return vec2_t<T>::lerp_cubic(begin, control_begin, control_end, end, t);
-	}
+	vec2_t<T> point(T t) const { return vec2_t<T>::lerp_cubic(begin, control_begin, control_end, end, t); }
 };
-
 // typedefs
 typedef BezierCubic_t<float>  BezierCubicf;
 typedef BezierCubic_t<double> BezierCubicd;
@@ -127,11 +115,8 @@ struct BezierQuadratic_t {
 
 	BezierQuadratic_t<T>() : begin(static_cast<T>(0)), control(static_cast<T>(0)), end(static_cast<T>(0)) {}
 
-	vec2_t<T> point(T t) const {
-		return vec2_t<T>::lerp_quadratic(begin, control, end, t);
-	}
+	vec2_t<T> point(T t) const { return vec2_t<T>::lerp_quadratic(begin, control, end, t); }
 };
-
 // typedefs
 typedef BezierQuadratic_t<float>  BezierQuadraticf;
 typedef BezierQuadratic_t<double> BezierQuadraticd;

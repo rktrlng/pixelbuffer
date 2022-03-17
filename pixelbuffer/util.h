@@ -57,9 +57,9 @@ inline uint16_t make_word(uint8_t high, uint8_t low)
  * @param out_max The upper range of the output value
  * @return double the value
  */
-inline double map(double x, double in_min, double in_max, double out_min, double out_max)
+inline double map(double x, double imin, double imax, double omin, double omax)
 {
-	return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+	return (x - imin) * (omax - omin) / (imax - imin) + omin;
 }
 
 /**
