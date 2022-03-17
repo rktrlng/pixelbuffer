@@ -63,7 +63,7 @@ inline double map(double x, double imin, double imax, double omin, double omax)
 }
 
 /**
- * @brief Linearly interpolates between two values.
+ * @brief Linear interpolation between two values.
  * Interpolates between the values a and b by the interpolant t.
  * @param a first value
  * @param b second value
@@ -73,6 +73,18 @@ inline double map(double x, double imin, double imax, double omin, double omax)
 inline double lerp(double a, double b, double t)
 {
 	return a + (b-a) * t;
+}
+
+/**
+ * @brief Inversed Linear interpolation between two values.
+ * @param a first value
+ * @param b second value
+ * @param v interpolated value
+ * @return interpolant
+ */
+inline double ilerp(double a, double b, double v)
+{
+	return (v-a) / (b-a);
 }
 
 /**
