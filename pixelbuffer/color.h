@@ -10,6 +10,7 @@
 #ifndef COLOR_H_
 #define COLOR_H_
 
+#define  _USE_MATH_DEFINES
 #include <cmath>
 #include <algorithm>
 

@@ -11,10 +11,6 @@
 #define MAT4_H
 
 #include <ostream>
-#include <cmath>
-
-#define  _USE_MATH_DEFINES
-#include <cmath>
 
 #include <pixelbuffer/math/vec4.h>
 

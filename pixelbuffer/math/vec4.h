@@ -11,7 +11,6 @@
 #define VEC4_H
 
 #include <ostream>
-#include <cmath>
 
 #include <pixelbuffer/math/vec3.h>
 

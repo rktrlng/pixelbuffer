@@ -11,7 +11,6 @@
 #define VEC3_H
 
 #include <ostream>
-#include <cmath>
 
 #include <pixelbuffer/math/vec2.h>
 

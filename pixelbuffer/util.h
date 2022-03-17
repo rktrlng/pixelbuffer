@@ -10,8 +10,9 @@
 #ifndef UTIL_H_
 #define UTIL_H_
 
-#include <iostream>
+#define  _USE_MATH_DEFINES
 #include <cmath>
+#include <iostream>
 #include <chrono>
 
 namespace rt {

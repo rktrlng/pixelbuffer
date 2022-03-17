@@ -10,9 +10,9 @@
 #ifndef VEC2_H
 #define VEC2_H
 
-#include <ostream>
+#define  _USE_MATH_DEFINES
 #include <cmath>
-
+#include <ostream>
 
 #ifndef M_PI
 	#define M_PI        3.14159265358979323846264

@@ -10,8 +10,9 @@
 #ifndef GEOM_H
 #define GEOM_H
 
-#include <ostream>
+#define  _USE_MATH_DEFINES
 #include <cmath>
+#include <ostream>
 
 #include <pixelbuffer/math/vec2.h>
 
