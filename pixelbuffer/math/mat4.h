@@ -291,4 +291,4 @@ typedef mat4f          mat4;
 
 } // namespace rt
 
-#endif // VEC2_H
+#endif // MAT4_H
