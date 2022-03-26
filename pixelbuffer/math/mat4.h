@@ -29,15 +29,15 @@ public:
 
 	const mat4_t<T>& identity() { *this = mat4_t<T>(); return *this; }
 
-	inline mat4_t<T>  operator* (const mat4_t<T>& rhs) const { return matmulMM(*this, rhs); }
-	inline mat4_t<T>& operator*=(const mat4_t<T>& rhs) { *this = *this * rhs; return *this; }
+	mat4_t<T>  operator* (const mat4_t<T>& rhs) const { return matmulMM(*this, rhs); }
+	mat4_t<T>& operator*=(const mat4_t<T>& rhs) { *this = *this * rhs; return *this; }
 
-	inline vec4_t<T>  operator* (const vec4_t<T>& rhs) const { return matmulMV(*this, rhs); }
+	vec4_t<T>  operator* (const vec4_t<T>& rhs) const { return matmulMV(*this, rhs); }
 
-	inline bool operator==(const mat4_t<T>& rhs) const { return (v0==rhs.v0 && v1==rhs.v1 && v2==rhs.v2 && v3==rhs.v3); }
-	inline bool operator!=(const mat4_t<T>& rhs) const { return !(*this == rhs); }
+	bool operator==(const mat4_t<T>& rhs) const { return (v0==rhs.v0 && v1==rhs.v1 && v2==rhs.v2 && v3==rhs.v3); }
+	bool operator!=(const mat4_t<T>& rhs) const { return !(*this == rhs); }
 
-	inline vec4_t<T>& operator[](size_t index) {
+	vec4_t<T>& operator[](size_t index) {
 		index %= 4;
 		if (index == 0) { return v0; }
 		if (index == 1) { return v1; }

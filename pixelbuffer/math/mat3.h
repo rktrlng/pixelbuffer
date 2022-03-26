@@ -28,10 +28,10 @@ public:
 
 	const mat3_t<T>& identity() { *this = mat3_t<T>(); return *this; }
 
-	inline bool operator==(const mat3_t<T>& rhs) const { return (v0==rhs.v0 && v1==rhs.v1 && v2==rhs.v2); }
-	inline bool operator!=(const mat3_t<T>& rhs) const { return !(*this == rhs); }
+	bool operator==(const mat3_t<T>& rhs) const { return (v0==rhs.v0 && v1==rhs.v1 && v2==rhs.v2); }
+	bool operator!=(const mat3_t<T>& rhs) const { return !(*this == rhs); }
 
-	inline vec3_t<T>& operator[](size_t index) {
+	vec3_t<T>& operator[](size_t index) {
 		index %= 3;
 		if (index == 0) { return v0; }
 		if (index == 1) { return v1; }

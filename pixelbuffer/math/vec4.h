@@ -31,33 +31,33 @@ public:
 	vec4_t<T>(const vec3_t<T>& v, T w = static_cast<T>(1)) : x(v.x), y(v.y), z(v.z), w(w) {}
 	vec4_t<T>(const vec4_t<T>& v) : x(v.x), y(v.y), z(v.z), w(v.w) {}
 
-	inline vec4_t<T>  operator+ (const vec4_t<T>& rhs) const { return vec4_t<T>(x+rhs.x, y+rhs.y, z+rhs.z, w+rhs.w); }
-	inline vec4_t<T>& operator+=(const vec4_t<T>& rhs) { *this = *this + rhs; return *this; }
-	inline vec4_t<T>  operator- (const vec4_t<T>& rhs) const { return vec4_t<T>(x-rhs.x, y-rhs.y, z-rhs.z, w-rhs.w); }
-	inline vec4_t<T>& operator-=(const vec4_t<T>& rhs) { *this = *this - rhs; return *this; }
-	inline vec4_t<T>  operator* (const vec4_t<T>& rhs) const { return vec4_t<T>(x*rhs.x, y*rhs.y, z*rhs.z, w*rhs.w); }
-	inline vec4_t<T>& operator*=(const vec4_t<T>& rhs) { *this = *this * rhs; return *this; }
-	inline vec4_t<T>  operator/ (const vec4_t<T>& rhs) const { return vec4_t<T>(x/rhs.x, y/rhs.y, z/rhs.z, w/rhs.w); }
-	inline vec4_t<T>& operator/=(const vec4_t<T>& rhs) { *this = *this / rhs; return *this; }
+	vec4_t<T>  operator+ (const vec4_t<T>& rhs) const { return vec4_t<T>(x+rhs.x, y+rhs.y, z+rhs.z, w+rhs.w); }
+	vec4_t<T>& operator+=(const vec4_t<T>& rhs) { *this = *this + rhs; return *this; }
+	vec4_t<T>  operator- (const vec4_t<T>& rhs) const { return vec4_t<T>(x-rhs.x, y-rhs.y, z-rhs.z, w-rhs.w); }
+	vec4_t<T>& operator-=(const vec4_t<T>& rhs) { *this = *this - rhs; return *this; }
+	vec4_t<T>  operator* (const vec4_t<T>& rhs) const { return vec4_t<T>(x*rhs.x, y*rhs.y, z*rhs.z, w*rhs.w); }
+	vec4_t<T>& operator*=(const vec4_t<T>& rhs) { *this = *this * rhs; return *this; }
+	vec4_t<T>  operator/ (const vec4_t<T>& rhs) const { return vec4_t<T>(x/rhs.x, y/rhs.y, z/rhs.z, w/rhs.w); }
+	vec4_t<T>& operator/=(const vec4_t<T>& rhs) { *this = *this / rhs; return *this; }
 
-	inline vec4_t<T>  operator+ (T rhs) const { return vec4_t<T>(x+rhs, y+rhs, z+rhs, w+rhs); }
-	inline vec4_t<T>& operator+=(T rhs) { *this = *this + rhs; return *this; }
-	inline vec4_t<T>  operator- (T rhs) const { return vec4_t<T>(x-rhs, y-rhs, z-rhs, w-rhs); }
-	inline vec4_t<T>& operator-=(T rhs) { *this = *this - rhs; return *this; }
-	inline vec4_t<T>  operator* (T rhs) const { return vec4_t<T>(x*rhs, y*rhs, z*rhs, w*rhs); }
-	inline vec4_t<T>& operator*=(T rhs) { *this = *this * rhs; return *this; }
-	inline vec4_t<T>  operator/ (T rhs) const { return vec4_t<T>(x/rhs, y/rhs, z/rhs, w/rhs); }
-	inline vec4_t<T>& operator/=(T rhs) { *this = *this / rhs; return *this; }
+	vec4_t<T>  operator+ (T rhs) const { return vec4_t<T>(x+rhs, y+rhs, z+rhs, w+rhs); }
+	vec4_t<T>& operator+=(T rhs) { *this = *this + rhs; return *this; }
+	vec4_t<T>  operator- (T rhs) const { return vec4_t<T>(x-rhs, y-rhs, z-rhs, w-rhs); }
+	vec4_t<T>& operator-=(T rhs) { *this = *this - rhs; return *this; }
+	vec4_t<T>  operator* (T rhs) const { return vec4_t<T>(x*rhs, y*rhs, z*rhs, w*rhs); }
+	vec4_t<T>& operator*=(T rhs) { *this = *this * rhs; return *this; }
+	vec4_t<T>  operator/ (T rhs) const { return vec4_t<T>(x/rhs, y/rhs, z/rhs, w/rhs); }
+	vec4_t<T>& operator/=(T rhs) { *this = *this / rhs; return *this; }
 
-	inline bool operator==(const vec4_t<T>& rhs) const { return (x==rhs.x && y==rhs.y && z==rhs.z && w==rhs.w); }
-	inline bool operator!=(const vec4_t<T>& rhs) const { return !(*this == rhs); }
+	bool operator==(const vec4_t<T>& rhs) const { return (x==rhs.x && y==rhs.y && z==rhs.z && w==rhs.w); }
+	bool operator!=(const vec4_t<T>& rhs) const { return !(*this == rhs); }
 
-	inline bool operator< (const vec4_t<T>& rhs) const { return (this->magSQ() < rhs.magSQ()); }
-	inline bool operator> (const vec4_t<T>& rhs) const { return rhs < *this; }
-	inline bool operator<=(const vec4_t<T>& rhs) const { return (*this < rhs) || (this->magSQ() == rhs.magSQ()); }
-	inline bool operator>=(const vec4_t<T>& rhs) const { return (*this > rhs) || (this->magSQ() == rhs.magSQ()); }
+	bool operator< (const vec4_t<T>& rhs) const { return (this->magSQ() < rhs.magSQ()); }
+	bool operator> (const vec4_t<T>& rhs) const { return rhs < *this; }
+	bool operator<=(const vec4_t<T>& rhs) const { return (*this < rhs) || (this->magSQ() == rhs.magSQ()); }
+	bool operator>=(const vec4_t<T>& rhs) const { return (*this > rhs) || (this->magSQ() == rhs.magSQ()); }
 
-	inline T& operator[](size_t index) {
+	T& operator[](size_t index) {
 		index %= 4;
 		if (index == 0) { return x; }
 		if (index == 1) { return y; }
@@ -66,17 +66,17 @@ public:
 		return x;
 	}
 
-	inline T magSQ() const { return ((x*x) + (y*y) + (z*z) + (w*w)); }
-	inline T mag() const { return sqrt(magSQ()); }
-	inline const vec4_t<T>& mag(T m) { this->normalize(); *this *= m; return *this; }
+	T magSQ() const { return ((x*x) + (y*y) + (z*z) + (w*w)); }
+	T mag() const { return sqrt(magSQ()); }
+	const vec4_t<T>& mag(T m) { this->normalize(); *this *= m; return *this; }
 
-	inline static vec4_t<T> lerp(vec4_t<T> a, vec4_t<T> b, T t) { return a + (b-a) * t; }
-	inline static vec4_t<T> lerp_quadratic(vec4_t<T> a, vec4_t<T> b, vec4_t<T> c, T t) {
+	static vec4_t<T> lerp(vec4_t<T> a, vec4_t<T> b, T t) { return a + (b-a) * t; }
+	static vec4_t<T> lerp_quadratic(vec4_t<T> a, vec4_t<T> b, vec4_t<T> c, T t) {
 		vec4_t<T> A = lerp(a, b, t);
 		vec4_t<T> B = lerp(b, c, t);
 		return lerp(A, B, t);
 	}
-	inline static vec4_t<T> lerp_cubic(vec4_t<T> a, vec4_t<T> b, vec4_t<T> c, vec4_t<T> d, T t) {
+	static vec4_t<T> lerp_cubic(vec4_t<T> a, vec4_t<T> b, vec4_t<T> c, vec4_t<T> d, T t) {
 		vec4_t<T> A = lerp_quadratic(a, b, c, t);
 		vec4_t<T> B = lerp_quadratic(b, c, d, t);
 		return lerp(A, B, t);
