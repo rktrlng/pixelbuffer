@@ -152,6 +152,43 @@ int main(void)
 	rt::run_unit_test("test_deg_rad", test_deg_rad);
 	rt::run_unit_test("test_lerp", test_lerp);
 
+#if 0
+	const int N = 25;
+	const int AMOUNT = 1000;
+
+	std::cout << "Uniform distributed random floats:" << std::endl;
+	int uvalues[N] = {0};
+	for (size_t i = 0; i < AMOUNT; i++) {
+		float v = rt::rand_float();
+		int index = (int) (v*N);
+		uvalues[index]++;
+	}
+
+	for (size_t i = 0; i < N; i++) {
+		std::cout << i << ": ";
+		for (int s = 0; s < uvalues[i]; s++) {
+			std::cout << "*";
+		}
+		std::cout << std::endl;
+	}
+
+	std::cout << "Normal distributed random floats:" << std::endl;
+	int nvalues[N] = {0};
+	for (size_t i = 0; i < AMOUNT; i++) {
+		float v = rt::rand_bm();
+		int index = (int) (v*N);
+		nvalues[index]++;
+	}
+
+	for (size_t i = 0; i < N; i++) {
+		std::cout << i << ": ";
+		for (int s = 0; s < nvalues[i]; s++) {
+			std::cout << "*";
+		}
+		std::cout << std::endl;
+	}
+#endif
+
 	std::cout << "## finished ##" << std::endl;
 
 	return 0;
