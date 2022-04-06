@@ -361,7 +361,7 @@ int vec_test_istream()
 {
 	// #if 1, and run with:
 	// echo "4 3" | ./vec2test
-#if 1
+#if 0
 	rt::vec2 a;
 	std::cin >> a;
 	std::cout << a << "\n";
