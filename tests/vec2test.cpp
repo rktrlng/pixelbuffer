@@ -351,8 +351,23 @@ int vec_test_union()
 
 	assert(a.x == a.u);
 	assert(a.y == a.v);
-	assert(a.x == a.i);
-	assert(a.y == a.j);
+	assert(a.x == a.width);
+	assert(a.y == a.height);
+
+    return 1;
+}
+
+int vec_test_istream()
+{
+	// #if 1, and run with:
+	// echo "4 3" | ./vec2test
+#if 1
+	rt::vec2 a;
+	std::cin >> a;
+	std::cout << a << "\n";
+	assert(a.x == 4);
+	assert(a.y == 3);
+#endif
 
     return 1;
 }
@@ -389,6 +404,7 @@ int main(void)
 	rt::run_unit_test("vec_random", vec_random);
 	rt::run_unit_test("vec_static_defined", vec_static_defined);
 	rt::run_unit_test("vec_test_union", vec_test_union);
+	rt::run_unit_test("vec_test_istream", vec_test_istream);
 
 #if 0
 	const int N = 25;

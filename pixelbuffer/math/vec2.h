@@ -37,8 +37,8 @@ namespace rt {
 template <class T>
 class vec2_t {
 public:
-	union { T x, u, i, s, p; };
-	union { T y, v, j, t, q; };
+	union { T x, u, width; };
+	union { T y, v, height; };
 
 	vec2_t<T>() : x(static_cast<T>(0)), y(static_cast<T>(0)) {}
 	vec2_t<T>(T n) : x(n), y(n) {}
@@ -115,6 +115,7 @@ public:
 	static vec2_t<T> unity() { return vec2_t<T>(static_cast<T>(0), static_cast<T>(1)); }
 
 	friend std::ostream& operator<<(std::ostream& os, const vec2_t<T>& obj) { return os << "(" << obj.x << ", " << obj.y << ")"; }
+	friend std::istream& operator>>(std::istream& stream, vec2_t<T>& ob) { stream >> ob.x >> ob.y; return stream; }
 };
 
 // typedefs
