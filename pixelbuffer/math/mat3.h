@@ -1,10 +1,7 @@
 /**
  * @file mat3.h
- *
- * @brief mat3_t<T>x3 Template: pb::mat3_t<T>
- *
- * Copyright 2015-2022 @rktrlng
- * https://github.com/rktrlng/pixelbuffer
+ * @brief Mat3x3 rt::mat3_t<T>
+ * @see https://github.com/rktrlng/pixelbuffer
  */
 
 #ifndef MAT3_H

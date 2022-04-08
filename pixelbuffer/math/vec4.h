@@ -1,10 +1,7 @@
 /**
  * @file vec4.h
- *
- * @brief Vector4 Template: pb::vec4_t<T>
- *
- * Copyright 2015-2022 @rktrlng
- * https://github.com/rktrlng/pixelbuffer
+ * @brief Vector4 rt::vec4_t<T>
+ * @see https://github.com/rktrlng/pixelbuffer
  */
 
 #ifndef VEC4_H

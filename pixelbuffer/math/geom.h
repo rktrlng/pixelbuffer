@@ -1,10 +1,7 @@
 /**
  * @file geom.h
- *
  * @brief Geometry types
- *
- * Copyright 2015-2022 @rktrlng
- * https://github.com/rktrlng/pixelbuffer
+ * @see https://github.com/rktrlng/pixelbuffer
  */
 
 #ifndef GEOM_H

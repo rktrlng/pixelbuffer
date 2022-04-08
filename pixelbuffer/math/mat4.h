@@ -1,10 +1,7 @@
 /**
  * @file mat4.h
- *
- * @brief mat4_t<T>x4 Template: pb::mat4_t<T>
- *
- * Copyright 2015-2022 @rktrlng
- * https://github.com/rktrlng/pixelbuffer
+ * @brief Mat4x4 rt::mat4_t<T>
+ * @see https://github.com/rktrlng/pixelbuffer
  */
 
 #ifndef MAT4_H

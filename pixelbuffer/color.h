@@ -1,10 +1,7 @@
 /**
  * @file color.h
- *
  * @brief RGBA / HSVA Color: RGBAColor
- *
- * Copyright 2015-2022 @rktrlng
- * https://github.com/rktrlng/pixelbuffer
+ * @see https://github.com/rktrlng/pixelbuffer
  */
 
 #ifndef COLOR_H_

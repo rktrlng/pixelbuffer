@@ -1,10 +1,7 @@
 /**
  * @file vec3.h
- *
- * @brief Vector3 Template: pb::vec3_t<T>
- *
- * Copyright 2015-2022 @rktrlng
- * https://github.com/rktrlng/pixelbuffer
+ * @brief Vector3 rt::vec3_t<T>
+ * @see https://github.com/rktrlng/pixelbuffer
  */
 
 #ifndef VEC3_H

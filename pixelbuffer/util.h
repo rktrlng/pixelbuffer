@@ -1,10 +1,7 @@
 /**
  * @file util.h
- *
  * @brief collection of helper functions
- *
- * Copyright 2015-2022 @rktrlng
- * https://github.com/rktrlng/pixelbuffer
+ * @see https://github.com/rktrlng/pixelbuffer
  */
 
 #ifndef UTIL_H_
