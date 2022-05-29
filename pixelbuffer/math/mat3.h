@@ -21,7 +21,7 @@ public:
 	vec3_t<T> v1;
 	vec3_t<T> v2;
 
-	mat3_t<T>() : v0({0,0,0}), v1({0,1,0}), v2({0,0,0}) {}
+	mat3_t<T>() : v0({1,0,0}), v1({0,1,0}), v2({0,0,1}) {}
 
 	const mat3_t<T>& identity() { *this = mat3_t<T>(); return *this; }
 

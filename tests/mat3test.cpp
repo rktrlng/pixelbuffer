@@ -7,7 +7,7 @@
 int create_mat3()
 {
 	rt::mat3 m;
-	assert(m[0][0] == 0);
+	assert(m[0][0] == 1);
 	assert(m[0][1] == 0);
 	assert(m[0][2] == 0);
 
@@ -17,7 +17,7 @@ int create_mat3()
 
 	assert(m[2][0] == 0);
 	assert(m[2][1] == 0);
-	assert(m[2][2] == 0);
+	assert(m[2][2] == 1);
 
 	std::cout << m << std::endl;
 
