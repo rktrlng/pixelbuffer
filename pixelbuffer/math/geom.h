@@ -34,7 +34,7 @@ public:
 };
 // typedefs
 typedef Line_t<float>  Linef;
-typedef Line_t<double> lined;
+typedef Line_t<double> Lined;
 typedef Linef          Line;
 
 
