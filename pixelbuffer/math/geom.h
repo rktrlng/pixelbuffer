@@ -206,18 +206,13 @@ inline bool rectangle2rectangle(const Rectangle_t<T>& rect1, const Rectangle_t<T
 // https://flassari.is/2008/11/line-line-intersection-in-cplusplus/
 template <class T>
 inline vec2_t<T> line2line(const Line_t<T>& line1, const Line_t<T>& line2) {
-	// return value
-	vec2_t<T> ret;
-
 	// Store values for easy equations-to-code conversion
-	vec2_t<T> p1 = line1.begin, p2 = line1.end, p3 = line2.begin, p4 = line2.end;
-
-	T x1 = p1.x, x2 = p2.x, x3 = p3.x, x4 = p4.x;
-	T y1 = p1.y, y2 = p2.y, y3 = p3.y, y4 = p4.y;
+	T x1 = line1.begin.x, x2 = line1.end.x, x3 = line2.begin.x, x4 = line2.end.x;
+	T y1 = line1.begin.y, y2 = line1.end.y, y3 = line2.begin.y, y4 = line2.end.y;
 
 	T d = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4);
 	// If d is zero, there is no intersection
-	if (d == 0) return ret;
+	if (d == 0) return vec2_t<T>();
 
 	// Get the x and y
 	T pre = (x1*y2 - y1*x2), post = (x3*y4 - y3*x4);
@@ -225,14 +220,11 @@ inline vec2_t<T> line2line(const Line_t<T>& line1, const Line_t<T>& line2) {
 	T y = ( pre * (y3 - y4) - (y1 - y2) * post ) / d;
 
 	// Check if the x and y coordinates are within both lines
-	if ( x < std::min(x1, x2) || x > std::max(x1, x2) || x < std::min(x3, x4) || x > std::max(x3, x4) ) return ret;
-	if ( y < std::min(y1, y2) || y > std::max(y1, y2) || y < std::min(y3, y4) || y > std::max(y3, y4) ) return ret;
+	if ( x < std::min(x1, x2) || x > std::max(x1, x2) || x < std::min(x3, x4) || x > std::max(x3, x4) ) return vec2_t<T>();
+	if ( y < std::min(y1, y2) || y > std::max(y1, y2) || y < std::min(y3, y4) || y > std::max(y3, y4) ) return vec2_t<T>();
 
 	// We found an intersection at (x, y)
-	ret.x = x;
-	ret.y = y;
-
-	return ret;
+	return vec2_t<T>(x, y);
 }
 
 
