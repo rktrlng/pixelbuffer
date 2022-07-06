@@ -49,6 +49,17 @@ int line_intersection()
     return 1;
 }
 
+int circle_vertices()
+{
+	auto circle = rt::Circle(100, 100, 25);
+	auto list = rt::vertices(circle, 8);
+	for (size_t i = 0; i < list.size(); i++) {
+		std::cout << list[i] << std::endl;
+	}
+
+    return 1;
+}
+
 int main(void)
 {
 	srand(time(nullptr));
@@ -57,6 +68,7 @@ int main(void)
 	rt::run_unit_test("create_circle", create_circle);
 	rt::run_unit_test("create_rectangle", create_rectangle);
 	rt::run_unit_test("line_intersection", line_intersection);
+	rt::run_unit_test("circle_vertices", circle_vertices);
 
 	std::cout << "## finished ##" << std::endl;
 

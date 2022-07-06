@@ -10,6 +10,7 @@
 #define  _USE_MATH_DEFINES
 #include <cmath>
 #include <ostream>
+#include <vector>
 
 #include <pixelbuffer/math/vec2.h>
 
@@ -120,6 +121,43 @@ typedef BezierQuadratic_t<float>  BezierQuadraticf;
 typedef BezierQuadratic_t<double> BezierQuadraticd;
 typedef BezierQuadraticf          BezierQuadratic;
 
+
+// ###############################################
+// # Vertices                                    #
+// ###############################################
+template <class T>
+inline std::vector<rt::vec2_t<T>> vertices(const Line_t<T>& line) {
+	std::vector<rt::vec2_t<T>> vertices;
+	vertices.push_back(rt::vec2_t<T>(line.begin.x, line.begin.y));
+	vertices.push_back(rt::vec2_t<T>(line.end.x, line.end.y));
+	return vertices;
+}
+
+template <class T>
+inline std::vector<rt::vec2_t<T>> vertices(const Circle_t<T>& circle, size_t amount = 32) {
+	std::vector<rt::vec2_t<T>> vertices;
+	T da = TWO_PI / amount;
+	T angle = 0;
+	for (size_t i = 0; i < amount; i++) {
+		rt::vec2_t<T> vertex;
+		vertex.x = cos(angle) * circle.radius;
+		vertex.y = sin(angle) * circle.radius;
+		vertex += circle.pos;
+		angle += da;
+		vertices.push_back(vertex);
+	}
+	return vertices;
+}
+
+template <class T>
+inline std::vector<rt::vec2_t<T>> vertices(const Rectangle_t<T>& rectangle) {
+	std::vector<rt::vec2_t<T>> vertices;
+	vertices.push_back(rt::vec2_t<T>(rectangle.pos.x, rectangle.pos.y));
+	vertices.push_back(rt::vec2_t<T>(rectangle.pos.x + rectangle.size.x, rectangle.pos.y));
+	vertices.push_back(rt::vec2_t<T>(rectangle.pos.x + rectangle.size.x, rectangle.pos.y + rectangle.size.y));
+	vertices.push_back(rt::vec2_t<T>(rectangle.pos.x, rectangle.pos.y + rectangle.size.y));
+	return vertices;
+}
 
 // ###############################################
 // # Collisions                                  #
