@@ -18,12 +18,33 @@ int create_mat2()
     return 1;
 }
 
+int matmulMV()
+{
+	// 90 deg rotation counterclockwise
+	rt::mat2 m;
+	m[0][0] = 0;
+	m[0][1] = -1;
+	m[1][0] = 1;
+	m[1][1] = 0;
+
+	rt::vec2 v(4,3);
+	rt::vec2 res = matmulMV(m, v);
+
+	std::cout << res << std::endl;
+
+	// assert(res.x == 8);
+	// assert(res.y == 6);
+
+    return 1;
+}
+
 
 int main(void)
 {
 	srand(time(nullptr));
 
 	rt::run_unit_test("create_mat2", create_mat2);
+	rt::run_unit_test("matmulMV", matmulMV);
 	std::cout << "## finished ##" << std::endl;
 
 	return 0;
