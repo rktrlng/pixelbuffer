@@ -28,12 +28,14 @@ int matmulMV()
 	m[1][1] = 0;
 
 	rt::vec2 v(4,3);
-	rt::vec2 res = matmulMV(m, v);
+	rt::vec2 res = m * v;
 
+	std::cout << m << std::endl;
+	std::cout << v << std::endl;
 	std::cout << res << std::endl;
 
-	// assert(res.x == 8);
-	// assert(res.y == 6);
+	assert(res.x == -3);
+	assert(res.y == 4);
 
     return 1;
 }
