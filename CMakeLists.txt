@@ -1,8 +1,12 @@
-cmake_minimum_required (VERSION 3.0)
-project (PixelBuffer)
+cmake_minimum_required (VERSION 3.12)
+project (PIXELBUFFER)
+
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED on)
+set(DEFAULT_BUILD_TYPE "Release")
 
 if(UNIX)
-	set(CMAKE_CXX_FLAGS "-Wall -Werror -pedantic -std=c++11 -O2")
+	set(CMAKE_CXX_FLAGS "-Wall -Werror -pedantic -O2")
 endif(UNIX)
 
 if(WIN32)
