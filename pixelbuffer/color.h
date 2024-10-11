@@ -10,6 +10,7 @@
 #define  _USE_MATH_DEFINES
 #include <cmath>
 #include <algorithm>
+#include <cstdint>
 
 #include <pixelbuffer/math/vec4.h>
 

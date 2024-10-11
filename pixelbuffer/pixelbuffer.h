@@ -11,6 +11,7 @@
 #include <fstream>
 #include <sstream>
 #include <vector>
+#include <cstdint>
 
 #include <pixelbuffer/color.h>
 #include <pixelbuffer/math/vec2.h>
