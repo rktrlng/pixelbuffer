@@ -64,7 +64,7 @@ public:
 		m_header.height = height;
 		m_header.bitdepth = bitdepth;
 		const size_t numpixels = width * height;
-		m_pixels.reserve(width*height);
+		m_pixels.reserve(numpixels);
 		for (size_t i = 0; i < numpixels; i++) {
 			m_pixels.emplace_back(color);
 		}
@@ -80,10 +80,10 @@ public:
 		m_header.width = other.m_header.width;
 		m_header.height = other.m_header.height;
 		m_header.bitdepth = other.m_header.bitdepth;
-
-		size_t numpixels = m_header.width * m_header.height;
+		const size_t numpixels = m_header.width * m_header.height;
+		m_pixels.reserve(numpixels);
 		for (size_t i = 0; i < numpixels; i++) {
-			m_pixels.push_back(other.m_pixels[i]);
+			m_pixels.emplace_back(other.m_pixels[i]);
 		}
 	}
 
