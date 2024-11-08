@@ -25,7 +25,7 @@ inline vec2i clamp(const vec2i& pos, int cols, int rows);
 // =========================================================
 
 class PixelBuffer {
-private:
+public:
 	struct PBHeader {
 		uint8_t typep = 0x70;      // 1 byte: 0x70 = 'p'
 		uint8_t typeb = 0x62;      // 1 byte: 0x62 = 'b'
@@ -37,10 +37,11 @@ private:
 	// uint64_t header = 0x706208000400203A; // 8x4 pixels, bitdepth 32, Little Endian
 	// uint64_t header = 0x706200080004203A; // 8x4 pixels, bitdepth 32, Big Endian
 
+private:
 	PBHeader m_header;
 	std::vector<RGBAColor> m_pixels;
 
-	bool _validBitdepth(uint8_t b) const {
+	inline bool _validBitdepth(uint8_t b) const {
 		return (
 			(b == 1 && m_header.width%8 == 0) ||
 			b == 8 ||
@@ -94,7 +95,6 @@ public:
 		m_pixels.clear();
 	}
 
-	const PBHeader header() const { return m_header; }
 	std::vector<RGBAColor>& pixels() { return m_pixels; }
 	const std::vector<RGBAColor>& pixels() const { return m_pixels; }
 	inline RGBAColor& operator[](size_t index) {
@@ -354,7 +354,7 @@ public:
 
 		const size_t numpixels = width * height;
 		m_pixels.clear();
-		m_pixels.reserve(width*height);
+		m_pixels.reserve(numpixels);
 		for (size_t i = 0; i < numpixels; i++) {
 			m_pixels.emplace_back(RGBAColor(0, 0, 0, 255));
 		}
@@ -489,8 +489,8 @@ public:
 
 	int paste(const PixelBuffer& brush, short pos_x, short pos_y)
 	{
-		size_t height = brush.header().height;
-		size_t width = brush.header().width;
+		size_t height = brush.height();
+		size_t width = brush.width();
 		for (size_t y = 0; y < height; y++) {
 			for (size_t x = 0; x < width; x++) {
 				RGBAColor color = brush.getPixel(x, y);
@@ -525,7 +525,7 @@ public:
 	RGBAColor getPixel(int x, int y) const
 	{
 		// Sanity check
-		if ( (x < 0) || (x >=m_header.width) || (y < 0) || (y >= m_header.height) ) {
+		if ( (x < 0) || (x >= m_header.width) || (y < 0) || (y >= m_header.height) ) {
 			return { 0, 0, 0, 0 };
 		}
 
