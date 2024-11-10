@@ -24,8 +24,9 @@ inline vec2i wrap (const vec2i& pos, int cols, int rows);
 inline vec2i clamp(const vec2i& pos, int cols, int rows);
 // =========================================================
 
-class PixelBuffer {
-public:
+class PixelBuffer
+{
+private:
 	struct PBHeader {
 		uint8_t typep = 0x70;      // 1 byte: 0x70 = 'p'
 		uint8_t typeb = 0x62;      // 1 byte: 0x62 = 'b'
@@ -37,7 +38,6 @@ public:
 	// uint64_t header = 0x706208000400203A; // 8x4 pixels, bitdepth 32, Little Endian
 	// uint64_t header = 0x706200080004203A; // 8x4 pixels, bitdepth 32, Big Endian
 
-private:
 	PBHeader m_header;
 	std::vector<RGBAColor> m_pixels;
 
